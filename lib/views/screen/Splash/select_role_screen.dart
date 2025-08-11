@@ -1,7 +1,9 @@
+import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
@@ -27,26 +29,31 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
           SizedBox(height: 76,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xFFE6ECF3),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Color(0xFFB0C4DB),
-                width: 2)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/search.svg'),
-                  Text("Find a Coach",
-                  style: AppStyles.h3(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.primaryColor
-                  ),)
-                ],
+            child: InkWell(
+              onTap: (){
+                Get.offAndToNamed(AppRoutes.selectLanguage);
+              },
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6ECF3),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Color(0xFFB0C4DB),
+                  width: 2)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/search.svg'),
+                    Text("Find a Coach",
+                    style: AppStyles.h3(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primaryColor
+                    ),)
+                  ],
+                ),
               ),
             ),
           ),

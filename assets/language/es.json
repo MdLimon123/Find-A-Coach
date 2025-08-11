@@ -1,3 +1,8 @@
 {
-  "app_name": "conexión"
+  "app_name": "Probar tema y idioma",
+  "next": "Siguiente",
+  "find_a_coach": "Encontrar un entrenador",
+  "register": "Registrarse como entrenador",
+  "selectLanguage": "Seleccionar idioma",
+  "confirm": "Confirmar"
 }

@@ -4,5 +4,10 @@
   "find_a_coach": "Find a Coach",
   "register": "Register as a Coach",
   "selectLanguage": "Select Language",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "selectYourLanguage": "Select Your Language",
+  "chooseLanguageComfort": "Choose the language you feel most comfortable with for your coaching journey",
+  "search": "Search",
+  "english": "English",
+  "spanish": "Spanish"
 }

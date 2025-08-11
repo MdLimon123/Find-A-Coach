@@ -17,10 +17,21 @@ class AppConstants{
   static RegExp passwordValidator = RegExp(
       r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
   );
+  // static List<LanguageModel> languages = [
+  //   LanguageModel( languageName: 'English', countryCode: 'US', languageCode: 'en'),
+  //   LanguageModel( languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
+  //   LanguageModel( languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
+  // ];
+
   static List<LanguageModel> languages = [
-    LanguageModel( languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    LanguageModel( languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
-    LanguageModel( languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
+    LanguageModel(languageName: "English", languageCode: "en", countryCode: "US"),
+    LanguageModel(languageName: "Arabic", languageCode: "ar", countryCode: "SA"),
+    LanguageModel(languageName: "Vietnamese", languageCode: "vi", countryCode: "VN"),
+    LanguageModel(languageName: "Korean", languageCode: "ko", countryCode: "KR"),
+    LanguageModel(languageName: "Hindi", languageCode: "hi", countryCode: "IN"),
+    LanguageModel(languageName: "German", languageCode: "de", countryCode: "DE"),
+    LanguageModel(languageName: "French", languageCode: "fr", countryCode: "FR"),
+    LanguageModel(languageName: "Spanish", languageCode: "es", countryCode: "ES"),
   ];
 
 }

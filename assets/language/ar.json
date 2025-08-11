@@ -1,3 +1,8 @@
 {
-  "app_name": "اختر"
+  "app_name": "اختبار السمة واللغة",
+  "next": "التالي",
+  "find_a_coach": "ابحث عن مدرب",
+  "register": "سجل كمدرب",
+  "selectLanguage": "اختر اللغة",
+  "confirm": "تأكيد"
 }
