@@ -1,8 +1,10 @@
 
+import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -35,7 +37,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           SizedBox(height: 64,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 73),
-            child: CustomButton(onTap: (){},
+            child: CustomButton(onTap: (){
+              Get.offAndToNamed(AppRoutes.selectRole);
+            },
                 text: "Next"),
           )
 
