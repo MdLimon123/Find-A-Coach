@@ -13,7 +13,7 @@ class AppColors{
   static Color textColor = const Color(0xFFFFFFFF);
   static Color bigTextColor = const Color(0xFF4B5563);
   static Color fillTextColor = const Color(0xFF6B7280);
-  static Color subTextColor = const Color(0xFFE8E8E8);
+  static Color  subTextColor = const Color(0xFFE8E8E8);
   static Color smallTextColor = const Color(0xFF6B7280);
   static Color hintColor = const Color(0xFFB5B5B5);
   static Color greyColor = const Color(0xFFB5B5B5);

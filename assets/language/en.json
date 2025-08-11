@@ -9,5 +9,17 @@
   "chooseLanguageComfort": "Choose the language you feel most comfortable with for your coaching journey",
   "search": "Search",
   "english": "English",
-  "spanish": "Spanish"
+  "spanish": "Spanish",
+  "signInYourAccount": "Sign In Your Account",
+  "email": "Email",
+  "enterYourEmail": "Enter your email",
+  "password": "Password",
+  "enterYourPassword": "Enter your password",
+  "forgetPassword": "Forget Password",
+  "signIn": "Sign in",
+  "orContinueWith": "or, continue with",
+  "dontHaveAnAccount": "Don't have an account?",
+  "signUp": " Sign UP",
+  "sendOTP": "Send OTP"
+
 }

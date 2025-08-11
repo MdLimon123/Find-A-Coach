@@ -58,7 +58,7 @@ class AppStyles {
         color: color,
         height: height,
         letterSpacing: letterSpacing,
-        fontWeight: fontWeight ?? FontWeight.w400);
+        fontWeight: fontWeight ?? FontWeight.w600);
   }
 
   static TextStyle h6(

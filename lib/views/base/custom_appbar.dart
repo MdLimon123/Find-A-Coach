@@ -9,18 +9,18 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: AppColors.textColor,
-        elevation: 2,
+        backgroundColor:Colors.white,
+        elevation: 0,
         title: Text(title,style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: AppColors.subTextColor
+            fontWeight: FontWeight.w600,
+            color: AppColors.bigTextColor
         ),),
         leading: InkWell(
           onTap: (){
             Get.back();
           },
-          child: Icon(Icons.arrow_back_ios,color: AppColors.subTextColor,
+          child: Icon(Icons.arrow_back_ios,color: AppColors.bigTextColor,
             size: 18,),
         )
     );

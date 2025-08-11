@@ -5,6 +5,7 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -210,7 +211,7 @@ class _ClientSelectLanguageScreenState extends State<ClientSelectLanguageScreen>
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: CustomButton(onTap: (){
-
+                Get.to(()=> ClientLoginScreen());
               },
                   text: 'confirm'.tr),
             )
