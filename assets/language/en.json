@@ -20,6 +20,12 @@
   "orContinueWith": "or, continue with",
   "dontHaveAnAccount": "Don't have an account?",
   "signUp": " Sign UP",
-  "sendOTP": "Send OTP"
+  "sendOTP": "Send OTP",
+  "otpVerification": "OTP Verification",
+  "passwordResetCodeSentTo": "Password reset code has been sent to",
+  "pleaseEnterCodeBelow": " Please enter the code below",
+  "verify": "Verify",
+  "dontGetTheCode": "Don’t get the code?",
+  "resend": "Resend"
 
 }

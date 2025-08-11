@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_otp_verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,9 @@ class _ClientForgetPasswordScreenState extends State<ClientForgetPasswordScreen>
               hintText: 'enterYourEmail'.tr, // Changed
               filled: true,),
             SizedBox(height: 24,),
-            CustomButton(onTap: (){},
+            CustomButton(onTap: (){
+              Get.to(()=> ClientOtpVerifyScreen());
+            },
                 text: "sendOTP".tr)
           ],
         ),
