@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/AllSubScreen/client_featured_coach_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -68,12 +69,17 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             Image.asset('assets/images/app_logo1.png'),
             Spacer(),
             _customContainer(
+              onTap: (){},
               image: 'assets/icons/cross.svg'
             ),
             _customContainer(
+              onTap: (){
+                Get.to(()=> NotificationScreen());
+              },
                 image: 'assets/icons/notification.svg'
             ),
             _customContainer(
+              onTap: (){},
                 image: 'assets/icons/settings.svg'
             ),
           ],
@@ -415,27 +421,30 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     );
   }
 
-   _customContainer({required String image}) {
-    return Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Color(0xFF5480B1), width: 0.8),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF1D4760).withValues(alpha: 0.018),
-                  blurRadius: 2.2,
-                  offset: Offset(0, 3),
-                ),
+   _customContainer({required String image, required Function()? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Color(0xFF5480B1), width: 0.8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF1D4760).withValues(alpha: 0.018),
+                    blurRadius: 2.2,
+                    offset: Offset(0, 3),
+                  ),
 
-              ]
+                ]
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(image),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SvgPicture.asset(image),
-            ),
-          );
+    );
   }
 
 
