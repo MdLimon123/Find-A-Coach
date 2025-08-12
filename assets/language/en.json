@@ -31,7 +31,9 @@
   "newPassword": "New Password",
   "enterNewPassword": "Enter new password",
   "confirmPassword": "Confirm Password",
-  "reEnterYourPassword": "Re-enter your password"
+  "reEnterYourPassword": "Re-enter your password",
+  "alreadyHaveAnAccount": "Already have an account?"
+
 
 
 }

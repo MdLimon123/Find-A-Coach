@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_forget_password_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_signup_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -130,7 +131,8 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                               fontWeight: FontWeight.w700),
                           recognizer:  TapGestureRecognizer()
                             ..onTap = () {
-                              // Add your navigation or action for Sign Up here
+
+                            Get.to(()=> ClientSignUPScreen());
                             },
                         ),
 
