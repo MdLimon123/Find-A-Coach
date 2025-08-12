@@ -2,6 +2,7 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_reset_password_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -57,8 +58,8 @@ class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
             enabledBorderColor: Color(0xFF4B5563),
             showFieldAsBox: true,
             filled: true,
-            fieldWidth: 50,
-            fieldHeight: 50,
+            fieldWidth: 45,
+            fieldHeight: 45,
             borderRadius: BorderRadius.circular(100),
             textStyle: TextStyle(fontSize: 18, color: Color(0xFF4B5563),
                 fontWeight: FontWeight.w600),
@@ -70,7 +71,9 @@ class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
             },
           ),
           SizedBox(height: 24,),
-          CustomButton(onTap: (){},
+          CustomButton(onTap: (){
+            Get.to(()=> ClientResetPasswordScreen());
+          },
               text: "verify".tr), // Changed
           SizedBox(height: 8,),
           Center(

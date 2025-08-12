@@ -26,6 +26,12 @@
   "pleaseEnterCodeBelow": " Please enter the code below",
   "verify": "Verify",
   "dontGetTheCode": "Don’t get the code?",
-  "resend": "Resend"
+  "resend": "Resend",
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "enterNewPassword": "Enter new password",
+  "confirmPassword": "Confirm Password",
+  "reEnterYourPassword": "Re-enter your password"
+
 
 }
