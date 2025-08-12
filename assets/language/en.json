@@ -102,17 +102,16 @@
   "tellUsAboutInterestsHobbies": "Tell us about your interests, hobbies, or projects you're passionate about.",
   "anythingElseToShare": "Anything else to share?",
   "shareAnyOtherDetails": "Share any other details that might be relevant for your coach to know.",
-  "completeProfile": "Complete Profile"
-
-
-
-
-
-
-
-
-
-
-
-
+  "completeProfile": "Complete Profile",
+  "setYourCoachingGoals": "Set Your Coaching Goals",
+  "defineWhatYouWantToAchieve": "Let’s define what you want to achieve with your coaching journey",
+  "goal": "Goal",
+  "enterYourGoal": "Enter your goal",
+  "numberOfMilestones": "Number of Milestones",
+  "setTheNumberOfMilestones": "Set the number of milestones",
+  "firstMilestone": "1st Milestone",
+  "enterFirstMilestone": "Enter 1st milestone",
+  "secondMilestone": "2nd Milestone",
+  "enterSecondMilestone": "Enter 2nd milestone",
+  "saveGoal": "Save Goal"
 }

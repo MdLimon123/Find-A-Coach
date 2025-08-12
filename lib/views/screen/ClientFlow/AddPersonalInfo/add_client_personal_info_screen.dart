@@ -5,6 +5,7 @@ import 'package:find_me_a_coach/utils/style.dart'; // Ensure AppStyles.h3 is def
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_switch.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/save_your_goal_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart'; // Import GetX
@@ -529,7 +530,7 @@ class _AddClientPersonalInfoScreenState
               SizedBox(height: 24),
               CustomButton(
                   onTap: () {
-
+                    Get.to(()=> SaveYourGoalScreen());
                   },
                   text: "completeProfile".tr)
             ],
