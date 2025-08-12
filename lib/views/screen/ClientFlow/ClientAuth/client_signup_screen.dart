@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_login_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_verify_email.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,7 +85,9 @@ class _ClientSignUPScreenState extends State<ClientSignUPScreen> {
             hintText: "confirmPassword".tr,),
 
           SizedBox(height: 24,),
-          CustomButton(onTap: (){},
+          CustomButton(onTap: (){
+            Get.to(()=> ClientVerifyEmailScreen());
+          },
               text: 'signIn'.tr), // Changed
           SizedBox(height: 36,),
           Row(
