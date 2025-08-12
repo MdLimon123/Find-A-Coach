@@ -4,6 +4,7 @@ import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_forget_password_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_signup_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -78,7 +79,9 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
             ),
           ),
           SizedBox(height: 24,),
-          CustomButton(onTap: (){},
+          CustomButton(onTap: (){
+            Get.to(()=> ClientHomeScreen());
+          },
               text: 'signIn'.tr), // Changed
           SizedBox(height: 36,),
           Row(
