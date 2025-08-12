@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController  implements GetxService{
 
-  String title="Home Screen";
+  String title="ClientHome Screen";
 
   @override
   void onInit() {

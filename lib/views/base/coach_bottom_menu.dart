@@ -35,7 +35,7 @@ class CoachBottomMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     List<BottomNavigationBarItem> menuItems = [
-      getItem(AppIcons.homeIcon, 'Home', theme, 0),
+      getItem(AppIcons.homeIcon, 'ClientHome', theme, 0),
       getItem(AppIcons.searchIcon, 'Find Coach', theme, 1),
       getItem(AppIcons.communityIcon, 'Community', theme, 2),
       getItem(AppIcons.commentIcon, 'Community', theme, 3),

@@ -1,6 +1,7 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX
 
@@ -85,6 +86,7 @@ class _SaveYourGoalScreenState extends State<SaveYourGoalScreen> {
                 ),
                 CustomButton(
                     onTap: () {
+                      Get.to(()=> ClientHomeScreen());
                     },
                     text: "saveGoal".tr) // Changed
               ],

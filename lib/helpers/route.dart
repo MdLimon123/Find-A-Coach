@@ -2,7 +2,7 @@
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_inbox_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/client_community_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/Home/client_home_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientSelectLanguage/client_select_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/select_role_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/welcome_screen.dart';
