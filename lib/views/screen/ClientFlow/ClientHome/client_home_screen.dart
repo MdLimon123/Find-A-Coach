@@ -2,8 +2,10 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/AllSubScreen/client_featured_coach_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 class ClientHomeScreen extends StatefulWidget {
   const ClientHomeScreen({super.key});
 
@@ -266,7 +268,11 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                   color: AppColors.bigTextColor
                 ),),
                 Spacer(),
-                SvgPicture.asset('assets/icons/arrow_right.svg')
+                InkWell(
+                  onTap: (){
+                    Get.to(()=> ClientFeaturedCoachScreen());
+                  },
+                    child: SvgPicture.asset('assets/icons/arrow_right.svg'))
               ],
             ),
             SizedBox(height: 10,),
