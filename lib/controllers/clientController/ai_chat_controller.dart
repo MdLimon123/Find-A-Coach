@@ -6,13 +6,27 @@ class AIChatController extends GetxController{
 
 
   var aiCurrentChat = AIChatModel(aiMessages: <AiMessageModel>[].obs).obs;
+  var chatHistory = <AIChatModel>[].obs;
+
 
 
   Future<void> sendMessage({required String message})async{
 
     aiCurrentChat.value.aiMessages.add(AiMessageModel(message: message, isUser: true));
-    aiCurrentChat.value.aiMessages.add(AiMessageModel(message: "loading...", isUser: false, isLoading: true));
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 500), (){
+      aiCurrentChat.value.aiMessages.add(AiMessageModel(message: "Ai response ${message}", isUser: false));
+    });
+  }
+
+
+  void createNewChat(){
+
+    if(aiCurrentChat.value.aiMessages.isNotEmpty){
+      chatHistory.add(aiCurrentChat.value);
+    }
+    aiCurrentChat.value = AIChatModel(aiMessages: <AiMessageModel>[].obs);
+    aiCurrentChat.refresh();
+
   }
 
 }

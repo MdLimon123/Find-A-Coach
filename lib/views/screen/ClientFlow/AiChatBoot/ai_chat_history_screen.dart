@@ -1,19 +1,17 @@
 import 'package:find_me_a_coach/controllers/clientController/ai_chat_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/history_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class AiChatScreen extends StatefulWidget {
-  const AiChatScreen({super.key});
+class AiChatHistoryScreen extends StatefulWidget {
+  const AiChatHistoryScreen({super.key});
 
   @override
-  State<AiChatScreen> createState() => _AiChatScreenState();
+  State<AiChatHistoryScreen> createState() => _AiChatHistoryScreenState();
 }
 
-class _AiChatScreenState extends State<AiChatScreen> {
+class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
 
   final _aiChatController = Get.put(AIChatController());
   final messageController = TextEditingController();
@@ -22,79 +20,42 @@ class _AiChatScreenState extends State<AiChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppbar(title: "AI Coach"),
-      endDrawer: Drawer(
-        child: Column(
-          children: [
-            SizedBox(height: 64,),
-            ListTile(
-              onTap: () {
-                _aiChatController.createNewChat();
-                Get.back();
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 24),
-              leading: SvgPicture.asset('assets/icons/new_chat.svg'),
-              title: Text(
-                'New Chat',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.bigTextColor),
-              ),
-            ),
-            SizedBox(height: 24,),
-            ListTile(
-              onTap: () {
-                Get.to(()=> HistoryScreen());
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 24),
-              leading: SvgPicture.asset('assets/icons/refresh.svg'),
-              title: Text(
-                'History',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.bigTextColor),
-              ),
-            ),
-          ],
-        ),
-      ),
+      appBar: CustomAppbar(title: "AI Chat History"),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
 
           Obx((){
             final text = _aiChatController.aiCurrentChat.value.aiMessages;
-           return Expanded(child: text.isEmpty?
-           Center(child: Text("Hello! I’m your AI Coach. I’m here to help you achieve your goals. What would you like to focus on today?",
-           style: TextStyle(
-             fontSize: 16,
-             fontWeight: FontWeight.w400,
-             color: Color(0xFF374151)
-           ),
-           textAlign: TextAlign.center,)):
-           ListView.builder(
-             itemCount: text.length,
-               itemBuilder: (context, index){
-               final message = text[index];
-             return Align(
-               alignment: message.isUser?Alignment.centerRight:Alignment.centerLeft,
-               child: Container(
-                 margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                 padding: EdgeInsets.all(10),
-                 decoration: BoxDecoration(
-                   color: message.isUser? Color(0xFFE5E7EB):Colors.transparent,
-                 borderRadius: message.isUser? BorderRadius.circular(8): null),
-                 child: Text(message.message,style: TextStyle(
-                   fontSize: 14,
-                   fontWeight: FontWeight.w400,
-                   color: message.isUser?Color(0xFF374151):Color(0xFF4B5563),
-                 ),),
-                 ),
+            return Expanded(child: text.isEmpty?
+            Center(child: Text("Hello! I’m your AI Coach. I’m here to help you achieve your goals. What would you like to focus on today?",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF374151)
+              ),
+              textAlign: TextAlign.center,)):
+            ListView.builder(
+                itemCount: text.length,
+                itemBuilder: (context, index){
+                  final message = text[index];
+                  return Align(
+                    alignment: message.isUser?Alignment.centerRight:Alignment.centerLeft,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: message.isUser? Color(0xFFE5E7EB):Colors.transparent,
+                          borderRadius: message.isUser? BorderRadius.circular(8): null),
+                      child: Text(message.message,style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: message.isUser?Color(0xFF374151):Color(0xFF4B5563),
+                      ),),
+                    ),
 
-             );
-           }));
+                  );
+                }));
 
           }),
 
@@ -112,7 +73,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              controller: messageController,
+                controller: messageController,
                 onFieldSubmitted: (value){
                   _aiChatController.sendMessage(message: value);
                   messageController.clear();
