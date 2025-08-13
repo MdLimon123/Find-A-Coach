@@ -2,6 +2,7 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/categories_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/category_filter_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,12 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
           backgroundColor: AppColors.textColor,
           automaticallyImplyLeading: false,
           title: Row(
-            // spacing: 12, // Row doesn't have spacing, use SizedBox or MainAxisAlignment
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Example spacing
+
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset('assets/images/app_logo1.png'),
-              // Spacer(), // Removed as MainAxisAlignment.spaceBetween can handle this
-              Row( // Grouping the icon buttons
+
+              Row(
                 children: [
                   _customContainer(
                       onTap: (){
@@ -98,28 +99,33 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Container(
-                    width: 106, // Consider making width flexible based on text
-                    padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
-                    height: 34,
-                    decoration: BoxDecoration(
-                        color: Color(0xFFB0C4DB),
-                        borderRadius: BorderRadius.circular(4)
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min, // To fit content
-                      children: [
-                        SvgPicture.asset('assets/icons/drawer.svg'),
-                        SizedBox(width: 4,),
-                        Text("findCoachScreen.categoriesLabel".tr, // Changed
-                          style: TextStyle(
-                            color: Color(0xFF3368A1),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          overflow: TextOverflow.ellipsis, // Prevent overflow
-                        )
-                      ],
+                  InkWell(
+                    onTap: (){
+                      Get.to(()=> CategoriesScreen());
+                    },
+                    child: Container(
+                      width: 106,
+                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
+                      height: 34,
+                      decoration: BoxDecoration(
+                          color: Color(0xFFB0C4DB),
+                          borderRadius: BorderRadius.circular(4)
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min, // To fit content
+                        children: [
+                          SvgPicture.asset('assets/icons/drawer.svg'),
+                          SizedBox(width: 4,),
+                          Text("findCoachScreen.categoriesLabel".tr, // Changed
+                            style: TextStyle(
+                              color: Color(0xFF3368A1),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis, // Prevent overflow
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(width: 8,),
