@@ -4,6 +4,7 @@ import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/categories_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/category_filter_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/coach_profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -166,98 +167,103 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                   physics: AlwaysScrollableScrollPhysics(),
                   itemBuilder: (context, index){
                     // Assuming this is placeholder data. If dynamic, this localization approach is incorrect here.
-                    return   Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: AppColors.textColor, // This might be too light if textColor is whiteish
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height: 42,
-                                width: 42,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                        fit: BoxFit.cover)
-                                ),
-                              ),
-                              SizedBox(width: 12,),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("findCoachScreen.coachList.exampleName".tr, // Changed
-                                    style: TextStyle(
-                                      color: Color(0xFF4B5563),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),),
-                                  Text("findCoachScreen.coachList.exampleTitle".tr, // Changed
-                                    style: TextStyle(
-                                      color: Color(0xFF6B7280),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),)
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 8,),
-                          Text("findCoachScreen.coachList.exampleBio".tr, // Changed
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF4B5563)
-                            ),),
-                          SizedBox(height: 8,),
-                          Row(
-                            children: [
-                              SvgPicture.asset('assets/icons/global.svg'),
-                              SizedBox(width: 8,),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3), // Added padding
-                                // width: 54, // Width should be dynamic based on text
-                                height: 22,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFE6ECF3),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color(0xFF3368A1))
-                                ),
-                                child: Text("findCoachScreen.coachList.languageEnglish".tr, // Changed
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF00428A)
+                    return   InkWell(
+                      onTap: (){
+                        Get.to(()=> CoachProfileScreen());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: AppColors.textColor, // This might be too light if textColor is whiteish
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 42,
+                                  width: 42,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
+                                          fit: BoxFit.cover)
                                   ),
-                                  textAlign: TextAlign.center,),
-                              ),
-                              SizedBox(width: 8,),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3), // Added padding
-                                // width: 54, // Width should be dynamic based on text
-                                height: 22,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFE6ECF3),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color(0xFF3368A1))
                                 ),
-                                child: Text("findCoachScreen.coachList.languageSpanish".tr, // Changed
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF00428A)
+                                SizedBox(width: 12,),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("findCoachScreen.coachList.exampleName".tr, // Changed
+                                      style: TextStyle(
+                                        color: Color(0xFF4B5563),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),),
+                                    Text("findCoachScreen.coachList.exampleTitle".tr, // Changed
+                                      style: TextStyle(
+                                        color: Color(0xFF6B7280),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),)
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 8,),
+                            Text("findCoachScreen.coachList.exampleBio".tr, // Changed
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF4B5563)
+                              ),),
+                            SizedBox(height: 8,),
+                            Row(
+                              children: [
+                                SvgPicture.asset('assets/icons/global.svg'),
+                                SizedBox(width: 8,),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3), // Added padding
+                                  // width: 54, // Width should be dynamic based on text
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFE6ECF3),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color(0xFF3368A1))
                                   ),
-                                  textAlign: TextAlign.center,),
-                              ),
-                            ],
-                          )
-                        ],
+                                  child: Text("findCoachScreen.coachList.languageEnglish".tr, // Changed
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF00428A)
+                                    ),
+                                    textAlign: TextAlign.center,),
+                                ),
+                                SizedBox(width: 8,),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3), // Added padding
+                                  // width: 54, // Width should be dynamic based on text
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFE6ECF3),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color(0xFF3368A1))
+                                  ),
+                                  child: Text("findCoachScreen.coachList.languageSpanish".tr, // Changed
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF00428A)
+                                    ),
+                                    textAlign: TextAlign.center,),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
