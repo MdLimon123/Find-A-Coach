@@ -27,6 +27,7 @@ dependencies:
   shimmer:
   timeago:
   flutter_otp_text_field:
+  multi_select_flutter: ^4.1.3
 
 
 dev_dependencies:

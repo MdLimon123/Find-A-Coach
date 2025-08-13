@@ -113,5 +113,52 @@
   "enterFirstMilestone": "Enter 1st milestone",
   "secondMilestone": "2nd Milestone",
   "enterSecondMilestone": "Enter 2nd milestone",
-  "saveGoal": "Save Goal"
+  "saveGoal": "Save Goal",
+  "filters": "Filters",
+  "reset": "Reset",
+  "coachingMethod": "Coaching Method",
+  "virtualCoaching": "Virtual Coaching",
+  "inPersonCoaching": "In-person Coaching",
+  "coachingType": "Coaching Type",
+  "individualCoaching": "Individual Coaching",
+  "groupCoaching": "Group Coaching",
+  "preferredLanguage": "Preferred Language",
+  "selectLanguages": "Select Languages",
+  "availability": "Availability",
+  "morning9to12": "Morning (9 AM - 12 PM)",
+  "afternoon12to4": "Afternoon (12 PM - 4 PM)",
+  "evening4to8": "Evening (4 PM - 8 PM)",
+  "pricing": "Pricing",
+  "specialConsiderations": "Special Considerations",
+  "lgbtqFriendly": "LGBTQ+ Friendly",
+  "experienceWithNeurodiversity": "Experience with Neurodiversity",
+  "offersSlidingScale": "Offers Sliding Scale",
+  "eveningAvailability": "Evening Availability",
+  "applyFilters": "Apply Filters",
+
+  "findCoachScreen.searchHint": "Search...",
+  "findCoachScreen.categoriesLabel": "Categories",
+  "findCoachScreen.categoryBusinessEntrepreneurship": "Business & Entrepreneurship",
+  "findCoachScreen.categoryCareer": "Career",
+  "findCoachScreen.categoryFamilyParent": "Family/Parent",
+  "findCoachScreen.categoryFinancial": "Financial",
+  "findCoachScreen.categoryHealthWellness": "Health & Wellness",
+  "findCoachScreen.categoryLife": "Life",
+  "findCoachScreen.categoryLifeTransitions": "Life Transitions",
+  "findCoachScreen.categoryNeurodiversity": "Neurodiversity",
+  "findCoachScreen.categoryPerformance": "Performance",
+  "findCoachScreen.categorySuccess": "Success",
+  "findCoachScreen.categorySustainability": "Sustainability",
+  "findCoachScreen.categoryTransformational": "Transformational",
+  "findCoachScreen.categoryYouthEducation": "Youth & Education",
+  "findCoachScreen.coachList.exampleName": "Eleanor Pena",
+  "findCoachScreen.coachList.exampleTitle": "Career Coach",
+  "findCoachScreen.coachList.exampleBio": "Helping you find clarity and confidence in your career",
+  "findCoachScreen.coachList.languageEnglish": "English",
+  "findCoachScreen.coachList.languageSpanish": "Spanish"
+
+
+
+
+
 }
