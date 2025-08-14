@@ -1,9 +1,11 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/booking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class CoachProfileScreen extends StatefulWidget {
   const CoachProfileScreen({super.key});
@@ -374,7 +376,9 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
             Row(
               children: [
                 Expanded(
-                  child: CustomButton(onTap: (){},
+                  child: CustomButton(onTap: (){
+                    Get.to(()=> BookingScreen());
+                  },
                       text: 'Book a Session'),
                 ),
                 SizedBox(width: 12,),
