@@ -1,5 +1,6 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/aobut_us_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/privacy_policy_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/terms_of_service_screen.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,9 @@ class _SafetyAndEthicsScreenState extends State<SafetyAndEthicsScreen> {
           _customContainer(
               image: 'assets/icons/about.svg',
               text: 'About Us',
-              onTap: (){}
+              onTap: (){
+                Get.to(()=> AboutUsScreen());
+              }
           ),
         ],
       ),
