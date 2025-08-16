@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/add_client_personal_info_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/AddCoachPesonalInfo/add_coach_personal_info_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -54,8 +55,8 @@ class _CoachVerifyEmailScreenState extends State<CoachVerifyEmailScreen> {
           ),
           SizedBox(height: 24,),
           CustomButton(onTap: (){
-
-            ///
+            /// add coach personal info screen
+            Get.to(()=> AddCoachPersonalInfoScreen());
           },
               text: "verify".tr), // Changed
           SizedBox(height: 8,),
