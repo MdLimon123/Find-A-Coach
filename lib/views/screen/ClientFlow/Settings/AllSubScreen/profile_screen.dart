@@ -1,8 +1,10 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -151,7 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               text: 'instagram.com/maria.hernandez'
           ),
           SizedBox(height: 32,),
-          CustomButton(onTap: (){},
+          CustomButton(onTap: (){
+            Get.to(()=> EditProfileScreen());
+          },
               text: "Edit")
 
           

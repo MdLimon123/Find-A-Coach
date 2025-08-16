@@ -1,26 +1,21 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
-// import 'package:find_me_a_coach/utils/image_utils.dart'; // Not used in this snippet
-import 'package:find_me_a_coach/utils/style.dart'; // Ensure AppStyles.h3 is defined here
-// import 'package:find_me_a_coach/views/base/custom_appbar.dart'; // Not used
+import 'package:find_me_a_coach/utils/style.dart';
+import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_switch.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/save_your_goal_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart'; // Import GetX
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
-class AddClientPersonalInfoScreen extends StatefulWidget {
-  const AddClientPersonalInfoScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<AddClientPersonalInfoScreen> createState() =>
-      _AddClientPersonalInfoScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _AddClientPersonalInfoScreenState
-    extends State<AddClientPersonalInfoScreen> {
-
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   final locationController = TextEditingController();
@@ -118,6 +113,7 @@ class _AddClientPersonalInfoScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppbar(title: "Edit Profile"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
         child: SafeArea(
@@ -125,23 +121,8 @@ class _AddClientPersonalInfoScreenState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "shareWhatFeelsRight".tr,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor,
-                    fontSize: 30),
-              ),
-              SizedBox(height: 8),
-              Text(
-                "completeProfileToFindBestCoachingOptions".tr,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF4B5563)),
-              ),
-              SizedBox(height: 24),
-              Center( // User Image Stack - No text to translate here
+
+              Center(
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -175,6 +156,13 @@ class _AddClientPersonalInfoScreenState
                   ],
                 ),
               ),
+              SizedBox(height: 8),
+              Center(child: Text("Change Photo",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: AppColors.bigTextColor,
+                fontSize: 14,
+              ),),),
               SizedBox(height: 24),
               _headingText(translatedText: "fullName".tr),
               SizedBox(height: 8),
@@ -302,12 +290,12 @@ class _AddClientPersonalInfoScreenState
                     );
                   }).toList()),
               SizedBox(height: 12),
-             // if (selectedValue == "preferToSelfDescribeBelow".tr)
-                CustomTextField(
-                  controller: ethnicitySelfDescribeController,
-                  filled: true,
-                  hintText: "selfDescribeEthnicity".tr,
-                ),
+              // if (selectedValue == "preferToSelfDescribeBelow".tr)
+              CustomTextField(
+                controller: ethnicitySelfDescribeController,
+                filled: true,
+                hintText: "selfDescribeEthnicity".tr,
+              ),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -347,11 +335,11 @@ class _AddClientPersonalInfoScreenState
                   }).toList()),
               SizedBox(height: 8),
               //if (selectedGender == "preferToSelfDescribeBelow".tr)
-                CustomTextField(
-                  controller: genderSelfDescribeController, // TODO: Use a separate TextEditingController here
-                  hintText: "selfDescribeGender".tr,
-                  filled: true,
-                ),
+              CustomTextField(
+                controller: genderSelfDescribeController, // TODO: Use a separate TextEditingController here
+                hintText: "selfDescribeGender".tr,
+                filled: true,
+              ),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -390,48 +378,48 @@ class _AddClientPersonalInfoScreenState
                     );
                   }).toList()),
               SizedBox(height: 12),
-             // if (selectedSexual == "preferToSelfDescribeBelow".tr)
-                CustomTextField(
-                  controller: sexualOrientationSelfDescribeController, // TODO: Use a separate TextEditingController here
-                  hintText: "selfDescribeSexualOrientation".tr,
-                  filled: true,
-                ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  _headingText(translatedText: "whatsYourNeurotype".tr),
-                  Spacer(),
-                  _subHeadingText(translatedText: "public".tr),
-                  SizedBox(width: 4),
-                  CustomSwitch(
-                      value: isSwitched[6],
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched[6] = value;
-                        });
-                      })
-                ],
-              ),
-              SizedBox(height: 8),
-              Column(
-                children: _checkboxValues.keys.map((String key) {
-                  return CheckboxListTile(
-                    title: Text(
-                      key.tr,
-                      style: AppStyles.h3(color: AppColors.fillTextColor), // Ensure AppStyles.h3 is defined
-                    ),
-                    value: _checkboxValues[key],
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _checkboxValues[key] = value!;
-                      });
-                    },
-                    activeColor: AppColors.primaryColor,
-                    controlAffinity: ListTileControlAffinity.leading,
-                  );
-                }).toList(),
+              // if (selectedSexual == "preferToSelfDescribeBelow".tr)
+              CustomTextField(
+                controller: sexualOrientationSelfDescribeController, // TODO: Use a separate TextEditingController here
+                hintText: "selfDescribeSexualOrientation".tr,
+                filled: true,
               ),
               SizedBox(height: 20),
+              // Row(
+              //   children: [
+              //     _headingText(translatedText: "whatsYourNeurotype".tr),
+              //     Spacer(),
+              //     _subHeadingText(translatedText: "public".tr),
+              //     SizedBox(width: 4),
+              //     CustomSwitch(
+              //         value: isSwitched[6],
+              //         onChanged: (value) {
+              //           setState(() {
+              //             isSwitched[6] = value;
+              //           });
+              //         })
+              //   ],
+              // ),
+              // SizedBox(height: 8),
+              // Column(
+              //   children: _checkboxValues.keys.map((String key) {
+              //     return CheckboxListTile(
+              //       title: Text(
+              //         key.tr,
+              //         style: AppStyles.h3(color: AppColors.fillTextColor), // Ensure AppStyles.h3 is defined
+              //       ),
+              //       value: _checkboxValues[key],
+              //       onChanged: (bool? value) {
+              //         setState(() {
+              //           _checkboxValues[key] = value!;
+              //         });
+              //       },
+              //       activeColor: AppColors.primaryColor,
+              //       controlAffinity: ListTileControlAffinity.leading,
+              //     );
+              //   }).toList(),
+              // ),
+              // SizedBox(height: 20),
               Row(
                 children: [
                   _headingText(translatedText: "profession".tr),
@@ -528,11 +516,40 @@ class _AddClientPersonalInfoScreenState
                 minLines: 3,
               ),
               SizedBox(height: 24),
-              CustomButton(
-                  onTap: () {
-                    Get.to(()=> SaveYourGoalScreen());
-                  },
-                  text: "completeProfile".tr)
+
+
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){},
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                         color: Color(0xFFE6ECF3),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Color(0xFFB0C4DB),
+                          width: 2)
+                        ),
+                        child: Center(
+                          child: Text("Discard",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
+                            fontSize: 16,
+                          ),),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12,),
+                  Expanded(
+                    child: CustomButton(onTap: (){},
+                        text: "Save Changes"),
+                  )
+                ],
+              )
             ],
           ),
         ),
