@@ -1,5 +1,6 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/change_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/goals_scree.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/saved_coaches_screen.dart';
@@ -47,7 +48,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SizedBox(height: 12,),
           _buildCustomContainer(
-              onTap: (){},
+              onTap: (){
+                Get.to(()=> ChangeLanguageScreen());
+              },
               image: 'assets/icons/global.svg',
               text: 'Change Language'
           ),
