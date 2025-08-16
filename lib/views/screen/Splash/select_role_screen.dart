@@ -60,26 +60,31 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
           SizedBox(height: 16,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color(0xFFE6ECF3),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFFB0C4DB),
-                      width: 2)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/user.svg'),
-                  Text("Register as a Coach",
-                    style: AppStyles.h3(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.primaryColor
-                    ),)
-                ],
+            child: InkWell(
+              onTap: (){
+                Get.offAndToNamed(AppRoutes.coachSelectLanguage);
+              },
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Color(0xFFE6ECF3),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Color(0xFFB0C4DB),
+                        width: 2)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/user.svg'),
+                    Text("Register as a Coach",
+                      style: AppStyles.h3(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryColor
+                      ),)
+                  ],
+                ),
               ),
             ),
           ),

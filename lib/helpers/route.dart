@@ -4,6 +4,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_inbox_
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/client_community_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientSelectLanguage/client_select_language_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachSelectLanguage/coach_select_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/select_role_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class AppRoutes{
   static String clientCommunityScreen="/client_community_screen";
   static String clientInboxScreen="/client_inbox_screen";
   static String selectLanguage="/select_language_screen";
+  static String coachSelectLanguage = "/coach_select_language_screen";
 
 
 
@@ -36,6 +38,7 @@ class AppRoutes{
     GetPage(name:clientInboxScreen, page: ()=>const ClientInboxScreen(),transition: Transition.noTransition),
     GetPage(name:clientBookingScreen, page: ()=>const ClientBookingScreen(),transition: Transition.noTransition),
     GetPage(name:selectLanguage, page: ()=>const ClientSelectLanguageScreen(),transition: Transition.noTransition),
+   GetPage(name: coachSelectLanguage, page: ()=>const CoachSelectLanguageScreen(),transition: Transition.noTransition)
   ];
 
 
