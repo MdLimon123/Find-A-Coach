@@ -4,6 +4,7 @@ import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/AllTabsScreen/widgets/tabs_widget_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,9 @@ class _ClientBookingScreenState extends State<ClientBookingScreen> {
                 image: 'assets/icons/notification.svg'
             ),
             _customContainer(
-                onTap: (){},
+                onTap: (){
+                  Get.to(()=> SettingsScreen());
+                },
                 image: 'assets/icons/settings.svg'
             ),
           ],

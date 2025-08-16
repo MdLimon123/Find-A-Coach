@@ -6,6 +6,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/c
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/category_filter_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/coach_profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart'; // Import GetX
@@ -53,7 +54,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                   SizedBox(width: 8), // Spacing between icons
                   _customContainer(
                       onTap: (){
-                        // TODO: Navigate to Settings Screen
+                        Get.to(()=> SettingsScreen());
                       },
                       image: 'assets/icons/settings.svg'
                   ),
