@@ -5,6 +5,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_scree
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSetting/coach_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -30,29 +31,25 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               Image.asset('assets/images/app_logo1.png'),
               Spacer(),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> CoachAiChatScreen());
+                  onTap: () {
+                    Get.to(() => CoachAiChatScreen());
                   },
-                  image: 'assets/icons/cross.svg'
-              ),
+                  image: 'assets/icons/cross.svg'),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> NotificationScreen());
+                  onTap: () {
+                    Get.to(() => NotificationScreen());
                   },
-                  image: 'assets/icons/notification.svg'
-              ),
+                  image: 'assets/icons/notification.svg'),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> SettingsScreen());
+                  onTap: () {
+                    Get.to(() => CoachSettingsScreen());
                   },
-                  image: 'assets/icons/settings.svg'
-              ),
+                  image: 'assets/icons/settings.svg'),
             ],
-          )
-      ),
+          )),
       bottomNavigationBar: CoachBottomMenu(0),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,62 +59,60 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                   color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(12)
-              ),
+                  borderRadius: BorderRadius.circular(12)),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("#Upcoming session",
-                  style: TextStyle(
-                    color: Color(0xFFB0C4DB),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 8,),
-                  Row (
+                  Text("#coachHome.upcomingSession".tr,
+                      style: TextStyle(
+                          color: Color(0xFFB0C4DB),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(height: 8),
+                  Row(
                     children: [
                       Container(
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                          fit: BoxFit.cover)
-                        ),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image:
+                                AssetImage('assets/images/person.jpg'),
+                                fit: BoxFit.cover)),
                       ),
-                      SizedBox(width: 8,),
-                      Text("Dianne Russell",
-                      style: TextStyle(
-                        color: AppColors.textColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                      ),)
+                      SizedBox(width: 8),
+                      Text("coachHome.upcomingSession.userName".tr,
+                          style: TextStyle(
+                              color: AppColors.textColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500))
                     ],
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 16),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
                       color: Color(0xFF002F62),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child:  Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Date
                         Row(
-                          children: const [
-                            Icon(Icons.calendar_today, color: Colors.white, size: 18),
+                          children: [
+                            Icon(Icons.calendar_today,
+                                color: Colors.white, size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "Monday, June 15",
+                              "coachHome.upcomingSession.date".tr,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
@@ -126,7 +121,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: SizedBox(
-                            height: 24, //
+                            height: 24,
                             child: VerticalDivider(
                               color: Colors.white,
                               thickness: 1,
@@ -135,19 +130,18 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                           ),
                         ),
 
-
                         // Time
                         Row(
-                          children: const [
-                            Icon(Icons.access_time, color: Colors.white, size: 18),
+                          children: [
+                            Icon(Icons.access_time,
+                                color: Colors.white, size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "10:00 AM",
+                              "coachHome.upcomingSession.time".tr,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
@@ -155,164 +149,167 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                         // Device Icon
                         const Padding(
                           padding: EdgeInsets.only(left: 12),
-                          child: Icon(Icons.computer, color: Colors.white, size: 18),
+                          child:
+                          Icon(Icons.computer, color: Colors.white, size: 18),
                         ),
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
-            SizedBox(height: 24,),
-            Text("Requested Sessions",
-              style: TextStyle(
-                  color: Color(0xFF4B5563),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500
-              ),),
-            SizedBox(height: 12,),
+            SizedBox(height: 24),
+            Text("coachHome.requestedSessions".tr,
+                style: TextStyle(
+                    color: Color(0xFF4B5563),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+            SizedBox(height: 12),
             Expanded(
               child: ListView.separated(
-                  itemBuilder: (context, index){
+                  itemBuilder: (context, index) {
                     return Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                          color: AppColors.textColor,
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Column(
-                        children: [
-                          Row (
-                            children: [
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                        fit: BoxFit.cover)
-                                ),
-                              ),
-                              SizedBox(width: 8,),
-                              Text("Leslie Alexander",
-                                style: TextStyle(
-                                    color: Color(0xFF1F2937),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500
-                                ),)
-                            ],
-                          ),
-                          SizedBox(height: 16,),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFE6ECF3),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.min,
+                        width: double.infinity,
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                            color: AppColors.textColor,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
-                                // Date
-                                Row(
-                                  children: const [
-                                    Icon(Icons.calendar_today, color: Color(0xFF00428A), size: 18),
-                                    SizedBox(width: 6),
-                                    Text(
-                                      "Monday, June 15",
-                                      style: TextStyle(
-                                        color: Color(0xFF4B5563),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/person.jpg'),
+                                          fit: BoxFit.cover)),
                                 ),
-
-                                // Divider
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                                  child: SizedBox(
-                                    height: 24, //
-                                    child: VerticalDivider(
-                                      color: Color(0xFF4B5563),
-                                      thickness: 1,
-                                      width: 1,
-                                    ),
-                                  ),
-                                ),
-
-
-                                // Time
-                                Row(
-                                  children: const [
-                                    Icon(Icons.access_time,color: Color(0xFF4B5563), size: 18),
-                                    SizedBox(width: 6),
-                                    Text(
-                                      "10:00 AM",
-                                      style: TextStyle(
-                                        color: Color(0xFF4B5563),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                // Device Icon
-                                 Padding(
-                                  padding: EdgeInsets.only(left: 6),
-                                  child: Container(
-                                    height: 24,
-                                      width: 24,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF002F62),
-                                        shape: BoxShape.circle
-                                      ),
-                                      child: Icon(Icons.computer, color: Colors.white, size: 18)),
-                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  "coachHome.requestedSessions.userName".tr,
+                                  style: TextStyle(
+                                      color: Color(0xFF1F2937),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                )
                               ],
                             ),
-                          ),
-                          SizedBox(height: 16,),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFE6ECF3),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: Color(0xFFE6E7EA),width: 1),
+                            SizedBox(height: 16),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE6ECF3),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Date
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_today,
+                                          color: Color(0xFF00428A), size: 18),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        "coachHome.requestedSessions.date".tr,
+                                        style: TextStyle(
+                                            color: Color(0xFF4B5563),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
                                   ),
-                                  child: Center(
-                                    child: Text("Decline",
-                                    style: TextStyle(
-                                      color: Color(0xFF031330),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500
-                                    ),),
+
+                                  // Divider
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: SizedBox(
+                                      height: 24,
+                                      child: VerticalDivider(
+                                        color: Color(0xFF4B5563),
+                                        thickness: 1,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Time
+                                  Row(
+                                    children: [
+                                      Icon(Icons.access_time,
+                                          color: Color(0xFF4B5563), size: 18),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        "coachHome.requestedSessions.time".tr,
+                                        style: TextStyle(
+                                            color: Color(0xFF4B5563),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+
+                                  // Device Icon
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 6),
+                                    child: Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF002F62),
+                                            shape: BoxShape.circle),
+                                        child: Icon(Icons.computer,
+                                            color: Colors.white, size: 18)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 44,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFE6ECF3),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: Color(0xFFE6E7EA), width: 1),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "coachHome.requestedSessions.decline".tr,
+                                        style: TextStyle(
+                                            color: Color(0xFF031330),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 12,),
-                              Expanded(
-                                child: CustomButton(onTap: (){},
-                                    text: 'Accept'),
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                    );
+                                SizedBox(width: 12),
+                                Expanded(
+                                  child: CustomButton(
+                                    onTap: () {},
+                                    text: 'coachHome.requestedSessions.accept'.tr,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ));
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 12),
                   itemCount: 5),
             )
-
           ],
         ),
       ),
@@ -330,13 +327,11 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
             border: Border.all(color: Color(0xFF5480B1), width: 0.8),
             boxShadow: [
               BoxShadow(
-                color: Color(0xFF1D4760).withValues(alpha: 0.018),
+                color: Color(0xFF1D4760).withOpacity(0.018),
                 blurRadius: 2.2,
                 offset: Offset(0, 3),
               ),
-
-            ]
-        ),
+            ]),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset(image),

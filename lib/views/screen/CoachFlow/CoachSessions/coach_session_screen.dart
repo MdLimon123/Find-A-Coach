@@ -3,6 +3,7 @@ import 'package:find_me_a_coach/views/base/coach_bottom_menu.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSetting/coach_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class _CoachSessionScreenState extends State<CoachSessionScreen> {
               ),
               _customContainer(
                   onTap: (){
-                    Get.to(()=> SettingsScreen());
+                    Get.to(()=> CoachSettingsScreen());
                   },
                   image: 'assets/icons/settings.svg'
               ),

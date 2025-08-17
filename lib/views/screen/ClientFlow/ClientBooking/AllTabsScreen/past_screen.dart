@@ -2,6 +2,7 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart'; // Import GetX
 
 class PastScreen extends StatefulWidget {
   const PastScreen({super.key});
@@ -14,8 +15,9 @@ class _PastScreenState extends State<PastScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         itemBuilder: (context, index){
+
           return Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -45,14 +47,14 @@ class _PastScreenState extends State<PastScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Maria Hernandez",
+                        Text("pastScreen.coachNameExample".tr, // Changed
                           style: TextStyle(
                               color: Color(0xFF1F2937),
                               fontSize: 16,
                               fontWeight: FontWeight.w500
                           ),),
                         SizedBox(height: 4,),
-                        Text("Career Coach",
+                        Text("pastScreen.coachTitleExample".tr, // Changed
                           style: TextStyle(
                               color: AppColors.bigTextColor,
                               fontSize: 14,
@@ -77,7 +79,7 @@ class _PastScreenState extends State<PastScreen> {
                           SvgPicture.asset('assets/icons/calender.svg'),
                           SizedBox(width: 6),
                           Text(
-                            "Today",
+                            "pastScreen.today".tr, // Changed
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -101,7 +103,7 @@ class _PastScreenState extends State<PastScreen> {
                           Icon(Icons.access_time, size: 16, color: AppColors.primaryColor),
                           SizedBox(width: 6),
                           Text(
-                            "Now",
+                            "pastScreen.now".tr, // Changed
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -139,12 +141,12 @@ class _PastScreenState extends State<PastScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("Rate your session!",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937)
-                              ),),
+                              Text("pastScreen.rateYourSession".tr, // Changed
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF1F2937)
+                                ),),
                               SizedBox(height: 16,),
 
                               RatingBar.builder(
@@ -156,7 +158,7 @@ class _PastScreenState extends State<PastScreen> {
                                   itemSize: 30,
                                   itemCount: 5,
                                   itemBuilder: (context, _) => Icon(Icons.star,
-                                  color: Color(0xFFFB9506),),
+                                    color: Color(0xFFFB9506),),
                                   onRatingUpdate: (rating) {
 
                                   }),
@@ -164,43 +166,52 @@ class _PastScreenState extends State<PastScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFE6ECF3),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: Color(0xFFE6E7EA),
-                                        width: 1),
-                                      ),
-                                      child: Center(
-                                        child: Text('Cancel',
-                                        style: TextStyle(
-                                          color: Color(0xFF031330),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500
-                                        ),),
+                                    child: InkWell( // Added InkWell for tap
+                                      onTap: () => Navigator.of(context).pop(), // Close dialog
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 44,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFE6ECF3),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: Color(0xFFE6E7EA),
+                                              width: 1),
+                                        ),
+                                        child: Center(
+                                          child: Text('pastScreen.cancel'.tr, // Changed
+                                            style: TextStyle(
+                                                color: Color(0xFF031330),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500
+                                            ),),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(width: 12,),
                                   Expanded(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 44,
-                                      decoration: BoxDecoration(
+                                    child: InkWell( // Added InkWell for tap
+                                      onTap: () {
+                                        // TODO: Implement submit rating logic
+                                        Navigator.of(context).pop(); // Close dialog
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 44,
+                                        decoration: BoxDecoration(
                                           color: AppColors.primaryColor,
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(color: Color(0xFFFFFFFF),
                                               width: 1),
-                                      ),
-                                      child: Center(
-                                        child: Text('Submit',
-                                          style: TextStyle(
-                                              color: Color(0xFFFFFFFF),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500
-                                          ),),
+                                        ),
+                                        child: Center(
+                                          child: Text('pastScreen.submit'.tr, // Changed
+                                            style: TextStyle(
+                                                color: Color(0xFFFFFFFF), // Assuming AppColors.textColor is white for primaryColor bg
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500
+                                            ),),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -218,20 +229,19 @@ class _PastScreenState extends State<PastScreen> {
                           borderRadius: BorderRadius.circular(12)
                       ),
                       child: Center(
-                        child: Text("Leave a Review",
+                        child: Text("pastScreen.leaveAReview".tr, // Changed
                           style:TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textColor),),
+                              color: AppColors.textColor), // Check contrast
+                        ),
                       )),
                 )
-
-
               ],
             ),
           );
         },
         separatorBuilder: (__, _)=> SizedBox(height: 12,),
-        itemCount: 5);
+        itemCount: 5); // This suggests the above is placeholder data
   }
 }

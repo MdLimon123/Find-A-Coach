@@ -2,81 +2,64 @@ import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/change_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/change_location_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/goals_scree.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/manage_subscription_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/safety_and_ethics_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/saved_coaches_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+class CoachSettingsScreen extends StatefulWidget {
+  const CoachSettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<CoachSettingsScreen> createState() => _CoachSettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _CoachSettingsScreenState extends State<CoachSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: "settingsScreen.title".tr),
+      appBar: CustomAppbar(title: "Settings"),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         children: [
+
+
+          SizedBox(height: 12,),
           _buildCustomContainer(
-              onTap: () {
-                Get.to(() => ProfileScreen());
-              },
-              image: 'assets/icons/profile.svg',
-              text: 'settingsScreen.profile'.tr),
-          SizedBox(height: 12),
-          _buildCustomContainer(
-              onTap: () {
-                Get.to(() => GoalsScree());
-              },
-              image: 'assets/icons/goal.svg',
-              text: 'settingsScreen.goals'.tr),
-          SizedBox(height: 12),
-          _buildCustomContainer(
-              onTap: () {
-                Get.to(() => SavedCoachesScreen());
-              },
-              image: 'assets/icons/save.svg',
-              text: 'settingsScreen.savedCoaches'.tr),
-          SizedBox(height: 12),
-          _buildCustomContainer(
-              onTap: () {
-                Get.to(() => ChangeLanguageScreen());
+              onTap: (){
+                Get.to(()=> ChangeLanguageScreen());
               },
               image: 'assets/icons/global.svg',
-              text: 'settingsScreen.changeLanguage'.tr),
-          SizedBox(height: 12),
+              text: 'Change Language'
+          ),
+          SizedBox(height: 12,),
           _buildCustomContainer(
-              onTap: () {
-                Get.to(() => ChangeLocationScreen());
+              onTap: (){
+                Get.to(()=> ChangeLocationScreen());
               },
               image: 'assets/icons/location.svg',
-              text: 'settingsScreen.changeLocation'.tr),
-          SizedBox(height: 12),
+              text: 'Change Location'
+          ),
+          SizedBox(height: 12,),
           _buildCustomContainer(
-              onTap: () {
-                Get.to(() => SafetyAndEthicsScreen());
+              onTap: (){
+                Get.to(()=> SafetyAndEthicsScreen());
               },
               image: 'assets/icons/safety.svg',
-              text: 'settingsScreen.safetyAndEthics'.tr),
-          SizedBox(height: 12),
+              text: 'Safety & Ethics'
+          ),
+          SizedBox(height: 12,),
           _buildCustomContainer(
-              onTap: () {
-                Get.to(() => ManageSubscriptionScreen());
+              onTap: (){
+                Get.to(()=> ManageSubscriptionScreen());
               },
               image: 'assets/icons/manage.svg',
-              text: 'settingsScreen.manageSubscription'.tr),
-          SizedBox(height: 12),
+              text: 'Manage Subscription'
+          ),
+          SizedBox(height: 12,),
           InkWell(
-            onTap: () {
+            onTap: (){
               _showLogoutBottomSheet(context);
             },
             child: Container(
@@ -88,21 +71,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFF000000).withOpacity(0.08),
+                      color: Color(0xFF000000).withValues(alpha: 0.08),
                       blurRadius: 5.4,
                       offset: Offset(0, 2),
                     )
-                  ]),
+                  ]
+              ),
               child: Row(
                 children: [
                   SvgPicture.asset('assets/icons/logout.svg'),
-                  SizedBox(width: 8),
-                  Text("settingsScreen.logout".tr,
-                      style: TextStyle(
-                        color: Color(0xFFE25252),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ))
+                  SizedBox(width: 8,),
+                  Text("Logout",
+                    style: TextStyle(
+                      color: Color(0xFFE25252),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),)
                 ],
               ),
             ),
@@ -112,8 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  _buildCustomContainer(
-      {required String image, required String text, required Function()? onTap}) {
+  _buildCustomContainer({required String image, required String text, required Function()? onTap}) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -125,21 +108,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Color(0xFF000000).withOpacity(0.08),
+                color: Color(0xFF000000).withValues(alpha: 0.08),
                 blurRadius: 5.4,
                 offset: Offset(0, 2),
               )
-            ]),
+            ]
+        ),
         child: Row(
           children: [
             SvgPicture.asset(image),
-            SizedBox(width: 8),
+            SizedBox(width: 8,),
             Text(text,
-                style: TextStyle(
-                  color: Color(0xFF4B5563),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ))
+              style: TextStyle(
+                color: Color(0xFF4B5563),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),)
           ],
         ),
       ),
@@ -159,13 +143,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 35),
             decoration: BoxDecoration(
+
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "settingsScreen.logout".tr,
+                  "Logout",
                   style: TextStyle(
                     color: Color(0xFFE25252),
                     fontSize: 20,
@@ -176,14 +161,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                     width: double.maxFinite,
                     height: 0.5,
-                    color: Color(0xFFE5E7EB)),
+                    color: Color(0xFFE5E7EB)
+                ),
                 SizedBox(height: 24),
                 Text(
-                  "settingsScreen.logoutConfirmation".tr,
+                  "Are you sure you want to log out?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                  style:
+                  TextStyle(fontWeight: FontWeight.w600, fontSize: 18,
                       color: Color(0xFF757575)),
                 ),
                 SizedBox(height: 16),
@@ -192,7 +177,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () async {},
+                        onTap: () async{
+
+                        },
                         child: Container(
                           height: 50,
                           padding: EdgeInsets.symmetric(
@@ -201,10 +188,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                  color: Color(0xFF5981C1), width: 1)),
+                              border: Border.all(color: Color(0xFF5981C1),
+                                  width: 1)),
                           child: Text(
-                            "settingsScreen.yes".tr,
+                            "Yes",
                             style: TextStyle(
                                 fontSize: 16,
                                 color: AppColors.primaryColor,
@@ -213,10 +200,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(
+                      width: 12,
+                    ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {
+                        onTap: (){
                           Get.back();
                         },
                         child: Container(
@@ -229,7 +218,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.primaryColor),
                           child: Text(
-                            "settingsScreen.cancel".tr,
+                            "Cancel",
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -248,4 +237,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
     );
   }
+
 }

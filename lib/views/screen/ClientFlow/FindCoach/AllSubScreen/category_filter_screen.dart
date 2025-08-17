@@ -6,10 +6,6 @@ import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
-
-
 class CategoryFilterScreen extends StatefulWidget {
   const CategoryFilterScreen({super.key});
 

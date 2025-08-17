@@ -19,73 +19,75 @@ class _SafetyAndEthicsScreenState extends State<SafetyAndEthicsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppbar(title: "Safety & Ethics"),
+      appBar: CustomAppbar(title: "safety.title".tr),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         children: [
-
           _customContainer(
             image: 'assets/icons/terms.svg',
-            text: 'Terms & Conditions',
-            onTap: (){
-              Get.to(()=> TermsOfServiceScreen());
-            }
+            text: 'safety.terms'.tr,
+            onTap: () {
+              Get.to(() => TermsOfServiceScreen());
+            },
           ),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           _customContainer(
-              image: 'assets/icons/privace.svg',
-              text: 'Privacy Policy',
-              onTap: (){
-                Get.to(()=> PrivacyPolicyScreen());
-              }
+            image: 'assets/icons/privace.svg',
+            text: 'safety.privacy'.tr,
+            onTap: () {
+              Get.to(() => PrivacyPolicyScreen());
+            },
           ),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           _customContainer(
-              image: 'assets/icons/about.svg',
-              text: 'About Us',
-              onTap: (){
-                Get.to(()=> AboutUsScreen());
-              }
+            image: 'assets/icons/about.svg',
+            text: 'safety.aboutUs'.tr,
+            onTap: () {
+              Get.to(() => AboutUsScreen());
+            },
           ),
         ],
       ),
     );
   }
 
-   _customContainer({
-    required String image, required String text, required Function()? onTap
-}) {
+  _customContainer({
+    required String image,
+    required String text,
+    required Function()? onTap,
+  }) {
     return InkWell(
       onTap: onTap,
       child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-            height: 60,
-            decoration: BoxDecoration(
-              color: AppColors.textColor,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF000000).withValues(alpha: 0.08),
-                  blurRadius: 5.4,
-                  offset: Offset(0, 2),
-                )
-              ]
-            ),
-            child: Row(
-              children: [
-                SvgPicture.asset(image),
-                SizedBox(width: 8,),
-                Text(text,
-                  style: TextStyle(
-                    color: Color(0xFF4B5563),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),)
-
-              ],
-            ),
-          ),
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+        height: 60,
+        decoration: BoxDecoration(
+          color: AppColors.textColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFF000000).withOpacity(0.08),
+              blurRadius: 5.4,
+              offset: Offset(0, 2),
+            )
+          ],
+        ),
+        child: Row(
+          children: [
+            SvgPicture.asset(image),
+            SizedBox(width: 8),
+            Text(
+              text,
+              style: TextStyle(
+                color: Color(0xFF4B5563),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

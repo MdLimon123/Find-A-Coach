@@ -25,172 +25,173 @@ class ClientCommunityScreen extends StatelessWidget {
               Image.asset('assets/images/app_logo1.png'),
               Spacer(),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> AiChatScreen());
+                  onTap: () {
+                    Get.to(() => AiChatScreen());
                   },
-                  image: 'assets/icons/cross.svg'
-              ),
+                  image: 'assets/icons/cross.svg'),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> NotificationScreen());
+                  onTap: () {
+                    Get.to(() => NotificationScreen());
                   },
-                  image: 'assets/icons/notification.svg'
-              ),
+                  image: 'assets/icons/notification.svg'),
               _customContainer(
-                  onTap: (){
-                    Get.to(()=> SettingsScreen());
+                  onTap: () {
+                    Get.to(() => SettingsScreen());
                   },
-                  image: 'assets/icons/settings.svg'
-              ),
+                  image: 'assets/icons/settings.svg'),
             ],
-          )
-      ),
+          )),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _customCategories(textKey: "Mindset"),
-                  SizedBox(width: 8,),
-                  _customCategories(textKey: "Confidence"),
-                  SizedBox(width: 8,),
-                  _customCategories(textKey: "Self-Esteem"),
-                  SizedBox(width: 8,),
-                  _customCategories(textKey: "Motivational"),
-                  SizedBox(width: 8,),
-                  _customCategories(textKey: "Goal Setting"),
+                  _customCategories(textKey: "mindset".tr),
+                  SizedBox(width: 8),
+                  _customCategories(textKey: "confidence".tr),
+                  SizedBox(width: 8),
+                  _customCategories(textKey: "self_esteem".tr),
+                  SizedBox(width: 8),
+                  _customCategories(textKey: "motivational".tr),
+                  SizedBox(width: 8),
+                  _customCategories(textKey: "goal_setting".tr),
                 ],
               ),
             ),
-            SizedBox(height: 24,),
-
+            SizedBox(height: 24),
             Expanded(
                 child: ListView.separated(
-                  physics: AlwaysScrollableScrollPhysics(),
-                itemBuilder: (context, index){
-                  return InkWell(
-                    onTap: (){
-
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true, // so it adjusts for the keyboard
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        builder: (context) {
-                          return CommentBottomSheet();
-                        },
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                          color: AppColors.textColor,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xFF000000).withValues(alpha: 0.05),
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20)),
                             ),
-                          ]
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                            builder: (context) {
+                              return CommentBottomSheet();
+                            },
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                              color: AppColors.textColor,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                  Color(0xFF000000).withValues(alpha: 0.05),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 32,
-                                width: 32,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                        fit: BoxFit.cover)
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 32,
+                                    width: 32,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/person.jpg'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "alex_johnson".tr,
+                                        style: TextStyle(
+                                          color: Color(0xFF2D2D2D),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "time_10_min".tr,
+                                        style: TextStyle(
+                                            color: Color(0xFFAFAFAF),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Divider(
+                                color: Color(0xFFE6ECF3),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "topic_confidence".tr,
+                                style: TextStyle(
+                                  color: Color(0xFF9CA3AF),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              SizedBox(width: 8,),
-                           Column(
-                             mainAxisAlignment: MainAxisAlignment.start,
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               Text("Alex Johnson",
-                                 style: TextStyle(
-                                   color: Color(0xFF2D2D2D),
-                                   fontSize: 16,
-                                   fontWeight: FontWeight.w400,
-                                 ),),
-                               SizedBox(height: 4,),
-                               Text("10 min",
-                               style: TextStyle(
-                                 color: Color(0xFFAFAFAF),
-                                 fontSize: 10,
-                                 fontWeight: FontWeight.w400
-                               ),)
-                             ],
-                           )
-
-
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Divider(
-                            color: Color(0xFFE6ECF3),
-                          ),
-                          SizedBox(height: 20,),
-                          Text("Topic: Confidence",
-                          style: TextStyle(
-                            color: Color(0xFF9CA3AF),
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),),
-                          SizedBox(height: 4,),
-                          Text("How to build confidence in the workplace?",
-                          style: TextStyle(
-                            color: Color(0xFF222222),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),),
-                          SizedBox(height: 20,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/icons/secondaryComment.svg'),
-                              SizedBox(width: 4,),
-                              Text("Comment (20)",
+                              SizedBox(height: 4),
+                              Text(
+                                "build_confidence_workplace".tr,
                                 style: TextStyle(
-                                  color: Color(0xFF4B4B4B),
-                                  fontSize: 12,
+                                  color: Color(0xFF222222),
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                ),)
-
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/secondaryComment.svg'),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "comment_count_20".tr,
+                                    style: TextStyle(
+                                      color: Color(0xFF4B4B4B),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (_, index)=> SizedBox(height: 12,),
-                itemCount: 5))
-            
-
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, index) => SizedBox(height: 12),
+                    itemCount: 5))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
-
         ),
-        onPressed: (){
-          Get.to(()=> CreateDiscussionScreen());
+        onPressed: () {
+          Get.to(() => CreateDiscussionScreen());
         },
         child: SvgPicture.asset('assets/icons/add.svg'),
       ),
@@ -213,9 +214,7 @@ class ClientCommunityScreen extends StatelessWidget {
                 blurRadius: 2.2,
                 offset: Offset(0, 3),
               ),
-
-            ]
-        ),
+            ]),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset(image),
@@ -230,9 +229,9 @@ class ClientCommunityScreen extends StatelessWidget {
       height: 34,
       decoration: BoxDecoration(
           border: Border.all(color: Color(0xFF3368A1)),
-          borderRadius: BorderRadius.circular(4)
-      ),
-      child: Text(textKey,
+          borderRadius: BorderRadius.circular(4)),
+      child: Text(
+        textKey,
         style: TextStyle(
           color: Color(0xFF3368A1),
           fontSize: 12,
@@ -252,7 +251,6 @@ class CommentBottomSheet extends StatefulWidget {
 }
 
 class _CommentBottomSheetState extends State<CommentBottomSheet> {
-
   final commentController = TextEditingController();
 
   @override
@@ -264,21 +262,18 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
       expand: false,
       builder: (context, scrollController) {
         return Container(
-
           decoration: BoxDecoration(
             color: AppColors.backgroundColor,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
-
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Comments",
+                    "comments".tr,
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF1F2937),
@@ -287,10 +282,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                   ),
                 ),
               ),
-
               SizedBox(height: 16),
-
-              // Comment list
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
@@ -301,8 +293,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundImage:
-                          AssetImage('assets/images/person.jpg'),
+                          backgroundImage: AssetImage('assets/images/person.jpg'),
                         ),
                         SizedBox(width: 8),
                         Expanded(
@@ -310,19 +301,19 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Henry, Arthur",
-                                style: TextStyle(fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937),
-                                fontSize: 14),
+                                "henry_arthur".tr,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF1F2937),
+                                    fontSize: 14),
                               ),
                               SizedBox(height: 8),
                               Text(
-                                "Lorem ipsum dolor sit amet consectetur.",
+                                "comment_sample".tr,
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFF4B5563)
-                                ),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF4B5563)),
                               ),
                             ],
                           ),
@@ -334,34 +325,31 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                   itemCount: 10,
                 ),
               ),
-
-              // Input field
               SafeArea(
                 child: Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.textColor
-                  ),
+                  decoration: BoxDecoration(color: AppColors.textColor),
                   child: Row(
                     children: [
                       Expanded(
-                        child: CustomTextField(controller: commentController,
-                        hintText: 'Write a comment....',),
+                        child: CustomTextField(
+                          controller: commentController,
+                          hintText: 'write_a_comment'.tr,
+                        ),
                       ),
                       SizedBox(width: 8),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFE6ECF3),
-                        border: Border.all(color: Color(0xFFB0C4DB),width: 2)
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset('assets/icons/send.svg'),
-                      ),
-                    )
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFE6ECF3),
+                            border: Border.all(color: Color(0xFFB0C4DB), width: 2)),
+                        child: Center(
+                          child: SvgPicture.asset('assets/icons/send.svg'),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -373,4 +361,3 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
     );
   }
 }
-
