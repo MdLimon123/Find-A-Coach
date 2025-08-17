@@ -8,9 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class ClientInboxScreen extends StatelessWidget {
+class ClientInboxScreen extends StatefulWidget {
   const ClientInboxScreen({super.key});
 
+  @override
+  State<ClientInboxScreen> createState() => _ClientInboxScreenState();
+}
+
+class _ClientInboxScreenState extends State<ClientInboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
