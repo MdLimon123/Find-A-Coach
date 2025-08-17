@@ -35,11 +35,11 @@ class CoachBottomMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     List<BottomNavigationBarItem> menuItems = [
-      getItem(AppIcons.homeIcon, 'ClientHome', theme, 0),
-      getItem(AppIcons.searchIcon, 'Find Coach', theme, 1),
+      getItem(AppIcons.homeIcon, 'Home', theme, 0),
+      getItem(AppIcons.session, 'Sessions', theme, 1),
       getItem(AppIcons.communityIcon, 'Community', theme, 2),
-      getItem(AppIcons.commentIcon, 'Community', theme, 3),
-      getItem(AppIcons.boxIcon, 'Community', theme, 4),
+      getItem(AppIcons.commentIcon, 'Message', theme, 3),
+      getItem(AppIcons.profile, 'Profile', theme, 4),
     ];
 
     return Container(
@@ -62,13 +62,19 @@ class CoachBottomMenu extends StatelessWidget {
         onTap: (value) {
           switch (value) {
             case 0:
-              Get.offAndToNamed(AppRoutes.clientHomeScreen);
+              Get.offAndToNamed(AppRoutes.coachHomeScreen);
               break;
             case 1:
-              Get.offAndToNamed(AppRoutes.findCoach);
+              Get.offAndToNamed(AppRoutes.coachSessionScreen);
               break;
             case 2:
-              Get.offAndToNamed(AppRoutes.clientBookingScreen);
+              Get.offAndToNamed(AppRoutes.coachCommunityScreen);
+              break;
+            case 3:
+              Get.offAndToNamed(AppRoutes.coachInboxScreen);
+              break;
+            case 4:
+              Get.offAndToNamed(AppRoutes.coachProfileScreen);
               break;
           }
         },

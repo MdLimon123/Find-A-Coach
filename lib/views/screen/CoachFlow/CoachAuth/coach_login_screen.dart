@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
@@ -7,6 +8,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_signup
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachAuth/coach_forget_password_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachAuth/coach_signup_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/coach_home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -82,7 +84,7 @@ class _CoachLoginScreenState extends State<CoachLoginScreen> {
           ),
           SizedBox(height: 24,),
           CustomButton(onTap: (){
-            //Get.to(()=> ClientHomeScreen());
+            Get.offAndToNamed(AppRoutes.coachHomeScreen);
           },
               text: 'signIn'.tr), // Changed
           SizedBox(height: 36,),
