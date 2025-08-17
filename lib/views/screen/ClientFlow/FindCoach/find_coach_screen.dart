@@ -4,7 +4,7 @@ import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/categories_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/category_filter_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/coach_profile_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/client_coach_profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +170,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                     // Assuming this is placeholder data. If dynamic, this localization approach is incorrect here.
                     return   InkWell(
                       onTap: (){
-                        Get.to(()=> CoachProfileScreen());
+                        Get.to(()=> ClientCoachProfileScreen());
                       },
                       child: Container(
                         width: double.infinity,

@@ -7,6 +7,7 @@ import 'package:find_me_a_coach/views/screen/ClientSelectLanguage/client_select_
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachChat/coach_inbox_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachCommunity/coach_community_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/coach_home_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachProfile/coach_profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSessions/coach_session_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachSelectLanguage/coach_select_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/select_role_screen.dart';
@@ -14,7 +15,7 @@ import 'package:find_me_a_coach/views/screen/Splash/welcome_screen.dart';
 import 'package:get/get.dart';
 
 
-import '../views/screen/ClientFlow/FindCoach/AllSubScreen/coach_profile_screen.dart';
+import '../views/screen/ClientFlow/FindCoach/AllSubScreen/client_coach_profile_screen.dart';
 import '../views/screen/ClientFlow/FindCoach/find_coach_screen.dart';
 import '../views/screen/Splash/splash_screen.dart';
 

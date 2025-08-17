@@ -7,14 +7,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class CoachProfileScreen extends StatefulWidget {
-  const CoachProfileScreen({super.key});
+class ClientCoachProfileScreen extends StatefulWidget {
+  const ClientCoachProfileScreen({super.key});
 
   @override
-  State<CoachProfileScreen> createState() => _CoachProfileScreenState();
+  State<ClientCoachProfileScreen> createState() => _ClientCoachProfileScreenState();
 }
 
-class _CoachProfileScreenState extends State<CoachProfileScreen> {
+class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

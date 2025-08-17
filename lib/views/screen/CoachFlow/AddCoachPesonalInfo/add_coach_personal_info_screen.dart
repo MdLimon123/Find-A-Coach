@@ -70,12 +70,11 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
     'Money Mindset'
   ];
 
-  // List to keep track of selected categories
   List<String> selectedCategories = [];
   String? selectedValue;
   String selected = "Virtual";
 
-  Map<String, bool> _checkboxValues = {
+  final Map<String, bool> _checkboxValues = {
     'Neurodiversity Affirming:': false,
     'LGBTQIA+ Affirming:': false,
     'Gender Sensitive:': false,
