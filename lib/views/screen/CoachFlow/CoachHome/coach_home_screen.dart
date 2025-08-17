@@ -4,6 +4,7 @@ import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               Spacer(),
               _customContainer(
                   onTap: (){
-                    Get.to(()=> AiChatScreen());
+                    Get.to(()=> CoachAiChatScreen());
                   },
                   image: 'assets/icons/cross.svg'
               ),
