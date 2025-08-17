@@ -1,6 +1,7 @@
 import 'package:find_me_a_coach/controllers/coachController/coach_ai_chat_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_chat_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,8 @@ class _CoachAiChatScreenState extends State<CoachAiChatScreen> {
             SizedBox(height: 64,),
             ListTile(
               onTap: () {
-
+                _coachAiController.createNewChat();
+                Get.back();
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
               leading: SvgPicture.asset('assets/icons/new_chat.svg'),
@@ -43,7 +45,7 @@ class _CoachAiChatScreenState extends State<CoachAiChatScreen> {
             SizedBox(height: 24,),
             ListTile(
               onTap: () {
-
+                Get.to(()=> CoachChatHistoryScreen());
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
               leading: SvgPicture.asset('assets/icons/refresh.svg'),
