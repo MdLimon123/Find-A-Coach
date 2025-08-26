@@ -25,7 +25,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               decoration: BoxDecoration(
-                  color: AppColors.textColor, // Check contrast: if textColor is light, this background is light.
+                  color: AppColors.textColor,
                   borderRadius: BorderRadius.circular(12)
               ),
               child: Column(
@@ -139,33 +139,38 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                   ),
                   SizedBox(height: 16,),
 
-                  Container(
-                      width: double.infinity,
-                      height: 44,
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('assets/icons/video.svg'),
-                          SizedBox(width: 8,),
-                          Text("upcomingScreen.joinSession".tr, // Changed
-                            style:TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textColor),) // Check contrast: if textColor is light, text might be hard to read on primaryColor.
-                        ],
-                      ))
+                  InkWell(
+                    onTap: (){
+                      /// when click this join now button then redirection will be open zoom link or google meets link or etc others site
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: 44,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/icons/video.svg'),
+                            SizedBox(width: 8,),
+                            Text("upcomingScreen.joinSession".tr, // Changed
+                              style:TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textColor),)
+                          ],
+                        )),
+                  )
                 ],
               ),
             ),
           );
         },
         separatorBuilder: (__, _)=> SizedBox(height: 12,),
-        itemCount: 5); // This suggests the above is placeholder data
+        itemCount: 5);
   }
 }
 

@@ -68,44 +68,44 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("coachProfile.name".tr,
+                    Text("Maria Hernandez",
                         style: TextStyle(
                           color: Color(0xFF1F2937),
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                         )),
-                    Text("coachProfile.certification".tr,
+                    Text("Certified Career Coach by ICF",
                         style: TextStyle(
                           color: Color(0xFF374151),
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         )),
-                    Row(
-                      children: [
-                        RatingBar.builder(
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemSize: 14,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Color(0xFF00428A),
-                            size: 12,
-                          ),
-                          onRatingUpdate: (rating) {},
-                        ),
-                        SizedBox(width: 4),
-                        Text("coachProfile.rating".tr,
-                            style: TextStyle(
-                              color: AppColors.bigTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ))
-                      ],
-                    )
+                    // Row(
+                    //   children: [
+                    //     RatingBar.builder(
+                    //       initialRating: 3,
+                    //       minRating: 1,
+                    //       direction: Axis.horizontal,
+                    //       allowHalfRating: true,
+                    //       itemSize: 14,
+                    //       itemCount: 5,
+                    //       itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                    //       itemBuilder: (context, _) => Icon(
+                    //         Icons.star,
+                    //         color: Color(0xFF00428A),
+                    //         size: 12,
+                    //       ),
+                    //       onRatingUpdate: (rating) {},
+                    //     ),
+                    //     SizedBox(width: 4),
+                    //     Text("coachProfile.rating".tr,
+                    //         style: TextStyle(
+                    //           color: AppColors.bigTextColor,
+                    //           fontSize: 10,
+                    //           fontWeight: FontWeight.w400,
+                    //         ))
+                    //   ],
+                    // )
                   ],
                 )
               ],
@@ -113,31 +113,31 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
             SizedBox(height: 20),
             _buildRow(
                 image: 'assets/icons/location.svg',
-                text: 'coachProfile.location'.tr),
+                text: 'From New York, USA'),
             SizedBox(height: 8),
             _buildRow(
                 image: 'assets/icons/global.svg',
-                text: 'coachProfile.languages'.tr),
+                text: 'Languages: English, Spanish'),
             SizedBox(height: 8),
             _buildRow(
                 image: 'assets/icons/computer.svg',
-                text: 'coachProfile.format'.tr),
+                text: 'Coaching Format: Virtual'),
             SizedBox(height: 20),
-            Text("coachProfile.aboutTitle".tr,
+            Text("About Coach",
                 style: TextStyle(
                   color: Color(0xFF1F2937),
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 )),
             SizedBox(height: 8),
-            Text("coachProfile.aboutDescription".tr,
+            Text("With over 10 years of experience, Coach Maria specializes in helping clients transition into new careers, refine their professional skills, and achieve their career goals",
                 style: TextStyle(
                   color: Color(0xFF4B5563),
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 )),
             SizedBox(height: 20),
-            Text("coachProfile.websiteTitle".tr,
+            Text("Website and Social Links".tr,
                 style: TextStyle(
                   color: Color(0xFF1F2937),
                   fontSize: 20,
@@ -149,7 +149,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                     color: Color(0xFF4B5563)),
                 SizedBox(width: 8),
-                Text("coachProfile.website1".tr,
+                Text("www.website.com",
                     style: TextStyle(
                       color: Color(0xFF4B5563),
                       fontSize: 16,
@@ -163,7 +163,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                     color: Color(0xFF4B5563)),
                 SizedBox(width: 8),
-                Text("coachProfile.website2".tr,
+                Text("www.linkedin.com/in/maria.hernandez".tr,
                     style: TextStyle(
                       color: Color(0xFF4B5563),
                       fontSize: 14,
@@ -177,7 +177,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                     color: Color(0xFF4B5563)),
                 SizedBox(width: 8),
-                Text("coachProfile.website3".tr,
+                Text("instagram.com/maria.hernandez",
                     style: TextStyle(
                       color: Color(0xFF4B5563),
                       fontSize: 16,
@@ -186,7 +186,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Text("coachProfile.availabilityTitle".tr,
+            Text("Availability",
                 style: TextStyle(
                   color: Color(0xFF1F2937),
                   fontSize: 20,
@@ -204,7 +204,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("coachProfile.availabilityDate".tr,
+                      Text("19 July, 2025",
                           style: TextStyle(
                             color: Color(0xFF1F2937),
                             fontSize: 16,
@@ -226,7 +226,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                   color: Color(0xFF3368A1), width: 0.5)),
-                          child: Text("coachProfile.timeSlot1".tr,
+                          child: Text("9:00 AM-10:00 AM".tr,
                               style: TextStyle(
                                 color: Color(0xFF3368A1),
                                 fontSize: 14,
@@ -245,7 +245,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                   color: Color(0xFF3368A1), width: 0.5)),
-                          child: Text("coachProfile.timeSlot2".tr,
+                          child: Text("11:00 AM-12:00 PM".tr,
                               style: TextStyle(
                                 color: Color(0xFF3368A1),
                                 fontSize: 14,
@@ -268,7 +268,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                   color: Color(0xFF3368A1), width: 0.5)),
-                          child: Text("coachProfile.timeSlot3".tr,
+                          child: Text("12:00 PM-1:00 PM".tr,
                               style: TextStyle(
                                 color: Color(0xFF3368A1),
                                 fontSize: 14,
@@ -287,7 +287,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                   color: Color(0xFF3368A1), width: 0.5)),
-                          child: Text("coachProfile.timeSlot4".tr,
+                          child: Text("4:00 PM-5:00 PM".tr,
                               style: TextStyle(
                                 color: Color(0xFF3368A1),
                                 fontSize: 14,
@@ -303,13 +303,13 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
             SizedBox(height: 20),
             Row(
               children: [
-                Text('coachProfile.pricing'.tr,
+                Text('Pricing:',
                     style: TextStyle(
                       color: Color(0xFF1F2937),
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     )),
-                Text('coachProfile.perSession'.tr,
+                Text('\$500 per session',
                     style: TextStyle(
                       color: Color(0xFF4B5563),
                       fontSize: 16,
@@ -322,7 +322,7 @@ class _CoachProfileScreenState extends State<CoachProfileScreen> {
                 onTap: () {
                   Get.to(() => EditPersonalInfoScreen());
                 },
-                text: 'coachProfile.editButton'.tr)
+                text: 'Edit')
           ],
         ),
       ),

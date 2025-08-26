@@ -59,15 +59,15 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _customCategories(textKey: "coachCommunity.categories.mindset"),
+                  _customCategories(textKey: "Mindset"),
                   SizedBox(width: 8),
-                  _customCategories(textKey: "coachCommunity.categories.confidence"),
+                  _customCategories(textKey: "Confidence"),
                   SizedBox(width: 8),
-                  _customCategories(textKey: "coachCommunity.categories.selfEsteem"),
+                  _customCategories(textKey: "Self-Esteem"),
                   SizedBox(width: 8),
-                  _customCategories(textKey: "coachCommunity.categories.motivational"),
+                  _customCategories(textKey: "Motivational"),
                   SizedBox(width: 8),
-                  _customCategories(textKey: "coachCommunity.categories.goalSetting"),
+                  _customCategories(textKey: "Goal Setting"),
                 ],
               ),
             ),
@@ -124,7 +124,7 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "coachCommunity.discussion.userName".tr,
+                                    "Alex Johnson",
                                     style: TextStyle(
                                       color: Color(0xFF2D2D2D),
                                       fontSize: 16,
@@ -133,7 +133,7 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
                                   ),
                                   SizedBox(height: 4),
                                   Text(
-                                    "coachCommunity.discussion.timeAgo".tr,
+                                    "10 min".tr,
                                     style: TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontSize: 10,
@@ -148,7 +148,7 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
                           Divider(color: Color(0xFFE6ECF3)),
                           SizedBox(height: 20),
                           Text(
-                            "coachCommunity.discussion.topicLabel".tr,
+                            "Topic: Confidence",
                             style: TextStyle(
                               color: Color(0xFF9CA3AF),
                               fontSize: 10,
@@ -157,7 +157,7 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
                           ),
                           SizedBox(height: 4),
                           Text(
-                            "coachCommunity.discussion.title".tr,
+                            "How to build confidence in the workplace?",
                             style: TextStyle(
                               color: Color(0xFF222222),
                               fontSize: 14,
@@ -171,7 +171,7 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
                               SvgPicture.asset('assets/icons/secondaryComment.svg'),
                               SizedBox(width: 4),
                               Text(
-                                "coachCommunity.discussion.commentCount".tr,
+                                "Comment (20)",
                                 style: TextStyle(
                                   color: Color(0xFF4B4B4B),
                                   fontSize: 12,
@@ -199,8 +199,8 @@ class _CoachCommunityScreenState extends State<CoachCommunityScreen> {
         onPressed: () {
           Get.to(() => CoachCreateDiscussionScreen());
         },
-        child: SvgPicture.asset('assets/icons/add.svg'),
         tooltip: "coachCommunity.createDiscussion.fabTooltip".tr,
+        child: SvgPicture.asset('assets/icons/add.svg'),
       ),
       bottomNavigationBar: CoachBottomMenu(2),
     );
@@ -282,7 +282,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "coachCommunity.comments.title".tr,
+                    "Comments",
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF1F2937),
@@ -310,7 +310,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "coachCommunity.comments.userName".tr,
+                                "Henry, Arthur",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFF1F2937),
@@ -319,7 +319,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                "coachCommunity.comments.text".tr,
+                                "Lorem ipsum dolor sit amet consectetur. Est nunc quis magna volutpat.",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,

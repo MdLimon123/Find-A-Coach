@@ -1,7 +1,7 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
-// import 'package:find_me_a_coach/utils/image_utils.dart'; // Not used in this snippet
+
 import 'package:find_me_a_coach/utils/style.dart'; // Ensure AppStyles.h3 is defined here
-// import 'package:find_me_a_coach/views/base/custom_appbar.dart'; // Not used
+
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_switch.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
@@ -49,7 +49,7 @@ class _AddClientPersonalInfoScreenState
     "preferToSelfDescribeBelow",
   ];
 
-  Map<String, bool> _checkboxValues = {
+  final Map<String, bool> _checkboxValues = {
     'neurotypical': false,
     'adhd': false,
     'audhd': false,
@@ -88,8 +88,8 @@ class _AddClientPersonalInfoScreenState
   void initState() {
     super.initState();
     selectedValue = "preferToSelfDescribeBelow".tr;
-    selectedGender = "man".tr; // Default or can be null initially
-    selectedSexual = "asexual".tr; // Default or can be null initially
+    selectedGender = "man".tr;
+    selectedSexual = "asexual".tr;
   }
 
   Widget _headingText({required String translatedText}) {
@@ -179,7 +179,7 @@ class _AddClientPersonalInfoScreenState
               _headingText(translatedText: "fullName".tr),
               SizedBox(height: 8),
               CustomTextField(
-                controller: nameController, // TODO: Use a separate TextEditingController here
+                controller: nameController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/person.svg'),
@@ -205,7 +205,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: ageController, // TODO: Use a separate TextEditingController here
+                controller: ageController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/refresh.svg'), // Consider different icon
@@ -232,7 +232,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: locationController, // TODO: Use a separate TextEditingController here
+                controller: locationController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/refresh.svg'), // Consider different icon
@@ -258,7 +258,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: bioController, // TODO: Use a separate TextEditingController here
+                controller: bioController,
                 hintText: "tellUsAboutYourself".tr,
                 filled: true,
                 minLines: 3,
@@ -348,7 +348,7 @@ class _AddClientPersonalInfoScreenState
               SizedBox(height: 8),
               //if (selectedGender == "preferToSelfDescribeBelow".tr)
                 CustomTextField(
-                  controller: genderSelfDescribeController, // TODO: Use a separate TextEditingController here
+                  controller: genderSelfDescribeController,
                   hintText: "selfDescribeGender".tr,
                   filled: true,
                 ),
@@ -392,7 +392,7 @@ class _AddClientPersonalInfoScreenState
               SizedBox(height: 12),
              // if (selectedSexual == "preferToSelfDescribeBelow".tr)
                 CustomTextField(
-                  controller: sexualOrientationSelfDescribeController, // TODO: Use a separate TextEditingController here
+                  controller: sexualOrientationSelfDescribeController,
                   hintText: "selfDescribeSexualOrientation".tr,
                   filled: true,
                 ),
@@ -449,7 +449,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: professionController, // TODO: Use a separate TextEditingController here
+                controller: professionController,
                 hintText: "enterYourProfession".tr,
                 filled: true,
               ),
@@ -471,7 +471,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: socialMediaController, // TODO: Use a separate TextEditingController here
+                controller: socialMediaController,
                 hintText: "linkToYourSocialMedia".tr,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -497,7 +497,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: interestsController, // TODO: Use a separate TextEditingController here
+                controller: interestsController,
                 hintText: "tellUsAboutInterestsHobbies".tr,
                 filled: true,
                 maxLines: 5,
@@ -521,7 +521,7 @@ class _AddClientPersonalInfoScreenState
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: anythingElseController, // TODO: Use a separate TextEditingController here
+                controller: anythingElseController,
                 hintText: "shareAnyOtherDetails".tr,
                 filled: true,
                 maxLines: 5,

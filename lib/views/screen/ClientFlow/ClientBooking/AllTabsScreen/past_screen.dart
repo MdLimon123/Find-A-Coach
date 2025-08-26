@@ -205,7 +205,7 @@ class _PastScreenState extends State<PastScreen> {
                                               width: 1),
                                         ),
                                         child: Center(
-                                          child: Text('pastScreen.submit'.tr, // Changed
+                                          child: Text('Submit', // Changed
                                             style: TextStyle(
                                                 color: Color(0xFFFFFFFF), // Assuming AppColors.textColor is white for primaryColor bg
                                                 fontSize: 16,

@@ -1,9 +1,7 @@
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/coach_bottom_menu.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSetting/coach_setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +61,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("#coachHome.upcomingSession".tr,
+                  Text("#Upcoming session",
                       style: TextStyle(
                           color: Color(0xFFB0C4DB),
                           fontSize: 12,
@@ -82,7 +80,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                 fit: BoxFit.cover)),
                       ),
                       SizedBox(width: 8),
-                      Text("coachHome.upcomingSession.userName".tr,
+                      Text("Dianne Russell",
                           style: TextStyle(
                               color: AppColors.textColor,
                               fontSize: 16,
@@ -108,7 +106,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                 color: Colors.white, size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "coachHome.upcomingSession.date".tr,
+                              "Monday, June 15",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -137,7 +135,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                 color: Colors.white, size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "coachHome.upcomingSession.time".tr,
+                              "10:00 AM",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -159,7 +157,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               ),
             ),
             SizedBox(height: 24),
-            Text("coachHome.requestedSessions".tr,
+            Text("Requested Sessions",
                 style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -190,7 +188,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  "coachHome.requestedSessions.userName".tr,
+                                  "Leslie Alexander",
                                   style: TextStyle(
                                       color: Color(0xFF1F2937),
                                       fontSize: 16,
@@ -217,7 +215,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                           color: Color(0xFF00428A), size: 18),
                                       SizedBox(width: 6),
                                       Text(
-                                        "coachHome.requestedSessions.date".tr,
+                                        "Monday, June 15",
                                         style: TextStyle(
                                             color: Color(0xFF4B5563),
                                             fontSize: 14,
@@ -247,7 +245,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                           color: Color(0xFF4B5563), size: 18),
                                       SizedBox(width: 6),
                                       Text(
-                                        "coachHome.requestedSessions.time".tr,
+                                        "10:00 AM".tr,
                                         style: TextStyle(
                                             color: Color(0xFF4B5563),
                                             fontSize: 14,
@@ -286,7 +284,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        "coachHome.requestedSessions.decline".tr,
+                                        "Decline",
                                         style: TextStyle(
                                             color: Color(0xFF031330),
                                             fontSize: 18,
@@ -299,7 +297,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                 Expanded(
                                   child: CustomButton(
                                     onTap: () {},
-                                    text: 'coachHome.requestedSessions.accept'.tr,
+                                    text: 'Accept',
                                   ),
                                 )
                               ],

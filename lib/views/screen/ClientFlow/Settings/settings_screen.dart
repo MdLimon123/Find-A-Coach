@@ -7,6 +7,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/ma
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/profile_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/safety_and_ethics_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/saved_coaches_screen.dart';
+import 'package:find_me_a_coach/views/screen/Splash/select_role_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -154,95 +155,94 @@ class _SettingsScreenState extends State<SettingsScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 35),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "settingsScreen.logout".tr,
-                  style: TextStyle(
-                    color: Color(0xFFE25252),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 35),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "settingsScreen.logout".tr,
+                style: TextStyle(
+                  color: Color(0xFFE25252),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: 24),
+              Container(
+                  width: double.maxFinite,
+                  height: 0.5,
+                  color: Color(0xFFE5E7EB)),
+              SizedBox(height: 24),
+              Text(
+                "settingsScreen.logoutConfirmation".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Color(0xFF757575)),
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        Get.to(()=> SelectRoleScreen());
+                      },
+                      child: Container(
+                        height: 50,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: Color(0xFF5981C1), width: 1)),
+                        child: Text(
+                          "settingsScreen.yes".tr,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(height: 24),
-                Container(
-                    width: double.maxFinite,
-                    height: 0.5,
-                    color: Color(0xFFE5E7EB)),
-                SizedBox(height: 24),
-                Text(
-                  "settingsScreen.logoutConfirmation".tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Color(0xFF757575)),
-                ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {},
-                        child: Container(
-                          height: 50,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                  color: Color(0xFF5981C1), width: 1)),
-                          child: Text(
-                            "settingsScreen.yes".tr,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: AppColors.primaryColor,
-                                fontWeight: FontWeight.w700),
-                          ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        height: 50,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppColors.primaryColor),
+                        child: Text(
+                          "settingsScreen.cancel".tr,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textColor),
                         ),
                       ),
                     ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: AppColors.primaryColor),
-                          child: Text(
-                            "settingsScreen.cancel".tr,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+            ],
           ),
         );
       },
