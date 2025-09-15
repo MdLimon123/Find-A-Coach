@@ -22,6 +22,8 @@ class ImageUtils{
 
      if(pickedFile == null) return null;
 
+     return File(pickedFile.path);
+
     final CroppedFile? croppedFile = await ImageCropper().cropImage(
        sourcePath: pickedFile.path,
 

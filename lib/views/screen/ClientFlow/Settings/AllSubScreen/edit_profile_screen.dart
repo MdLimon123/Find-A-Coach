@@ -1,5 +1,5 @@
+import 'package:find_me_a_coach/controllers/clientController/client_profile_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
-import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_switch.dart';
@@ -28,6 +28,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final interestsController = TextEditingController();
   final anythingElseController = TextEditingController();
 
+  final _clientProfileController = Get.put(ClientProfileController());
+
 
   List<bool> isSwitched = List.generate(11, (_) => false);
 
@@ -44,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "preferToSelfDescribeBelow",
   ];
 
-  Map<String, bool> _checkboxValues = {
+ final Map<String, bool> _checkboxValues = {
     'neurotypical': false,
     'adhd': false,
     'audhd': false,
@@ -83,8 +85,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     selectedValue = "preferToSelfDescribeBelow".tr;
-    selectedGender = "man".tr; // Default or can be null initially
-    selectedSexual = "asexual".tr; // Default or can be null initially
+    selectedGender = "man".tr;
+    selectedSexual = "asexual".tr;
   }
 
   Widget _headingText({required String translatedText}) {
@@ -122,38 +124,49 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 144,
-                      width: 144,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFFFFFFF),
-                        border: Border.all(color: Color(0xFF8DA9D4)),
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/user.png')),
+              Center( // User Image Stack - No text to translate here
+                child: Obx(
+                      ()=> Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 144,
+                        width: 144,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFFFFFFF),
+                          border: Border.all(color: Color(0xFF8DA9D4)),
+                        ),
+                        child: ClipOval(
+                          child:  _clientProfileController.clientProfileEditImage.value != null? Image.file(_clientProfileController.clientProfileEditImage.value!,
+                            fit: BoxFit.cover,
+                            height: 90,
+                            width: 90,): Image.asset('assets/images/user.png'),
+                        ),
                       ),
-                    ),
-                    Positioned(
-                        bottom: 10,
-                        right: 5,
-                        child: Container(
-                          height: 32,
-                          width: 32,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF4F46E5),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xFFEEF5FD)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: SvgPicture.asset('assets/icons/edit.svg'),
-                          ),
-                        ))
-                  ],
+                      Positioned(
+                          bottom: 10,
+                          right: 5,
+                          child: InkWell(
+                            onTap: (){
+                              _clientProfileController.pickClientProfileEditImage(fromCamera: false);
+                            },
+                            child: Container(
+                              height: 32,
+                              width: 32,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF4F46E5),
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Color(0xFFEEF5FD)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: SvgPicture.asset('assets/icons/edit.svg'),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 8),

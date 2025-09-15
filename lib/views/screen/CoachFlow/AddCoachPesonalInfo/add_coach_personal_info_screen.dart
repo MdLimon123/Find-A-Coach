@@ -1,7 +1,9 @@
+import 'package:find_me_a_coach/controllers/coachController/setup_coach_profile_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/coach_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -28,7 +30,7 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
   final endController = TextEditingController();
 
 
-
+final _setupCoachProfileController = Get.put(SetupCoachProfileController());
 
   final Map<String, List<String>> categories = {
     "Business & Entrepreneurship Coaching": [
@@ -240,40 +242,49 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
               SizedBox(height: 24),
 
               // User Image Stack
-              Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 144,
-                      width: 144,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFFFFFFF),
-                        border: Border.all(color: Color(0xFF8DA9D4)),
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/user.png')
+              Center( // User Image Stack - No text to translate here
+                child: Obx(
+                      ()=> Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 144,
+                        width: 144,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFFFFFFF),
+                          border: Border.all(color: Color(0xFF8DA9D4)),
+                        ),
+                        child: ClipOval(
+                          child:  _setupCoachProfileController.setupCoachProfile.value != null? Image.file(_setupCoachProfileController.setupCoachProfile.value!,
+                            fit: BoxFit.cover,
+                            height: 90,
+                            width: 90,): Image.asset('assets/images/user.png'),
                         ),
                       ),
-                    ),
-                    Positioned(
-                        bottom: 10,
-                        right: 5,
-                        child: Container(
-                          height: 32,
-                          width: 32,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF4F46E5),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xFFEEF5FD)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: SvgPicture.asset('assets/icons/edit.svg'),
-                          ),
-                        )
-                    )
-                  ],
+                      Positioned(
+                          bottom: 10,
+                          right: 5,
+                          child: InkWell(
+                            onTap: (){
+                              _setupCoachProfileController.setupCoachProfileImage(fromCamera: false);
+                            },
+                            child: Container(
+                              height: 32,
+                              width: 32,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF4F46E5),
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Color(0xFFEEF5FD)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: SvgPicture.asset('assets/icons/edit.svg'),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 24),
@@ -329,10 +340,6 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
               SizedBox(height: 20),
               _headingText(translatedText: "Select Coaching Areas"),
               SizedBox(height: 8),
-
-
-
-
 
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -438,7 +445,7 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  width: 177,
+                  width: 180,
                   height: 26,
                   decoration: BoxDecoration(
                       color: Color(0xFFB0C4DB),
@@ -648,11 +655,7 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
                             text: "Add"),
                       ),
                     ),
-
-
-
-
-            ],
+                  ],
           ),
         ),
 
@@ -664,7 +667,9 @@ class _AddCoachPersonalInfoScreenState extends State<AddCoachPersonalInfoScreen>
 
               SizedBox(height: 20),
               CustomButton(
-                  onTap: (){},
+                  onTap: (){
+                    Get.to(()=> CoachHomeScreen());
+                  },
                   text: "Save"
               ),
               SizedBox(height: 40),

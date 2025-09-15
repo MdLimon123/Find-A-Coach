@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../../utils/app_colors.dart';
@@ -35,7 +36,10 @@ class CustomButton extends StatelessWidget {
           child:loading?  SizedBox(
             height: 20,
             width: 20,
-            child: const CircularProgressIndicator(color: Colors.white,),
+            child: SpinKitCircle(
+              color:Colors.white,
+              size: 20,
+            ),
           ):Text(text,style:textStyle?? AppStyles.h3(fontWeight: FontWeight.w500,color:Colors.white),)),
     );
   }

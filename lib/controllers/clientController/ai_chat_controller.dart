@@ -14,7 +14,7 @@ class AIChatController extends GetxController{
 
     aiCurrentChat.value.aiMessages.add(AiMessageModel(message: message, isUser: true));
     await Future.delayed(Duration(milliseconds: 500), (){
-      aiCurrentChat.value.aiMessages.add(AiMessageModel(message: "Ai response ${message}", isUser: false));
+      aiCurrentChat.value.aiMessages.add(AiMessageModel(message: "Ai response $message", isUser: false));
     });
   }
 

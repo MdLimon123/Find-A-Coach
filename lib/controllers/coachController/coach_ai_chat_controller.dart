@@ -16,11 +16,6 @@ class CoachAiChatController extends GetxController{
     "Career Growth"
   ];
 
-
-
-
-
-
   Future<void> sendMessage( String message, {bool fromSuggestion = false})async{
 
     aiCurrentChat.value.aiMessages.add(AiMessageModel(message: message, isUser: true));

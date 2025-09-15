@@ -19,7 +19,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppbar(title: "coachProfileScreen.title".tr),
+      appBar: CustomAppbar(title: "Coach Profile"),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
@@ -43,13 +43,13 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("maria_hernandez".tr,
+                    Text("Maria Hernandez",
                       style: TextStyle(
                         color: Color(0xFF1F2937),
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),),
-                    Text("career_coach".tr,
+                    Text("Certified Career Coach by ICF",
                       style: TextStyle(
                         color: Color(0xFF374151),
                         fontSize: 14,
@@ -73,7 +73,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                           onRatingUpdate: (rating) {},
                         ),
                         SizedBox(width: 4,),
-                        Text("coachProfileScreen.ratingValue".tr,
+                        Text("4.8 (120)",
                           style: TextStyle(
                             color: AppColors.bigTextColor,
                             fontSize: 10,
@@ -88,34 +88,34 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 20,),
             _buildRow(
               image: 'assets/icons/location.svg',
-              text: 'coachProfileScreen.location'.tr,
+              text: 'From New York, USA',
             ),
             SizedBox(height: 8,),
             _buildRow(
               image: 'assets/icons/global.svg',
-              text: 'coachProfileScreen.languages'.tr,
+              text: 'Languages: English, Spanish',
             ),
             SizedBox(height: 8,),
             _buildRow(
               image: 'assets/icons/computer.svg',
-              text: 'coachProfileScreen.coachingFormat'.tr,
+              text: 'Coaching Format: Virtual',
             ),
             SizedBox(height: 20,),
-            Text("coachProfileScreen.aboutCoach".tr,
+            Text("About Coach".tr,
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),),
             SizedBox(height: 8,),
-            Text("coachProfileScreen.aboutCoachDescription".tr,
+            Text("With over 10 years of experience, Coach Maria specializes in helping clients transition into new careers, refine their professional skills, and achieve their career goals",
               style: TextStyle(
                 color: Color(0xFF4B5563),
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),),
             SizedBox(height: 20,),
-            Text("coachProfileScreen.specialConsiderations".tr,
+            Text("Special Considerations",
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 20,
@@ -124,7 +124,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 8,),
             Row(
               children: [
-                Text("coachProfileScreen.neurodiversityAffirming".tr,
+                Text("Neurodiversity Affirming:",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -136,7 +136,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 8,),
             Row(
               children: [
-                Text("coachProfileScreen.lgbtqAffirming".tr,
+                Text("LGBTQIA+ Affirming:",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -148,7 +148,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 8,),
             Row(
               children: [
-                Text("coachProfileScreen.genderSensitive".tr,
+                Text("Gender Sensitive:",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -160,7 +160,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 8,),
             Row(
               children: [
-                Text("coachProfileScreen.traumaSensitive".tr,
+                Text("Trauma Sensitive:",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -172,7 +172,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 8,),
             Row(
               children: [
-                Text("coachProfileScreen.faithBasedApproach".tr,
+                Text("Faith-Based Approach:",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -182,7 +182,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
               ],
             ),
             SizedBox(height: 20,),
-            Text("coachProfileScreen.websiteAndSocial".tr,
+            Text("Website and Social Links",
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 20,
@@ -194,7 +194,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                   color: Color(0xFF4B5563),),
                 SizedBox(width: 8,),
-                Text("coachProfileScreen.websiteUrl".tr,
+                Text("www.website.com",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -208,7 +208,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                   color: Color(0xFF4B5563),),
                 SizedBox(width: 8,),
-                Text("coachProfileScreen.linkedinUrl".tr,
+                Text("www.linkedin.com/in/maria.hernandez",
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 14,
@@ -222,7 +222,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                 SvgPicture.asset('assets/icons/attach.svg',
                   color: Color(0xFF4B5563),),
                 SizedBox(width: 8,),
-                Text("coachProfileScreen.instagramUrl".tr,
+                Text("instagram.com/maria.hernandez".tr,
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -231,7 +231,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
               ],
             ),
             SizedBox(height: 20,),
-            Text("coachProfileScreen.availability".tr,
+            Text("Availability",
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 20,
@@ -251,7 +251,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("coachProfileScreen.dateExample".tr,
+                      Text("19 July, 2025",
                         style: TextStyle(
                           color: Color(0xFF1F2937),
                           fontSize: 16,
@@ -274,7 +274,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                               border: Border.all(color: Color(0xFF3368A1),
                                   width: 0.5)
                           ),
-                          child: Text("coachProfileScreen.timeSlot".tr,
+                          child: Text("9:00 AM-10:00 AMt",
                             style: TextStyle(
                               color: Color(0xFF3368A1),
                               fontSize: 14,
@@ -294,7 +294,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                               border: Border.all(color: Color(0xFF3368A1),
                                   width: 0.5)
                           ),
-                          child: Text("coachProfileScreen.timeSlot".tr,
+                          child: Text("11:00 AM-12:00 PM",
                             style: TextStyle(
                               color: Color(0xFF3368A1),
                               fontSize: 14,
@@ -311,13 +311,13 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             SizedBox(height: 20,),
             Row(
               children: [
-                Text('coachProfileScreen.pricing'.trArgs(['500']),
+                Text('Pricing: \$500 ',
                   style: TextStyle(
                     color: Color(0xFF1F2937),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),),
-                Text('coachProfileScreen.perSession'.tr,
+                Text('per session',
                   style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 16,
@@ -332,7 +332,7 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                   child: CustomButton(onTap: (){
                     Get.to(()=> BookingScreen());
                   },
-                      text: 'coachProfileScreen.bookSession'.tr),
+                      text: 'Book a Session'),
                 ),
                 SizedBox(width: 12,),
                 Container(
