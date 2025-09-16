@@ -71,6 +71,35 @@ final _fromKey = GlobalKey<FormState>();
                   color: AppColors.bigTextColor
               ),),
             SizedBox(height: 8,),
+
+            CustomTextField(
+              controller: passwordTextController,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SvgPicture.asset('assets/icons/lock.svg'),
+              ),
+              hintText: 'enterYourPassword'.tr,
+              filled: true,
+              isPassword: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Enter your password';
+                } else if (value.length < 4) {
+                  return 'Password must be at least 4 characters';
+                }
+                return null;
+              },
+            ),
+
+
+            SizedBox(height: 16,),
+            Text("confirmPassword".tr,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4B5563)
+              ),),
+            SizedBox(height: 8,),
             CustomTextField(
               controller: confirmPasswordTextController,
               prefixIcon: Padding(
@@ -89,33 +118,6 @@ final _fromKey = GlobalKey<FormState>();
                   return 'Passwords do not match';
                 }
                 return null;
-              },
-            ),
-
-            SizedBox(height: 16,),
-            Text("confirmPassword".tr,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF4B5563)
-              ),),
-            SizedBox(height: 8,),
-            CustomTextField(
-              controller: passwordTextController,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: SvgPicture.asset('assets/icons/lock.svg'),
-              ),
-              hintText: 'enterYourPassword'.tr,
-              filled: true,
-              isPassword: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter your password';
-                } else if (value.length < 4) {
-                  return 'Password must be at least 4 characters';
-                }
-                return null; // valid
               },
             ),
 
