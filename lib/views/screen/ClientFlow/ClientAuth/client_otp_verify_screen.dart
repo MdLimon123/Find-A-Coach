@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/client_auth_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
@@ -9,13 +10,19 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart'; // Import GetX
 
 class ClientOtpVerifyScreen extends StatefulWidget {
-  const ClientOtpVerifyScreen({super.key});
+
+  final String email;
+
+  const ClientOtpVerifyScreen({super.key, required this.email});
 
   @override
   State<ClientOtpVerifyScreen> createState() => _ClientOtpVerifyScreenState();
 }
 
 class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
+
+  final _clientAuthController = Get.put(ClientAuthController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,8 +65,8 @@ class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
             enabledBorderColor: Color(0xFF4B5563),
             showFieldAsBox: true,
             filled: true,
-            fieldWidth: 45,
-            fieldHeight: 45,
+            fieldWidth: 48,
+            fieldHeight: 48,
             borderRadius: BorderRadius.circular(100),
             textStyle: TextStyle(fontSize: 18, color: Color(0xFF4B5563),
                 fontWeight: FontWeight.w600),
@@ -68,13 +75,20 @@ class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
 
             },
             onSubmit: (String verificationCode) {
+
+              _clientAuthController.otp.value = verificationCode;
+
             },
           ),
           SizedBox(height: 24,),
-          CustomButton(onTap: (){
-            Get.to(()=> ClientResetPasswordScreen());
-          },
-              text: "verify".tr), // Changed
+          Obx(
+              ()=> CustomButton(
+              loading: _clientAuthController.isEmailForgetLoading.value,
+                onTap: (){
+                  _clientAuthController.emailForgetVerification(email: widget.email);
+            },
+                text: "verify".tr),
+          ), // Changed
           SizedBox(height: 8,),
           Center(
               child: RichText(
@@ -92,7 +106,7 @@ class _ClientOtpVerifyScreenState extends State<ClientOtpVerifyScreen> {
                               fontWeight: FontWeight.w700),
                           recognizer:  TapGestureRecognizer()
                             ..onTap = () {
-                              // Add your navigation or action for Sign Up here
+                              _clientAuthController.sendOTPForForget(email: widget.email);
                             },
                         ),
 

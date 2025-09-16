@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/client_auth_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
@@ -20,6 +21,8 @@ class _ClientForgetPasswordScreenState extends State<ClientForgetPasswordScreen>
 
   final emailTextController = TextEditingController();
 
+  final _clientAuthController = Get.put(ClientAuthController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +43,12 @@ class _ClientForgetPasswordScreenState extends State<ClientForgetPasswordScreen>
             CustomTextField(
               controller: emailTextController,
               isEmail: true,
+              validator: (value){
+                if(value!.isEmpty){
+                  return "enterYourEmail".tr;
+                }
+                return null;
+              },
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: SvgPicture.asset('assets/icons/email.svg'),
@@ -47,10 +56,16 @@ class _ClientForgetPasswordScreenState extends State<ClientForgetPasswordScreen>
               hintText: 'enterYourEmail'.tr, // Changed
               filled: true,),
             SizedBox(height: 24,),
-            CustomButton(onTap: (){
-              Get.to(()=> ClientOtpVerifyScreen());
-            },
-                text: "sendOTP".tr)
+            Obx(
+                ()=> CustomButton(
+                loading: _clientAuthController.isSendOTPLoading.value,
+                  onTap: (){
+
+                  _clientAuthController.sendOTPForForget(email: emailTextController.text);
+
+              },
+                  text: "sendOTP".tr),
+            )
           ],
         ),
       ),

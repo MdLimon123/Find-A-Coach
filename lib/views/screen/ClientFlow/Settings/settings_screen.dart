@@ -1,4 +1,6 @@
+import 'package:find_me_a_coach/helpers/prefs_helper.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/change_language_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/AllSubScreen/change_location_screen.dart';
@@ -192,7 +194,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () async {
-                        Get.to(()=> SelectRoleScreen());
+                        await PrefsHelper.remove(AppConstants.bearerToken);
+                        Get.offAll(() => SelectRoleScreen());
                       },
                       child: Container(
                         height: 50,

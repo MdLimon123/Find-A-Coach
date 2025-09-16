@@ -14,5 +14,7 @@ class ApiConstant{
   static String addUserProfile = "/api/v1/auth/profile/";
   static String addYourGoalEndPoint = "/api/v1/auth/goals/";
   static String setMilestonesEndPoint({required int id}) =>"/api/v1/auth/goals/$id/milestones/";
+  static String sendOTP = "/api/v1/auth/send-otp/";
+  static String resetPassword = "/api/v1/auth/reset-password/";
 
 }

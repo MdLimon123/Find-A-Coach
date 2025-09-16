@@ -1,5 +1,6 @@
 
 import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/save_your_goal_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_reset_password_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/client_booking_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_inbox_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/client_community_screen.dart';
@@ -38,6 +39,7 @@ class AppRoutes{
   static String coachInboxScreen = "/coach_inbox_screen";
   static String coachProfileScreen = "/coach_profile_screen";
   static String saveYourGoalScreen = "/save_your_goal_screen";
+  static String resetPasswordScreen = "/reset_password_screen";
 
 
 
@@ -58,6 +60,7 @@ class AppRoutes{
    GetPage(name: coachInboxScreen, page: ()=>const CoachInboxScreen(),transition: Transition.noTransition),
    GetPage(name: coachProfileScreen, page: ()=>const CoachProfileScreen(),transition: Transition.noTransition),
    GetPage(name: saveYourGoalScreen, page: ()=>const SaveYourGoalScreen(),transition: Transition.noTransition),
+   GetPage(name: resetPasswordScreen, page: ()=>const ClientResetPasswordScreen(),transition: Transition.noTransition),
 
   ];
 

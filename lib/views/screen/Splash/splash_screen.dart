@@ -1,5 +1,8 @@
+import 'package:find_me_a_coach/controllers/data_controller.dart';
+import 'package:find_me_a_coach/helpers/prefs_helper.dart';
 import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,14 +15,32 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  final _dataController = Get.put(DataController());
+
   @override
   void initState() {
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAndToNamed(AppRoutes.welcomeScreen);
-    });
+    _loadUserRoleAndNavigate();
 
     super.initState();
+  }
+
+  Future<void> _loadUserRoleAndNavigate() async {
+    await _dataController.getUserData();
+    print("user role=============> ${_dataController.role.value}");
+
+    var token = await PrefsHelper.getString(AppConstants.bearerToken);
+    if (token.isNotEmpty) {
+      if (_dataController.role.value == "user") {
+        Get.offAndToNamed(AppRoutes.clientHomeScreen);
+      } else if (_dataController.role.value == "coach") {
+        Get.offAndToNamed(AppRoutes.coachHomeScreen);
+      } else {
+        Get.offAndToNamed(AppRoutes.welcomeScreen);
+      }
+    } else {
+      Get.offAndToNamed(AppRoutes.welcomeScreen);
+    }
   }
 
   @override
