@@ -1,7 +1,12 @@
+import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/base/upcoming_session_card.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/AllSubScreen/client_featured_coach_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
@@ -18,20 +23,26 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
+
   final searchController = TextEditingController();
 
-  final List<Map<String, String>> items = [
-    {"image": "assets/images/container.png", "title": "business".tr},
-    {"image": "assets/images/career.png", "title": "career".tr},
-    {"image": "assets/images/familly.png", "title": "family".tr},
-    {"image": "assets/images/financial.png", "title": "financial".tr},
-    {"image": "assets/images/well.png", "title": "wellness".tr},
-    {"image": "assets/images/sun.png", "title": "wellness".tr},
-    {"image": "assets/images/brain.png", "title": "wellness".tr},
-  ];
+  final _clientHomeController = Get.put(ClientHomeController());
+
+
+
+  @override
+  void initState() {
+    _clientHomeController.fetchUpcomingSessions();
+    _clientHomeController.fetchCoachCategories();
+    _clientHomeController.fetchFeaturedCoach();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    final imageBaseUrl = ApiConstant.imageBaseUrl;
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -59,234 +70,173 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTextField(
-              controller: searchController,
-              hintText: "${"search".tr}...",
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset('assets/icons/search.svg'),
+        child: Obx(
+          () => _clientHomeController.isLoading.value?
+              Center(child: CustomPageLoading()): Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextField(
+                controller: searchController,
+                hintText: "${"search".tr}...",
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset('assets/icons/search.svg'),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "upcoming_sessions".tr,
-              style: AppStyles.h3(color: AppColors.bigTextColor),
-            ),
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.circular(12),
+              SizedBox(height: 20),
+              Text(
+                "upcoming_sessions".tr,
+                style: AppStyles.h3(color: AppColors.bigTextColor),
               ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/person.jpg'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Column(
+              SizedBox(height: 10),
+
+
+
+              Obx((){
+                if(_clientHomeController.upcomingSessions.isEmpty){
+                  return SizedBox();
+                }
+                final session = _clientHomeController.upcomingSessions.last;
+                return UpcomingSessionCard(session: session);
+              }),
+
+
+              SizedBox(height: 20),
+              Text(
+                "coaching_categories".tr,
+                style: AppStyles.h3(color: AppColors.bigTextColor),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                height: 90,
+                child: ListView.separated(
+                  itemCount: _clientHomeController.coachCategories.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final category = _clientHomeController.coachCategories[index];
+                    final imageUrl = category.coaches.isNotEmpty
+                        ? "$imageBaseUrl${category.coaches.first.image}"
+                        : "$imageBaseUrl/media/profile_images/default.jpg";
+                    return SizedBox(
+                      width: 80,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "maria_hernandez".tr,
-                            style: AppStyles.h3(color: AppColors.textColor),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFE6ECF3),
+                              ),
+                              child: CustomNetworkImage(
+                                  imageUrl: imageUrl,
+                                  height: 50,
+                                  boxShape: BoxShape.circle,
+                                  width: 50),
+                            ),
                           ),
+                          SizedBox(height: 4),
                           Text(
-                            "career_coach".tr,
-                            style: AppStyles.h5(
-                                color: AppColors.textColor,
-                                fontWeight: FontWeight.w400),
-                          )
+                            category.name,
+                            maxLines: 1,
+                            style: AppStyles.h4(color: Color(0xFF1F2937)),
+                            overflow: TextOverflow.fade,
+                          ),
                         ],
-                      )
-                    ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => SizedBox(width: 14),
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    "featured_coaches".tr,
+                    style: AppStyles.h3(color: AppColors.bigTextColor),
                   ),
-                  SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF002F62),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.calendar_today,
-                                color: Colors.white, size: 18),
-                            SizedBox(width: 6),
-                            Text(
-                              "monday_june_15".tr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: SizedBox(
-                            height: 24,
-                            child: VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.access_time,
-                                color: Colors.white, size: 18),
-                            SizedBox(width: 6),
-                            Text(
-                              "10_00_am".tr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 12),
-                          child:
-                          Icon(Icons.computer, color: Colors.white, size: 18),
-                        ),
-                      ],
-                    ),
-                  )
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => ClientFeaturedCoachScreen());
+                    },
+                    child: SvgPicture.asset('assets/icons/arrow_right.svg'),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "coaching_categories".tr,
-              style: AppStyles.h3(color: AppColors.bigTextColor),
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              height: 90,
-              child: ListView.separated(
-                itemCount: items.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFE6ECF3),
-                          ),
-                          child: Image.asset(items[index]['image']!),
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        items[index]['title']!,
-                        style: AppStyles.h4(color: Color(0xFF1F2937)),
-                      ),
-                    ],
-                  );
-                },
-                separatorBuilder: (_, __) => SizedBox(width: 14),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "featured_coaches".tr,
-                  style: AppStyles.h3(color: AppColors.bigTextColor),
-                ),
-                Spacer(),
-                InkWell(
-                  onTap: () {
-                    Get.to(() => ClientFeaturedCoachScreen());
-                  },
-                  child: SvgPicture.asset('assets/icons/arrow_right.svg'),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            _featuredCoachItem(
-              nameKey: "eleanor_pena".tr,
-              titleKey: "mindset_coach".tr,
-              priceKey: "from_50".tr,
-            ),
-            SizedBox(height: 8),
-            _featuredCoachItem(
-              nameKey: "eleanor_pena".tr,
-              titleKey: "mindset_coach".tr,
-              priceKey: "from_50".tr,
-            ),
-          ],
+              SizedBox(height: 10),
+
+              _featuredCoachItem()
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const ClientBottomMenu(0),
     );
   }
 
-  Widget _featuredCoachItem(
-      {required String nameKey,
-        required String titleKey,
-        required String priceKey}) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          color: AppColors.textColor, borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          Container(
-            height: 70,
-            width: 70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                    image: AssetImage('assets/images/person.jpg'),
-                    fit: BoxFit.cover)),
+  Widget _featuredCoachItem() {
+    final totalItems = _clientHomeController.clientFeatureCoach.length;
+    final displayCount = totalItems >= 2 ? 2 : totalItems;
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final coach = _clientHomeController.clientFeatureCoach[index];
+
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.textColor,
+            borderRadius: BorderRadius.circular(12),
           ),
-          SizedBox(width: 12),
-          Row(
+          child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(nameKey, style: AppStyles.h3(color: AppColors.bigTextColor)),
-                  SizedBox(height: 4),
-                  Text(titleKey, style: AppStyles.h5(color: Color(0xFF6B7280))),
-                  SizedBox(height: 4),
-                  Text(priceKey, style: AppStyles.h3(color: AppColors.bigTextColor)),
-                ],
+              // Coach image
+              CustomNetworkImage(
+                imageUrl: "${ApiConstant.imageBaseUrl}${coach.image}",
+                height: 70,
+                width: 70,
+                boxShape: BoxShape.circle,
               ),
-              SizedBox(width: 60),
+
+              SizedBox(width: 12),
+
+              // Name, area, price
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      coach.fullName,
+                      style: AppStyles.h3(color: AppColors.bigTextColor),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      coach.coachingAreaNames.isNotEmpty
+                          ? coach.coachingAreaNames.first
+                          : 'N/A',
+                      style: AppStyles.h5(color: Color(0xFF6B7280)),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      coach.pricePerSession != null
+                          ? "\$${coach.pricePerSession!.toStringAsFixed(2)}"
+                          : 'N/A',
+                      style: AppStyles.h3(color: AppColors.bigTextColor),
+                    ),
+                  ],
+                ),
+              ),
+
+
               Container(
                 height: 40,
                 width: 40,
@@ -300,11 +250,14 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                 ),
               ),
             ],
-          )
-        ],
-      ),
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => SizedBox(height: 8),
+      itemCount: displayCount,
     );
   }
+
 
   _customContainer({required String image, required Function()? onTap}) {
     return InkWell(
