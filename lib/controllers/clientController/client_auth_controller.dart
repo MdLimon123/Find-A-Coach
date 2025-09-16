@@ -6,7 +6,6 @@ import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:find_me_a_coach/views/base/custom_snackbar.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/add_client_personal_info_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_otp_verify_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_verify_email.dart';
 import 'package:get/get.dart';
 
@@ -15,14 +14,14 @@ class ClientAuthController extends GetxController{
 
   var isLoading = false.obs;
   var otp = "".obs;
-
   var isOtpLoading = false.obs;
+
+  var isLoginLoading = false.obs;
 
 
   /// sign-up for client
 
-  Future<void> signUp({required String email, required String password,
-  required String confirmPassword}) async {
+  Future<void> signUp({required String email, required String password, required String confirmPassword}) async {
 
     isLoading(true);
 
@@ -50,8 +49,8 @@ class ClientAuthController extends GetxController{
 
   }
 
-  /// email otp verification
 
+  /// email otp verification
   Future<void> emailVerification({required String email}) async {
 
     isOtpLoading(true);

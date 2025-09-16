@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/image_utils.dart';
@@ -13,6 +14,7 @@ class SetupClientProfileController extends GetxController{
 
   var isLoading = false.obs;
   var isSetGoals = false.obs;
+  var isAddMilestone = false.obs;
 
   Rx<File?> clientProfileImage = Rx<File?>(null);
   final setNumberController = TextEditingController();
@@ -110,7 +112,7 @@ class SetupClientProfileController extends GetxController{
   }
 
   /// set goals
-  Future<void> setGoals({required String goal})async{
+  Future<void> setGoals({required String goal,})async{
 
     isSetGoals(true);
 
@@ -122,8 +124,11 @@ class SetupClientProfileController extends GetxController{
 
     if(response.statusCode == 201 || response.statusCode == 200){
 
+      final int goalId = response.body['goal']['id'];
+
       showCustomSnackBar(response.body['message'], isError: false);
-      Get.to(()=> AddMilestoneScreen(totalMilestones: int.parse(setNumberController.text)));
+      Get.to(()=> AddMilestoneScreen(totalMilestones: int.parse(setNumberController.text)
+      , goalId: goalId));
 
     }else{
       showCustomSnackBar(response.body['message'], isError: true);
@@ -134,4 +139,41 @@ class SetupClientProfileController extends GetxController{
   }
 
 
-}
+  /// set milestone api
+  Future<void> addMilestones(List<String> milestones, int goalId) async {
+    isAddMilestone(true);
+
+
+    final body = List.generate(
+      milestones.length,
+          (index) => {
+        "description": milestones[index],
+        "order": index + 1,
+      },
+    );
+
+    try {
+      final response = await ApiClient.postData(
+        ApiConstant.setMilestonesEndPoint(id: goalId),
+        jsonEncode(body),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        showCustomSnackBar(response.body['message'] ?? 'Success',
+            isError: false);
+        Get.offAllNamed(AppRoutes.clientHomeScreen);
+      } else {
+        showCustomSnackBar(response.body['message'] ?? 'Failed',
+            isError: true);
+      }
+    } catch (e) {
+      showCustomSnackBar("Error: $e", isError: true);
+    } finally {
+      isAddMilestone(false);
+    }
+  }
+
+ }
+
+
+
