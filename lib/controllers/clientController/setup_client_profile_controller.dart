@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:find_me_a_coach/helpers/prefs_helper.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
-import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:find_me_a_coach/utils/image_utils.dart';
 import 'package:find_me_a_coach/views/base/custom_snackbar.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/add_milestone_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/save_your_goal_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SetupClientProfileController extends GetxController{
 
   var isLoading = false.obs;
+  var isSetGoals = false.obs;
 
   Rx<File?> clientProfileImage = Rx<File?>(null);
+  final setNumberController = TextEditingController();
 
 
   Future<void> pickClientProfileImage({bool fromCamera = false})async{
@@ -92,8 +93,7 @@ class SetupClientProfileController extends GetxController{
       "anything_else": anythingElse,
       "private_fields": jsonEncode(privateFields),
     };
-    
-   // final response = await ApiClient.patchData(ApiConstant.addUserProfile, jsonEncode(body));
+
     final response = await ApiClient.patchMultipartData(ApiConstant.addUserProfile,
         body,
         multipartBody: multipartBody);
@@ -108,5 +108,30 @@ class SetupClientProfileController extends GetxController{
     isLoading(false);
 
   }
+
+  /// set goals
+  Future<void> setGoals({required String goal})async{
+
+    isSetGoals(true);
+
+    final body = {
+      "title": goal
+    };
+
+    final response = await ApiClient.postData(ApiConstant.addYourGoalEndPoint, jsonEncode(body));
+
+    if(response.statusCode == 201 || response.statusCode == 200){
+
+      showCustomSnackBar(response.body['message'], isError: false);
+      Get.to(()=> AddMilestoneScreen(totalMilestones: int.parse(setNumberController.text)));
+
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+
+    }
+    isSetGoals(false);
+
+  }
+
 
 }

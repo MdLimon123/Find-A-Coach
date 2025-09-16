@@ -1,4 +1,5 @@
 
+import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/save_your_goal_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/client_booking_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_inbox_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/client_community_screen.dart';
@@ -36,6 +37,7 @@ class AppRoutes{
   static String coachCommunityScreen = "/coach_community_screen";
   static String coachInboxScreen = "/coach_inbox_screen";
   static String coachProfileScreen = "/coach_profile_screen";
+  static String saveYourGoalScreen = "/save_your_goal_screen";
 
 
 
@@ -55,6 +57,7 @@ class AppRoutes{
    GetPage(name: coachCommunityScreen, page: ()=>const CoachCommunityScreen(),transition: Transition.noTransition),
    GetPage(name: coachInboxScreen, page: ()=>const CoachInboxScreen(),transition: Transition.noTransition),
    GetPage(name: coachProfileScreen, page: ()=>const CoachProfileScreen(),transition: Transition.noTransition),
+   GetPage(name: saveYourGoalScreen, page: ()=>const SaveYourGoalScreen(),transition: Transition.noTransition),
 
   ];
 

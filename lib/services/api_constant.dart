@@ -11,6 +11,7 @@ class ApiConstant{
   static String clientSignUp = "/api/v1/auth/signup/";
   static String emailOtpVerification = "/api/v1/auth/verify-email/";
   static String addUserProfile = "/api/v1/auth/profile/";
+  static String addYourGoalEndPoint = "/api/v1/auth/goals/";
 
 
 }
