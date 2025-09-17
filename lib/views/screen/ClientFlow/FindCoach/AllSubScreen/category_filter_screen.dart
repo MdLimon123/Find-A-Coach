@@ -1,4 +1,5 @@
 import 'package:find_me_a_coach/controllers/clientController/filter_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
@@ -15,14 +16,14 @@ class CategoryFilterScreen extends StatefulWidget {
 
 class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
 
-  final FilterController _filterController = Get.put(FilterController());
+  final  _findCoachController = Get.put(FindCoachController());
 
-  // Price Range Slider
+
   RangeValues _currentRangeValues = const RangeValues(100, 300);
   final double _min = 50;
   final double _max = 500;
 
-  // Checkbox values - using keys for localization
+
   final Map<String, bool> _checkboxValues = {
     'lgbtqFriendly': false,
     'experienceWithNeurodiversity': false,
@@ -48,31 +49,32 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
                 fontWeight: FontWeight.w500,
               ),
             ),
+                SizedBox(height: 12,),
+                Obx(() {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: _buildContainer(
+                          text: "virtualCoaching".tr,
+                          isSelected: _findCoachController.selected.value == 1,
+                          onTap: () => _findCoachController.select(1),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildContainer(
+                          text: "inPersonCoaching".tr,
+                          isSelected: _findCoachController.selected.value == 2,
+                          onTap: () => _findCoachController.select(2),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+
+
             SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(child: _buildContainer(text: "virtualCoaching".tr)), // Changed
-                SizedBox(width: 12),
-                Expanded(child: _buildContainer(text: "inPersonCoaching".tr)), // Changed
-              ],
-            ),
-            SizedBox(height: 24),
-            Text(
-              "coachingType".tr, // Changed
-              style: TextStyle(
-                color: Color(0xFF4B5563),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 12), // Adjusted from 24 to 12 for consistency
-            Row(
-              children: [
-                Expanded(child: _buildContainer(text: "individualCoaching".tr)), // Changed
-                SizedBox(width: 12),
-                Expanded(child: _buildContainer(text: "groupCoaching".tr)), // Changed
-              ],
-            ),
+
             SizedBox(height: 24),
             Text(
               "preferredLanguage".tr, // Changed
@@ -99,9 +101,9 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
                   children: [
                     Obx(() {
                       return Text(
-                        _filterController.selectedLanguages.isEmpty
+                        _findCoachController.selectedLanguages.isEmpty
                             ? "selectLanguages".tr // Changed
-                            : _filterController.selectedLanguages
+                            : _findCoachController.selectedLanguages
                             .map((langKey) => langKey.tr) // Translate each selected key
                             .join(", "),
                         style: TextStyle(
@@ -126,11 +128,33 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
               ),
             ),
             SizedBox(height: 12),
-            _buildContainerTime(text: "morning9to12".tr), // Changed
-            SizedBox(height: 12),
-            _buildContainerTime(text: "afternoon12to4".tr), // Changed
-            SizedBox(height: 12),
-            _buildContainerTime(text: "evening4to8".tr), // Changed
+
+            Obx(() {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildContainerTime(
+                    text: "morning9to12".tr,
+                    isSelected: _findCoachController.selectedSlot.value == 1,
+                    onTap: () => _findCoachController.selectTime(1),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildContainerTime(
+                    text: "afternoon12to4".tr,
+                    isSelected: _findCoachController.selectedSlot.value == 2,
+                    onTap: () => _findCoachController.selectTime(2),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildContainerTime(
+                    text: "evening4to8".tr,
+                    isSelected: _findCoachController.selectedSlot.value == 3,
+                    onTap: () => _findCoachController.selectTime(3),
+                  ),
+                ],
+              );
+            }),
+
+            // Changed
             SizedBox(height: 24),
             Text(
               "pricing".tr, // Changed
@@ -178,7 +202,7 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
                 },
               ),
             ),
-            _buildPriceLabels(), // Price labels are static dollar amounts, typically not translated
+            _buildPriceLabels(),
             SizedBox(height: 24),
             Text(
               "specialConsiderations".tr, // Changed
@@ -207,27 +231,77 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
               }).toList(),
             ),
             SizedBox(height: 24),
-            CustomButton(onTap: () {}, text: "applyFilters".tr) // Changed
+            Obx(
+                ()=> CustomButton(
+                loading: _findCoachController.isLoading.value,
+                  onTap: () async{
+                await _findCoachController.fetchAllCoachFilter(
+                    minPrice: _currentRangeValues.start,
+                    maxPrice: _currentRangeValues.end,
+                    checkboxValues: _checkboxValues);
+                Get.back();
+
+              }, text: "applyFilters".tr),
+            ) // Changed
           ],
         ),
       ),
     );
   }
 
-  // Helper method for selectable containers (Coaching Method, Coaching Type)
-  _buildContainer({required String text}) { // Expects already translated text
-    return Container(
-      width: double.infinity,
-      height: 36,
-      decoration: BoxDecoration(
-          color: Color(0xFFE6ECF3),
+
+  Widget _buildContainer({
+    required String text,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 36,
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF3368A1) : const Color(0xFFE6ECF3),
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Color(0xFF3368A1), width: 0.5)),
-      child: Center(
+          border: Border.all(
+            color: const Color(0xFF3368A1),
+            width: 0.5,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF00428A),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildContainerTime({
+    required String text,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF3368A1) : const Color(0xFFE6ECF3),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: const Color(0xFF3368A1), width: 0.5),
+        ),
         child: Text(
           text,
           style: TextStyle(
-            color: Color(0xFF00428A),
+            color: isSelected ? Colors.white : const Color(0xFF00428A),
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -236,29 +310,9 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
     );
   }
 
-  // Helper method for time availability containers
-  _buildContainerTime({required String text}) { // Expects already translated text
-    return Container(
-      height: 36,
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-          color: Color(0xFFE6ECF3),
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Color(0xFF3368A1), width: 0.5)),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Color(0xFF00428A),
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
 
   _buildPriceLabels() {
-    // These are specific price points, usually not translated unless the currency symbol needs to change
-    // or if "50" should be "Fifty" based on locale, which is less common for such labels.
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
@@ -279,16 +333,15 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        // Use StatefulBuilder if the content of the sheet needs to manage its own state
-        // independently of the main screen's setState.
+
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter modalSetState) {
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: ListView(
-                children: _filterController.languages.map((languageKey) { // Assuming languages are keys
+                children: _findCoachController.languages.map((languageKey) { // Assuming languages are keys
                   return Obx(() { // If selectedLanguages is an RxList
-                    final isSelected = _filterController.selectedLanguages.contains(languageKey);
+                    final isSelected = _findCoachController.selectedLanguages.contains(languageKey);
                     return CheckboxListTile(
                       title: Text(
                         languageKey.tr, // Translate the language key for display
@@ -301,7 +354,7 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
                       value: isSelected,
                       onChanged: (bool? value) {
                         // No need for modalSetState here if FilterController handles Obx updates
-                        _filterController.toggleLanguage(languageKey, value ?? false);
+                        _findCoachController.toggleLanguage(languageKey, value ?? false);
                       },
                       activeColor: AppColors.primaryColor,
                     );
@@ -316,7 +369,7 @@ class _CategoryFilterScreenState extends State<CategoryFilterScreen> {
   }
 }
 
-// Private helper widget for price labels
+
 class _PriceLabelText extends StatelessWidget {
   const _PriceLabelText({required this.label});
   final String label;
@@ -324,7 +377,7 @@ class _PriceLabelText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      label, // Labels like "$50" are typically not translated.
+      label,
       style: TextStyle(
         color: Colors.grey[600],
         fontWeight: FontWeight.w500,
@@ -335,7 +388,7 @@ class _PriceLabelText extends StatelessWidget {
 }
 
 
-// Custom Range Slider Value Indicator Shape (No text to translate directly within this shape's logic)
+
 class _CustomRangeSliderValueIndicatorShape
     extends RangeSliderValueIndicatorShape {
   const _CustomRangeSliderValueIndicatorShape();
