@@ -1,5 +1,9 @@
+import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/FindCoach/AllSubScreen/categories_screen.dart';
@@ -9,7 +13,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notificatio
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart'; // Import GetX
+import 'package:get/get.dart';
 
 class FindCoachScreen extends StatefulWidget {
   const FindCoachScreen({super.key});
@@ -20,6 +24,14 @@ class FindCoachScreen extends StatefulWidget {
 
 class _FindCoachScreenState extends State<FindCoachScreen> {
   final searchController = TextEditingController();
+
+  final _findCoachController = Get.put(FindCoachController());
+  @override
+  void initState() {
+    _findCoachController.fetchAllCategory();
+    _findCoachController.fetchAllCoach();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +67,9 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
           ],
         ),
       ),
-      body: Padding(
+      body: Obx(()=> _findCoachController.isLoading.value?
+      Center(child: CustomPageLoading()):
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
@@ -125,32 +139,20 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                     ),
                   ),
                   SizedBox(width: 8),
-                  _customCategories(
-                      textKey: 'findCoachScreen.categoryBusinessEntrepreneurship'),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryCareer"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryFamilyParent"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryFinancial"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryHealthWellness"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryLife"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryLifeTransitions"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryNeurodiversity"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryPerformance"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categorySuccess"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categorySustainability"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryTransformational"),
-                  SizedBox(width: 8),
-                  _customCategories(textKey: "findCoachScreen.categoryYouthEducation"),
+                  SizedBox(
+                    height: 34,
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index){
+                          final category = _findCoachController.categoryList[index];
+                          return  _customCategories(
+                              textKey: category.name);
+                        },
+                        separatorBuilder: (context, index) => SizedBox(width: 8),
+                        itemCount: _findCoachController.categoryList.length),
+                  ),
+
                 ],
               ),
             ),
@@ -158,8 +160,9 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
             Expanded(
               child: ListView.separated(
                 physics: AlwaysScrollableScrollPhysics(),
-                itemCount: 10,
+                itemCount: _findCoachController.coachList.length,
                 itemBuilder: (context, index) {
+                  final coach = _findCoachController.coachList[index];
                   return InkWell(
                     onTap: () {
                       Get.to(() => ClientCoachProfileScreen());
@@ -175,22 +178,18 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                height: 42,
-                                width: 42,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                        image:
-                                        AssetImage('assets/images/person.jpg'),
-                                        fit: BoxFit.cover)),
-                              ),
+
+                              CustomNetworkImage(
+                                  imageUrl: "${ApiConstant.imageBaseUrl}${coach.image}",
+                                  height: 42,
+                                  borderRadius: BorderRadius.circular(8),
+                                  width: 42),
                               SizedBox(width: 12),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "findCoachScreen.coachList.exampleName".tr,
+                                    "${coach.fullName}",
                                     style: TextStyle(
                                       color: Color(0xFF4B5563),
                                       fontSize: 16,
@@ -198,7 +197,8 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "findCoachScreen.coachList.exampleTitle".tr,
+                                    coach.coachingAreaNames.isNotEmpty?
+                                    coach.coachingAreaNames.first:"N/A",
                                     style: TextStyle(
                                       color: Color(0xFF6B7280),
                                       fontSize: 12,
@@ -211,7 +211,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            "findCoachScreen.coachList.exampleBio".tr,
+                            "${coach.bio}",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -222,11 +222,16 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                             children: [
                               SvgPicture.asset('assets/icons/global.svg'),
                               SizedBox(width: 8),
-                              _languageTag("findCoachScreen.coachList.languageEnglish".tr),
-                              SizedBox(width: 8),
-                              _languageTag("findCoachScreen.coachList.languageSpanish".tr),
+                              if (coach.languagesSpoken != null && coach.languagesSpoken!.isNotEmpty)
+                                ...coach.languagesSpoken!.map((lang) => Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: _languageTag(lang),
+                                ))
+                              else
+                                _languageTag("N/A"),
                             ],
                           )
+
                         ],
                       ),
                     ),
@@ -237,7 +242,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
             )
           ],
         ),
-      ),
+      )),
       bottomNavigationBar: ClientBottomMenu(1),
     );
   }

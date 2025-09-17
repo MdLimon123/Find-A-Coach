@@ -21,5 +21,7 @@ class ApiConstant{
    static String upcomingSessionsHome = "/api/v1/auth/bookings/user/upcomming_session/";
    static String coachCategoryHome = "/api/v1/auth/coaches/by-category/";
    static String featuredCoach = "/api/v1/auth/coach/";
+   static String getAllCoachEndPoint = "/api/v1/auth/coach/";
+   static String getAllCategoryEndPoint = "/api/v1/auth/coach-categories/";
 
 }
