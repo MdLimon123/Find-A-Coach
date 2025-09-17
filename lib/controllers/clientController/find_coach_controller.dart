@@ -101,7 +101,6 @@ class FindCoachController extends GetxController {
     if (response.statusCode == 200) {
       final data = response.body['data'] as List;
 
-      // ✅ ফিল্টার করার আগে লিস্ট ক্লিয়ার করুন
       coachList.clear();
 
       coachList.assignAll(data.map((e) => FindAllCoach.fromJson(e)).toList());
@@ -111,4 +110,21 @@ class FindCoachController extends GetxController {
 
     isLoading(false);
   }
+
+  Future<void> fetchSingleCategory({required int id}) async {
+
+    isLoading(true);
+
+    final response = await ApiClient.getData(ApiConstant.singleCategoryEndPoint(id: id));
+    if(response.statusCode == 200){
+      final data = response.body['data']['coaches'] as List;
+      coachList.clear();
+      coachList.assignAll(data.map((e) => FindAllCoach.fromJson(e)).toList());
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isLoading(false);
+
+  }
+
 }

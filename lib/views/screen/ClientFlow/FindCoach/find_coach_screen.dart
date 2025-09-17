@@ -146,8 +146,13 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index){
                           final category = _findCoachController.categoryList[index];
-                          return  _customCategories(
-                              textKey: category.name);
+                          return  InkWell(
+                            onTap: (){
+                              _findCoachController.fetchSingleCategory(id: category.id);
+                            },
+                            child: _customCategories(
+                                textKey: category.name),
+                          );
                         },
                         separatorBuilder: (context, index) => SizedBox(width: 8),
                         itemCount: _findCoachController.categoryList.length),

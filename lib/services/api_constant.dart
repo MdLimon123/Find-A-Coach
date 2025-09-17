@@ -24,5 +24,6 @@ class ApiConstant{
    static String getAllCoachEndPoint = "/api/v1/auth/coach/";
    static String getAllCategoryEndPoint = "/api/v1/auth/coach-categories/";
    static String getAllCoachFilterEndPoint = "/api/v1/auth/coaches/filter/";
+   static String singleCategoryEndPoint({required int id}) => "/api/v1/auth/coaches/by-category/$id/";
 
 }
