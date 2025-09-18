@@ -1,4 +1,9 @@
+import 'package:find_me_a_coach/controllers/clientController/client_booking_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
+import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,11 +17,30 @@ class PastScreen extends StatefulWidget {
 }
 
 class _PastScreenState extends State<PastScreen> {
+
+  final _clientBookingController = Get.put(ClientBookingController());
+
+  @override
+  void initState() {
+    _clientBookingController.fetchPastSessions();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return Obx(()=> _clientBookingController.pastSessionLoading.value?
+    Center(child: CustomPageLoading()):
+    ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         itemBuilder: (context, index){
+          final pastList = _clientBookingController.passSessionList[index];
+          final booking = pastList;
+          final parts = formatSessionParts(
+              booking.sessionDate,
+              booking.sessionTime
+          );
+          final dateText = parts['dateText']; // "Today" or "Monday, June 15"
+          final timeText = parts['timeText'];
 
           return Container(
             width: double.infinity,
@@ -33,28 +57,26 @@ class _PastScreenState extends State<PastScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                              fit: BoxFit.cover)
-                      ),
-                    ),
+
+                    CustomNetworkImage(
+                        imageUrl: "${ApiConstant.imageBaseUrl}${pastList.coachImage}",
+                        height: 50,
+                        boxShape: BoxShape.circle,
+                        width: 50),
+
                     SizedBox(width: 4,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("pastScreen.coachNameExample".tr, // Changed
+                        Text(pastList.coachName, // Changed
                           style: TextStyle(
                               color: Color(0xFF1F2937),
                               fontSize: 16,
                               fontWeight: FontWeight.w500
                           ),),
                         SizedBox(height: 4,),
-                        Text("pastScreen.coachTitleExample".tr, // Changed
+                        Text(pastList.coachingAreaName, // Changed
                           style: TextStyle(
                               color: AppColors.bigTextColor,
                               fontSize: 14,
@@ -79,7 +101,7 @@ class _PastScreenState extends State<PastScreen> {
                           SvgPicture.asset('assets/icons/calender.svg'),
                           SizedBox(width: 6),
                           Text(
-                            "pastScreen.today".tr, // Changed
+                            dateText!, // Changed
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -103,7 +125,7 @@ class _PastScreenState extends State<PastScreen> {
                           Icon(Icons.access_time, size: 16, color: AppColors.primaryColor),
                           SizedBox(width: 6),
                           Text(
-                            "pastScreen.now".tr, // Changed
+                            timeText!, // Changed
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -133,7 +155,7 @@ class _PastScreenState extends State<PastScreen> {
                   ),
                 ),
                 SizedBox(height: 16,),
-                InkWell(
+                pastList.status == "confirmed"? InkWell(
                   onTap: (){
                     showDialog(context: context,
                         builder:(context)=> AlertDialog(
@@ -236,12 +258,13 @@ class _PastScreenState extends State<PastScreen> {
                               color: AppColors.textColor), // Check contrast
                         ),
                       )),
-                )
+                ):
+                SizedBox()
               ],
             ),
           );
         },
         separatorBuilder: (__, _)=> SizedBox(height: 12,),
-        itemCount: 5); // This suggests the above is placeholder data
+        itemCount: _clientBookingController.passSessionList.length));
   }
 }
