@@ -1,4 +1,9 @@
+import 'package:find_me_a_coach/controllers/clientController/client_booking_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
+import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/AllTabsScreen/booking_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,11 +17,31 @@ class UpcomingScreen extends StatefulWidget {
 }
 
 class _UpcomingScreenState extends State<UpcomingScreen> {
+  
+  final _clientBookingController = Get.put(ClientBookingController());
+  
+  @override
+  void initState() {
+    _clientBookingController.fetchUpcomingSessions();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return Obx(()=> _clientBookingController.upcomingLoading.value?
+    Center(child: CustomPageLoading())
+        :ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, index){
+          final upcomingList = _clientBookingController.upcomingList[index];
+          final booking = upcomingList;
+          final parts = formatSessionParts(
+              booking.sessionDate.toIso8601String().split('T').first,
+              booking.sessionTime
+          );
+          final dateText = parts['dateText']; // "Today" or "Monday, June 15"
+          final timeText = parts['timeText'];
+
           return InkWell(
             onTap: (){
               Get.to(()=> BookingDetailsScreen());
@@ -36,22 +61,20 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                fit: BoxFit.cover)
-                        ),
-                      ),
+
+                      CustomNetworkImage(
+                          imageUrl: "${ApiConstant.imageBaseUrl}${upcomingList.coachImage}",
+                          boxShape: BoxShape.circle,
+                          height: 50,
+                          width: 50),
+
                       SizedBox(width: 4,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "upcomingScreen.coachNameExample".tr, // Changed
+                            upcomingList.coachName, // Changed
                             style: TextStyle(
                                 color: Color(0xFF1F2937),
                                 fontSize: 16,
@@ -59,7 +82,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                             ),),
                           SizedBox(height: 4,),
                           Text(
-                            "upcomingScreen.coachTitleExample".tr, // Changed
+                            upcomingList.coachingAreaName, // Changed
                             style: TextStyle(
                                 color: AppColors.bigTextColor,
                                 fontSize: 14,
@@ -78,13 +101,13 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                     ),
                     child: Row(
                       children: [
-                        // Calendar + Date
+
                         Row(
                           children: [
                             SvgPicture.asset('assets/icons/calender.svg'),
                             SizedBox(width: 6),
                             Text(
-                              "upcomingScreen.today".tr, // Changed
+                              dateText!, // Changed
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -103,19 +126,21 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                         ),
                         SizedBox(width: 30,),
                         // Clock + Time
-                        Row(
-                          children: [
-                            Icon(Icons.access_time, size: 16, color: AppColors.primaryColor),
-                            SizedBox(width: 6),
-                            Text(
-                              "upcomingScreen.now".tr, // Changed
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF4B5563),
+                        Center(
+                          child: Row(
+                            children: [
+                              Icon(Icons.access_time, size: 16, color: AppColors.primaryColor),
+                              SizedBox(width: 6),
+                              Text(
+                                timeText!, // Changed
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF4B5563),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
 
                         Spacer(),
@@ -139,6 +164,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                   ),
                   SizedBox(height: 16,),
 
+                  upcomingList.status == "confirmed"?
                   InkWell(
                     onTap: (){
                       /// when click this join now button then redirection will be open zoom link or google meets link or etc others site
@@ -163,14 +189,15 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                                   color: AppColors.textColor),)
                           ],
                         )),
-                  )
+                  ):
+                  SizedBox()
                 ],
               ),
             ),
           );
         },
         separatorBuilder: (__, _)=> SizedBox(height: 12,),
-        itemCount: 5);
+        itemCount: _clientBookingController.upcomingList.length));
   }
 }
 

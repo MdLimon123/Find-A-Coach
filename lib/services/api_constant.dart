@@ -28,5 +28,10 @@ class ApiConstant{
    static String singleCoachProfile({required int id}) => "/api/v1/auth/user/$id/";
    static String addBookingEndPoint = "/api/v1/auth/bookings/create/";
    static String getAllCommunityEndPoint = "/api/v1/community/posts/";
+   static String getCommentEndPoint({required int id}) => "/api/v1/community/posts/$id/comments/";
+   static String addCommentEndPoint({required int id}) => "/api/v1/community/posts/$id/comments/";
+   static String upcomingSessionEndPoint = "/api/v1/auth/bookings/user/upcomming_session/";
+
+
 
 }

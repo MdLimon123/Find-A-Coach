@@ -271,6 +271,14 @@ class CommentBottomSheet extends StatefulWidget {
 class _CommentBottomSheetState extends State<CommentBottomSheet> {
   final commentController = TextEditingController();
 
+  final _clientCommunityController = Get.put(ClientCommunityController());
+
+  @override
+  void initState() {
+    _clientCommunityController.fetchCommentData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -301,48 +309,67 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                 ),
               ),
               SizedBox(height: 16),
-              Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                  controller: scrollController,
-                  itemBuilder: (context, index) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 18,
-                          backgroundImage: AssetImage('assets/images/person.jpg'),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "henry_arthur".tr,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF1F2937),
-                                    fontSize: 14),
+              Obx((){
+                if(_clientCommunityController.isCommandLoading.value){
+                  return Center(child: CustomPageLoading(),);
+                }else if(_clientCommunityController.commentList.isEmpty){
+                  return Center(child: Text("No Comments Yet",style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF1F2937),
+                    fontWeight: FontWeight.w600,
+                  ),),);
+
+                }
+                return Expanded(
+                    child: ListView.separated(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      controller: scrollController,
+                      itemBuilder: (context, index) {
+                        final comment = _clientCommunityController.commentList[index];
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            CustomNetworkImage(
+                                imageUrl: "${ApiConstant.imageBaseUrl}${comment.image}",
+                                boxShape: BoxShape.circle,
+                                height: 32,
+                                width: 32),
+
+
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    comment.userName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF1F2937),
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    comment.content,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF4B5563)),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 8),
-                              Text(
-                                "comment_sample".tr,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xFF4B5563)),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                  separatorBuilder: (_, __) => SizedBox(height: 12),
-                  itemCount: 10,
-                ),
+                            )
+                          ],
+                        );
+                      },
+                      separatorBuilder: (_, __) => SizedBox(height: 12),
+                      itemCount: _clientCommunityController.commentList.length,
+                    ));
+              }
               ),
+
               SafeArea(
                 child: Container(
                   width: double.infinity,
@@ -357,15 +384,21 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFE6ECF3),
-                            border: Border.all(color: Color(0xFFB0C4DB), width: 2)),
-                        child: Center(
-                          child: SvgPicture.asset('assets/icons/send.svg'),
+                      InkWell(
+                        onTap: (){
+                          _clientCommunityController.submitComment(commentController.text);
+                          commentController.clear();
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFE6ECF3),
+                              border: Border.all(color: Color(0xFFB0C4DB), width: 2)),
+                          child: Center(
+                            child: SvgPicture.asset('assets/icons/send.svg'),
+                          ),
                         ),
                       )
                     ],
@@ -379,3 +412,5 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
     );
   }
 }
+
+
