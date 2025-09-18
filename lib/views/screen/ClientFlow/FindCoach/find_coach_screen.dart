@@ -170,7 +170,9 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                   final coach = _findCoachController.coachList[index];
                   return InkWell(
                     onTap: () {
-                      Get.to(() => ClientCoachProfileScreen());
+                      Get.to(() => ClientCoachProfileScreen(
+                        userId: coach.userId,
+                      ));
                     },
                     child: Container(
                       width: double.infinity,

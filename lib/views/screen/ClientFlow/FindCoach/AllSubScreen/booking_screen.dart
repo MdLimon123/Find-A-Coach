@@ -1,14 +1,47 @@
+import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../../models/clientModel/single_coach_profile_model.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
+
+  final int coachId;
+  final List<int> coachingAreas;
+  final String fullName;
+  final String image;
+  final String certifications;
+  final double rating;
+  final int totalRatingCount;
+  final String languagesSpoken;
+  final String sessionFormat;
+  final Availability availability;
+  final double pricePerSession;
+  final String location;
+
+  const BookingScreen({super.key,
+    required this.coachId,
+    required this.fullName,
+    required this.image,
+    required this.certifications,
+    required this.rating,
+    required this.totalRatingCount,
+    required this.languagesSpoken,
+    required this.sessionFormat,
+    required this.availability,
+    required this.pricePerSession,
+    required this.location,
+    required this.coachingAreas,
+  });
 
   @override
   State<BookingScreen> createState() => _BookingScreenState();
@@ -18,11 +51,13 @@ class _BookingScreenState extends State<BookingScreen> {
   final coachTextController = TextEditingController();
   final durationTextController = TextEditingController();
 
+  final _findCoachController = Get.put(FindCoachController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppbar(title: "bookingScreen.title".tr),
+      appBar: CustomAppbar(title: "Booking"),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
@@ -37,23 +72,20 @@ class _BookingScreenState extends State<BookingScreen> {
               ),
               child: Row(
                 children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/person.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+
+                  CustomNetworkImage(
+                      imageUrl: "${ApiConstant.imageBaseUrl}${widget.image}",
+                      height: 80,
+                      boxShape: BoxShape.circle,
+                      width: 80),
+
+
                   SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "bookingScreen.coachName".tr,
+                        widget.fullName,
                         style: TextStyle(
                           color: Color(0xFF1F2937),
                           fontSize: 20,
@@ -61,7 +93,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         ),
                       ),
                       Text(
-                        "bookingScreen.coachTitle".tr,
+                        widget.certifications,
                         style: TextStyle(
                           color: Color(0xFF374151),
                           fontSize: 14,
@@ -71,7 +103,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       Row(
                         children: [
                           RatingBar.builder(
-                            initialRating: 3,
+                            initialRating: widget.rating,
                             minRating: 1,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
@@ -88,7 +120,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                           SizedBox(width: 4),
                           Text(
-                            "bookingScreen.coachRating".tr,
+                            "${widget.rating} (${widget.totalRatingCount})",
                             style: TextStyle(
                               color: AppColors.bigTextColor,
                               fontSize: 10,
@@ -104,30 +136,50 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             SizedBox(height: 12),
             _customInputSection(
-              label: "bookingScreen.coachingFormat".tr,
-              hint: "bookingScreen.selectCoachingFormat".tr,
+              label: "Coaching Format",
+              hint: widget.sessionFormat,
               controller: coachTextController,
               suffix: Icon(Icons.keyboard_arrow_down_rounded,
                   color: Color(0xFF4B5563)),
             ),
             SizedBox(height: 12),
-            _customInputSection(
-              label: "bookingScreen.duration".tr,
-              hint: "bookingScreen.durationValue".tr,
-              controller: durationTextController,
-              suffix: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset(
-                  'assets/icons/arrow_up_down.svg',
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.textColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Duration",
+                style: TextStyle(
                   color: Color(0xFF4B5563),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),),
+              SizedBox(height: 12),
+              CustomTextField(controller: durationTextController,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/arrow_up_down.svg',
+                    color: Color(0xFF4B5563),
+                  ),
                 ),
-              ),
-            ),
+                hintText: "Duration",),
+            ],
+          ),
+        ),
+
+
             SizedBox(height: 12),
-            _bookingTimeSection(),
+            buildAvailabilitySection(widget.availability),
             SizedBox(height: 12),
             Text(
-              "bookingScreen.pricing".trParams({'price': '500'}),
+              "Price: ${widget.pricePerSession}",
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 20,
@@ -135,30 +187,22 @@ class _BookingScreenState extends State<BookingScreen> {
               ),
             ),
             SizedBox(height: 32),
-            CustomButton(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Column(
-                        children: [
-                          Image.asset('assets/images/confirm.png'),
-                          SizedBox(height: 16),
-                          Text(
-                            "bookingScreen.bookingConfirmed".tr,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937)),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              text: "bookingScreen.confirmBooking".tr,
+            Obx(
+              ()=> CustomButton(
+                loading: _findCoachController.isLoading.value,
+                onTap: () {
+                  _findCoachController.addBooking(
+                      coachId: widget.coachId,
+                      coachingArea: widget.coachingAreas.isNotEmpty ? widget.coachingAreas.first : 0,
+                      duration: durationTextController.text,
+                      date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                      time: widget.availability.friday!.first.from,
+                      sessionFormat: widget.sessionFormat,
+                      price: widget.pricePerSession);
+
+                },
+                text: "Confirm Booking",
+              ),
             ),
           ],
         ),
@@ -192,6 +236,7 @@ class _BookingScreenState extends State<BookingScreen> {
           ),
           SizedBox(height: 8),
           CustomTextField(
+            readOnly: true,
             controller: controller,
             hintText: hint,
             suffixIcon: suffix,
@@ -201,17 +246,41 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
-  Widget _bookingTimeSection() {
-    List<String> times = [
-      "bookingScreen.timeSlot1".tr,
-      "bookingScreen.timeSlot2".tr,
-      "bookingScreen.timeSlot3".tr,
-      "bookingScreen.timeSlot4".tr,
-    ];
+  Widget buildAvailabilitySection(Availability availability) {
+
+    final List<TimeSlot> allSlots = [];
+    availability.toJson().forEach((day, list) {
+      for (var s in list ?? []) {
+        allSlots.add(TimeSlot.fromJson(s));
+      }
+    });
+
+
+    List<Widget> rows = [];
+    for (var i = 0; i < allSlots.length; i += 2) {
+      final first = allSlots[i];
+      final second = (i + 1 < allSlots.length) ? allSlots[i + 1] : null;
+
+      rows.add(
+        Row(
+          children: [
+            Expanded(child: _timeBox("${first.from} - ${first.to}")),
+            const SizedBox(width: 10),
+            Expanded(
+              child: second != null
+                  ? _timeBox("${second.from} - ${second.to}")
+                  : const SizedBox(),
+            ),
+          ],
+        ),
+      );
+
+      rows.add(const SizedBox(height: 10));
+    }
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.textColor,
         borderRadius: BorderRadius.circular(12),
@@ -221,41 +290,36 @@ class _BookingScreenState extends State<BookingScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("bookingScreen.date".tr),
+              Text(
+                DateFormat("d MMM, yyyy").format(DateTime.now()),
+                style: const TextStyle(
+                  color: Color(0xFF1F2937),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               SvgPicture.asset('assets/icons/calender.svg'),
             ],
           ),
-          SizedBox(height: 18),
-          for (int i = 0; i < times.length; i += 2)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                children: [
-                  Expanded(child: _timeSlot(times[i])),
-                  SizedBox(width: 10),
-                  Expanded(
-                      child: i + 1 < times.length ? _timeSlot(times[i + 1]) : Container()),
-                ],
-              ),
-            ),
+          const SizedBox(height: 18),
+          ...rows,
         ],
       ),
     );
   }
 
-  Widget _timeSlot(String time) {
+  Widget _timeBox(String text) {
     return Container(
-      width: double.infinity,
       alignment: Alignment.center,
       height: 36,
       decoration: BoxDecoration(
-        color: Color(0xFFE6ECF3),
+        color: const Color(0xFFE6ECF3),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Color(0xFF3368A1), width: 0.5),
+        border: Border.all(color: const Color(0xFF3368A1), width: 0.5),
       ),
       child: Text(
-        time,
-        style: TextStyle(
+        text,
+        style: const TextStyle(
           color: Color(0xFF3368A1),
           fontSize: 14,
           fontWeight: FontWeight.w400,

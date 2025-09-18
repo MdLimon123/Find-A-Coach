@@ -1,5 +1,9 @@
+import 'package:find_me_a_coach/controllers/clientController/client_community_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/AllSubScreen/create_discussion_screen.dart';
@@ -9,8 +13,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class ClientCommunityScreen extends StatelessWidget {
+class ClientCommunityScreen extends StatefulWidget {
   const ClientCommunityScreen({super.key});
+
+  @override
+  State<ClientCommunityScreen> createState() => _ClientCommunityScreenState();
+}
+
+class _ClientCommunityScreenState extends State<ClientCommunityScreen> {
+
+
+  final _clientCommunityController = Get.put(ClientCommunityController());
+
+  @override
+  void initState() {
+    _clientCommunityController.fetchCommunityData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +60,9 @@ class ClientCommunityScreen extends StatelessWidget {
                   image: 'assets/icons/settings.svg'),
             ],
           )),
-      body: Padding(
+      body: Obx(()=> _clientCommunityController.isLoading.value?
+      Center(child: CustomPageLoading()):
+      Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
@@ -66,6 +87,7 @@ class ClientCommunityScreen extends StatelessWidget {
                 child: ListView.separated(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      final community = _clientCommunityController.communityList[index];
                       return InkWell(
                         onTap: () {
                           showModalBottomSheet(
@@ -100,16 +122,12 @@ class ClientCommunityScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    height: 32,
-                                    width: 32,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/person.jpg'),
-                                            fit: BoxFit.cover)),
-                                  ),
+
+                                  CustomNetworkImage(
+                                      imageUrl: "${ApiConstant.imageBaseUrl}${community.image}",
+                                      boxShape: BoxShape.circle,
+                                      height: 32,
+                                      width: 32),
                                   SizedBox(width: 8),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -117,7 +135,7 @@ class ClientCommunityScreen extends StatelessWidget {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "alex_johnson".tr,
+                                        community.userName,
                                         style: TextStyle(
                                           color: Color(0xFF2D2D2D),
                                           fontSize: 16,
@@ -142,7 +160,7 @@ class ClientCommunityScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 20),
                               Text(
-                                "topic_confidence".tr,
+                                "Topic: ${community.topicName}",
                                 style: TextStyle(
                                   color: Color(0xFF9CA3AF),
                                   fontSize: 10,
@@ -151,7 +169,7 @@ class ClientCommunityScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                "build_confidence_workplace".tr,
+                                community.content,
                                 style: TextStyle(
                                   color: Color(0xFF222222),
                                   fontSize: 14,
@@ -182,10 +200,10 @@ class ClientCommunityScreen extends StatelessWidget {
                       );
                     },
                     separatorBuilder: (_, index) => SizedBox(height: 12),
-                    itemCount: 5))
+                    itemCount: _clientCommunityController.communityList.length))
           ],
         ),
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),

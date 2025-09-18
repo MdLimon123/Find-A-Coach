@@ -25,5 +25,8 @@ class ApiConstant{
    static String getAllCategoryEndPoint = "/api/v1/auth/coach-categories/";
    static String getAllCoachFilterEndPoint = "/api/v1/auth/coaches/filter/";
    static String singleCategoryEndPoint({required int id}) => "/api/v1/auth/coaches/by-category/$id/";
+   static String singleCoachProfile({required int id}) => "/api/v1/auth/user/$id/";
+   static String addBookingEndPoint = "/api/v1/auth/bookings/create/";
+   static String getAllCommunityEndPoint = "/api/v1/community/posts/";
 
 }

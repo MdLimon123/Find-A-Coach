@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:find_me_a_coach/models/clientModel/find_all_coach_model.dart';
 import 'package:find_me_a_coach/models/clientModel/find_category_model.dart';
+import 'package:find_me_a_coach/models/clientModel/single_coach_profile_model.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/views/base/custom_snackbar.dart';
@@ -10,6 +13,8 @@ class FindCoachController extends GetxController {
 
   RxList<FindAllCoach> coachList = <FindAllCoach>[].obs;
   RxList<FindCategory> categoryList = <FindCategory>[].obs;
+
+  Rx<CoachProfile?> coachProfile = Rx<CoachProfile?>(null);
 
   var selected = 0.obs;
   var selectedSlot = 0.obs;
@@ -111,6 +116,8 @@ class FindCoachController extends GetxController {
     isLoading(false);
   }
 
+
+  /// single category
   Future<void> fetchSingleCategory({required int id}) async {
 
     isLoading(true);
@@ -120,6 +127,59 @@ class FindCoachController extends GetxController {
       final data = response.body['data']['coaches'] as List;
       coachList.clear();
       coachList.assignAll(data.map((e) => FindAllCoach.fromJson(e)).toList());
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isLoading(false);
+
+  }
+
+/// single coach profile
+  Future<void> fetchSingleCoachProfile({required int id}) async {
+
+    isLoading(true);
+
+    final response = await ApiClient.getData(ApiConstant.singleCoachProfile(id: id));
+    if(response.statusCode == 200){
+      final data = SingleCoachProfileModel.fromJson(response.body['user']);
+      coachProfile.value = data.user;
+    }else{
+      showCustomSnackBar(response.body['message']);
+
+    }
+    isLoading(false);
+
+  }
+
+
+  Future<void> addBooking({
+    required int coachId,
+    required int coachingArea,
+    required String duration,
+    required String date,
+    required String time,
+    required String sessionFormat,
+    required double price,
+
+})async{
+
+
+    isLoading(true);
+
+    final body = {
+      "coach": coachId,
+      "coaching_area": coachingArea,
+      "duration": duration,
+      "session_date": date,
+      "session_time": time,
+      "session_format": sessionFormat,
+      "price": price,
+    };
+
+    final response = await ApiClient.postData(ApiConstant.addBookingEndPoint, jsonEncode(body));
+    if(response.statusCode == 200  || response.statusCode == 201){
+      showCustomSnackBar(response.body['message']);
+      Get.back();
     }else{
       showCustomSnackBar(response.body['message']);
     }

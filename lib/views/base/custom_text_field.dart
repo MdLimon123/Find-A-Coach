@@ -23,6 +23,7 @@ class CustomTextField extends StatefulWidget {
   final bool? filled;
   final int? maxLines;
   final int? minLines;
+  final bool? readOnly;
 
   const CustomTextField(
       {super.key,
@@ -42,6 +43,7 @@ class CustomTextField extends StatefulWidget {
         this.minLines = 1,
         this.filled,
         this.labelText,
+        this.readOnly,
         this.isPassword = false});
 
   @override
@@ -90,6 +92,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               }
               return null;
             },
+        readOnly: widget.readOnly ?? false,
         cursorColor: AppColors.primaryColor,
         obscureText: widget.isPassword ? obscureText : false,
         style: AppStyles.h4(color: AppColors.fillTextColor, fontWeight: FontWeight.w400),
