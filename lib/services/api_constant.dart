@@ -32,6 +32,7 @@ class ApiConstant{
    static String addCommentEndPoint({required int id}) => "/api/v1/community/posts/$id/comments/";
    static String upcomingSessionEndPoint = "/api/v1/auth/bookings/user/upcomming_session/";
    static String pastSessionEndPoint = "/api/v1/auth/bookings/user/past_session/";
+   static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/$id/";
 
 
 

@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/models/clientModel/client_booking_details_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_past_session_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_upcoming_model.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
@@ -15,8 +16,11 @@ class ClientBookingController extends GetxController{
   final upcomingLoading = false.obs;
   final pastSessionLoading = false.obs;
 
+  final bookingDetailsLoading = false.obs;
+
   RxList<ClientUpcomingList> upcomingList = <ClientUpcomingList>[].obs;
   RxList<ClientPastSessionModel> passSessionList = <ClientPastSessionModel>[].obs;
+  RxList<ClientBookingDetailsModel> bookingDetailsList = <ClientBookingDetailsModel>[].obs;
 
 
   List<String> tabList = [
@@ -66,6 +70,21 @@ class ClientBookingController extends GetxController{
       showCustomSnackBar(response.body['message'], isError: true);
     }
     pastSessionLoading(false);
+
+  }
+
+  Future<void> fetchBookingDetails(int id) async {
+
+    bookingDetailsLoading(true);
+
+    final response = await ApiClient.getData(ApiConstant.bookingDetailsEndPoint(id: id));
+    if(response.statusCode == 200){
+      List<dynamic> data = response.body['data'];
+      bookingDetailsList.value = data.map((e) => ClientBookingDetailsModel.fromJson(e)).toList();
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+    }
+    bookingDetailsLoading(false);
 
   }
 

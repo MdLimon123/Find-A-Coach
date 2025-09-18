@@ -44,7 +44,9 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
 
           return InkWell(
             onTap: (){
-              Get.to(()=> BookingDetailsScreen());
+              Get.to(()=> BookingDetailsScreen(
+                id: upcomingList.bookingId,
+              ));
             },
             child: Container(
               width: double.infinity,
