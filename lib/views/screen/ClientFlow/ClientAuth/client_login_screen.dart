@@ -1,4 +1,5 @@
 import 'package:find_me_a_coach/controllers/clientController/client_auth_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/client_social_auth_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
@@ -24,6 +25,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
   final passwordTextController = TextEditingController();
 
   final _clientAuthController = Get.put(ClientAuthController());
+  final _clientSocialAuthController = Get.put(ClientSocialAuthController());
 
   final _formKey = GlobalKey<FormState>();
 
@@ -135,7 +137,9 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                 Expanded(
                   child: _customContainer(
                       image: 'assets/icons/google.svg',
-                      onTap: (){}
+                      onTap: (){
+                        _clientSocialAuthController.signInWithGoogle();
+                      }
                   ),
                 ),
                 SizedBox(width: 24,),

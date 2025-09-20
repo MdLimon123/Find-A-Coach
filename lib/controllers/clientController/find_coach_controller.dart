@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:find_me_a_coach/models/clientModel/category_and_subcategory_model.dart';
 import 'package:find_me_a_coach/models/clientModel/find_all_coach_model.dart';
 import 'package:find_me_a_coach/models/clientModel/find_category_model.dart';
 import 'package:find_me_a_coach/models/clientModel/single_coach_profile_model.dart';
@@ -13,6 +14,10 @@ class FindCoachController extends GetxController {
 
   RxList<FindAllCoach> coachList = <FindAllCoach>[].obs;
   RxList<FindCategory> categoryList = <FindCategory>[].obs;
+
+  RxList<Category> categoryAndSubCategoryList = <Category>[].obs;
+
+  final isCategoryLoading = false.obs;
 
   Rx<CoachProfile?> coachProfile = Rx<CoachProfile?>(null);
 
@@ -30,6 +35,8 @@ class FindCoachController extends GetxController {
 
   List<String> languages = ['English', 'Spanish', 'French', 'German'];
   RxList<String> selectedLanguages = <String>[].obs;
+
+
 
   void select(int value) => selected.value = value;
 
@@ -95,12 +102,12 @@ class FindCoachController extends GetxController {
     checkboxValues.forEach((uiKey, isChecked) {
       final apiKey = filterKeyMap[uiKey];
       if (apiKey != null && isChecked) {
-        params[apiKey] = 'true';
+        params[apiKey] = 'false';
       }
     });
 
     final endPoint =
-        '${ApiConstant.getAllCoachEndPoint}?${Uri(queryParameters: params).query}';
+        '${ApiConstant.getAllCoachFilterEndPoint}?${Uri(queryParameters: params).query}';
 
     final response = await ApiClient.getData(endPoint);
     if (response.statusCode == 200) {
@@ -184,6 +191,47 @@ class FindCoachController extends GetxController {
       showCustomSnackBar(response.body['message']);
     }
     isLoading(false);
+
+  }
+
+
+  Future<void> fetchCategoryAndSubCategory()async{
+
+    isCategoryLoading(true);
+
+    final response = await ApiClient.getData(ApiConstant.categoryAndSubCategories);
+    if(response.statusCode == 200){
+      final data = CategoryAndSubCategoryModel.fromJson(response.body);
+      categoryAndSubCategoryList.assignAll(data.data);
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isCategoryLoading(false);
+
+  }
+
+  Future<void> categoryAndSubCategoryFilter({
+    required List<int> selectedCategories,
+    required List<int> selectedSubCategories,
+})async{
+
+    isLoading(true);
+
+    final categoryParam = '[${selectedCategories.join(',')}]';
+    final subCategoryParam = '[${selectedSubCategories.join(',')}]';
+
+    final response = await ApiClient.getData(
+      '${ApiConstant.getAllCoachFilterEndPoint}?coaching_areas=$categoryParam&sub_coaching_areas=$subCategoryParam');
+    if(response.statusCode == 200){
+      final data = response.body['data'] as List;
+      coachList.clear();
+      coachList.assignAll(data.map((e) => FindAllCoach.fromJson(e)).toList());
+      Get.back();
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isLoading(false);
+
 
   }
 

@@ -293,6 +293,10 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                 children: [
                   Expanded(
                     child: CustomButton(onTap: (){
+
+                      print("availability =======> ${coach.availability}");
+
+
                       Get.to(() => BookingScreen(
                         coachId: coach.userId,
                         coachingAreas: coach.coachingAreas ?? [],

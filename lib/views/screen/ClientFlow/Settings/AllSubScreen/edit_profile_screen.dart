@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:find_me_a_coach/controllers/clientController/client_profile_controller.dart';
+import 'package:find_me_a_coach/controllers/data_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
 import 'package:find_me_a_coach/views/base/custom_switch.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +21,25 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+
+  final _dataController = Get.put(DataController());
+
+  void updateData(){
+
+    nameController.text = _dataController.name.value;
+    ageController.text = int.parse(_dataController.age.value.toString()).toString();
+    locationController.text = _dataController.location.value;
+    bioController.text = _dataController.bio.value;
+    ethnicitySelfDescribeController.text = _dataController.ethnicity.value;
+    genderSelfDescribeController.text = _dataController.gender.value;
+    sexualOrientationSelfDescribeController.text = _dataController.sexualOrientation.value;
+    professionController.text = _dataController.profession.value;
+    socialMediaController.text = _dataController.socialMediaLink.value;
+    interestsController.text = _dataController.interestsAndProjects.value;
+    anythingElseController.text = _dataController.anythingElse.value;
+
+  }
+
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   final locationController = TextEditingController();
@@ -74,16 +98,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "asexual",
     "bisexual",
     "gay",
-    "heterosexualOrStraight",
     "lesbian",
     "pansexual",
     "queer",
-    "preferToSelfDescribeBelow"
   ];
 
   @override
   void initState() {
     super.initState();
+    _dataController.getUserData().then((_) {
+
+      updateData();
+    });
     selectedValue = "preferToSelfDescribeBelow".tr;
     selectedGender = "man".tr;
     selectedSexual = "asexual".tr;
@@ -113,6 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppbar(title: "Edit Profile"),
@@ -124,7 +151,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Center( // User Image Stack - No text to translate here
+              Center(
                 child: Obx(
                       ()=> Stack(
                     alignment: Alignment.center,
@@ -141,7 +168,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child:  _clientProfileController.clientProfileEditImage.value != null? Image.file(_clientProfileController.clientProfileEditImage.value!,
                             fit: BoxFit.cover,
                             height: 90,
-                            width: 90,): Image.asset('assets/images/user.png'),
+                            width: 90,): CustomNetworkImage(
+                              imageUrl: "${ApiConstant.imageBaseUrl}${_dataController.profileImage.value}",
+                              height: 90,
+                              width: 90),
                         ),
                       ),
                       Positioned(
@@ -171,21 +201,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               Center(child: Text("Change Photo",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: AppColors.bigTextColor,
-                fontSize: 14,
-              ),),),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.bigTextColor,
+                  fontSize: 14,
+                ),),),
               SizedBox(height: 24),
               _headingText(translatedText: "fullName".tr),
               SizedBox(height: 8),
               CustomTextField(
-                controller: nameController, // TODO: Use a separate TextEditingController here
+                controller: nameController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/person.svg'),
                 ),
-                hintText: "enterYourFullName".tr,
                 filled: true,
               ),
               SizedBox(height: 20),
@@ -206,12 +235,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: ageController, // TODO: Use a separate TextEditingController here
+                controller: ageController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/refresh.svg'), // Consider different icon
                 ),
-                hintText: "enterYourAge".tr,
                 filled: true,
                 keyboardType: TextInputType.number,
               ),
@@ -233,12 +261,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: locationController, // TODO: Use a separate TextEditingController here
+                controller: locationController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/refresh.svg'), // Consider different icon
                 ),
-                hintText: "enterYourLocation".tr,
                 filled: true,
               ),
               SizedBox(height: 20),
@@ -259,8 +286,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: bioController, // TODO: Use a separate TextEditingController here
-                hintText: "tellUsAboutYourself".tr,
+                controller: bioController,
                 filled: true,
                 minLines: 3,
                 maxLines: 5,
@@ -307,7 +333,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               CustomTextField(
                 controller: ethnicitySelfDescribeController,
                 filled: true,
-                hintText: "selfDescribeEthnicity".tr,
               ),
               SizedBox(height: 20),
               Row(
@@ -349,8 +374,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 8),
               //if (selectedGender == "preferToSelfDescribeBelow".tr)
               CustomTextField(
-                controller: genderSelfDescribeController, // TODO: Use a separate TextEditingController here
-                hintText: "selfDescribeGender".tr,
+                controller: genderSelfDescribeController,
                 filled: true,
               ),
               SizedBox(height: 20),
@@ -391,12 +415,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     );
                   }).toList()),
               SizedBox(height: 12),
-              // if (selectedSexual == "preferToSelfDescribeBelow".tr)
+
               CustomTextField(
-                controller: sexualOrientationSelfDescribeController, // TODO: Use a separate TextEditingController here
-                hintText: "selfDescribeSexualOrientation".tr,
+                controller: sexualOrientationSelfDescribeController,
                 filled: true,
               ),
+
               SizedBox(height: 20),
               // Row(
               //   children: [
@@ -450,8 +474,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: professionController, // TODO: Use a separate TextEditingController here
-                hintText: "enterYourProfession".tr,
+                controller: professionController,
                 filled: true,
               ),
               SizedBox(height: 20),
@@ -472,8 +495,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: socialMediaController, // TODO: Use a separate TextEditingController here
-                hintText: "linkToYourSocialMedia".tr,
+                controller: socialMediaController,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset('assets/icons/attach.svg'),
@@ -498,8 +520,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: interestsController, // TODO: Use a separate TextEditingController here
-                hintText: "tellUsAboutInterestsHobbies".tr,
+                controller: interestsController,
                 filled: true,
                 maxLines: 5,
                 minLines: 3,
@@ -522,8 +543,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 8),
               CustomTextField(
-                controller: anythingElseController, // TODO: Use a separate TextEditingController here
-                hintText: "shareAnyOtherDetails".tr,
+                controller: anythingElseController,
                 filled: true,
                 maxLines: 5,
                 minLines: 3,
@@ -540,33 +560,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                         color: Color(0xFFE6ECF3),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Color(0xFFB0C4DB),
-                          width: 2)
+                            color: Color(0xFFE6ECF3),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Color(0xFFB0C4DB),
+                                width: 2)
                         ),
                         child: Center(
                           child: Text("Discard",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryColor,
-                            fontSize: 16,
-                          ),),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.primaryColor,
+                              fontSize: 16,
+                            ),),
                         ),
                       ),
                     ),
                   ),
                   SizedBox(width: 12,),
                   Expanded(
-                    child: CustomButton(onTap: (){},
-                        text: "Save Changes"),
+                    child: Obx(()=> CustomButton(
+                        loading: _clientProfileController.isLoading.value,
+                        onTap: (){
+
+                          _clientProfileController.updateClientProfile(
+                              profileImagePath: _clientProfileController.clientProfileEditImage.value!.path,
+                              fullName: nameController.text.trim(),
+                              age: ageController.text.trim(),
+                              location: locationController.text.trim(),
+                              bio: bioController.text.trim(),
+                              ethnicity: selectedValue ?? '',
+                              gender: selectedGender ?? '',
+                              sexualOrientation: selectedSexual ?? '',
+                              profession: professionController.text.trim(),
+                              socialMedia: socialMediaController.text.trim(),
+                              interests: interestsController.text.trim(),
+                              anythingElse: anythingElseController.text.trim(),
+                              switches: isSwitched);
+                        },
+                        text: "Save Changes")),
                   )
                 ],
               )
             ],
-          ),
+          )),
         ),
-      ),
     );
   }
 }

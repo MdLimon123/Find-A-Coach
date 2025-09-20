@@ -33,6 +33,10 @@ class ApiConstant{
    static String upcomingSessionEndPoint = "/api/v1/auth/bookings/user/upcomming_session/";
    static String pastSessionEndPoint = "/api/v1/auth/bookings/user/past_session/";
    static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/$id/";
+   static String categoryAndSubCategories = "/api/v1/auth/coaching-areas/";
+
+   /// social auth api ends points
+  static String clientGoogleLogIn = "/api/v1/auth/google-login/";
 
 
 

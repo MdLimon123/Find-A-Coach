@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:find_me_a_coach/controllers/data_controller.dart';
 import 'package:find_me_a_coach/helpers/prefs_helper.dart';

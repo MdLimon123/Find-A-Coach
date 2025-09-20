@@ -1,10 +1,13 @@
 import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/views/base/customSnackbar.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_network_image.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
+import 'package:find_me_a_coach/views/base/get_availability.dart';
+import 'package:find_me_a_coach/views/base/get_next_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -188,22 +191,33 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             SizedBox(height: 32),
             Obx(
-              ()=> CustomButton(
+                  () => CustomButton(
                 loading: _findCoachController.isLoading.value,
                 onTap: () {
-                  _findCoachController.addBooking(
+                  final slot = getFirstAvailableSlot(widget.availability);
+
+                  if (slot != null) {
+                    final dayName = getDayNameOfSlot(widget.availability, slot);
+
+                    _findCoachController.addBooking(
                       coachId: widget.coachId,
-                      coachingArea: widget.coachingAreas.isNotEmpty ? widget.coachingAreas.first : 0,
+                      coachingArea: widget.coachingAreas.isNotEmpty
+                          ? widget.coachingAreas.first
+                          : 0,
                       duration: durationTextController.text,
                       date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
-                      time: widget.availability.friday!.first.from,
+                      time: slot.from,
                       sessionFormat: widget.sessionFormat,
-                      price: widget.pricePerSession);
-
+                      price: widget.pricePerSession,
+                    );
+                  } else {
+                    showCustomSnackBar("No available slots");
+                  }
                 },
                 text: "Confirm Booking",
               ),
-            ),
+            )
+
           ],
         ),
       ),

@@ -96,39 +96,48 @@ class CoachProfile {
     return CoachProfile(
       userId: json['user_id'],
       coachingAreas: List<int>.from(json['coaching_areas']),
-      coachingAreaNames: List<String>.from(json['coaching_area_names']),
-      application: json['application'],
-      role: json['role'],
-      fullName: json['full_name'],
-      email: json['email'],
-      image: json['image'],
+      coachingAreaNames: (json['coaching_area_names'] as List? ?? [])
+          .map((e) => e.toString())
+          .toList(),
+      application: json['application'] ?? '',
+      role: json['role'] ?? '',
+      fullName: json['full_name'] ?? '',
+      email: json['email'] ?? '',
+      image: json['image'] ?? '',
       googleImageUrl: json['google_image_url'],
       facebookId: json['facebook_id'],
       facebookImageUrl: json['facebook_image_url'],
-      age: json['age'],
-      location: json['location'],
-      bio: json['bio'],
-      gender: json['gender'],
-      totalRatingCount: json['total_rating_count'],
-      rating: (json['rating'] as num).toDouble(),
-      viewAsUser: json['view_as_user'],
-      certifications: List<String>.from(json['certifications']),
-      languagesSpoken: List<String>.from(json['languages_spoken']),
-      personalWebsite: json['personal_website'],
-      linkedinProfile: json['linkedin_profile'],
-      sessionFormat: json['session_format'],
-      availability: Availability.fromJson(json['availability']),
-      pricePerSession: (json['price_per_session'] as num).toDouble(),
-      neurodiversityAffirming: json['neurodiversity_affirming'],
-      lgbtqiaAffirming: json['lgbtqia_affirming'],
-      genderSensitive: json['gender_sensitive'],
-      traumaSensitive: json['trauma_sensitive'],
-      faithBased: json['faith_based'],
+      age: json['age'] ?? 0,
+      location: json['location'] ?? '',
+      bio: json['bio'] ?? '',
+      gender: json['gender'] ?? '',
+      totalRatingCount: json['total_rating_count'] ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      viewAsUser: json['view_as_user'] ?? false,
+      certifications: (json['certifications'] as List? ?? [])
+          .map((e) => e.toString())
+          .toList(),
+      languagesSpoken: (json['languages_spoken'] as List? ?? [])
+          .map((e) => e.toString())
+          .toList(),
+      personalWebsite: json['personal_website'] ?? '',
+      linkedinProfile: json['linkedin_profile'] ?? '',
+      sessionFormat: json['session_format'] ?? '',
+      availability: Availability.fromJson(json['availability'] ?? {}),
+      pricePerSession: (json['price_per_session'] as num?)?.toDouble() ?? 0.0,
+      neurodiversityAffirming: json['neurodiversity_affirming'] ?? false,
+      lgbtqiaAffirming: json['lgbtqia_affirming'] ?? false,
+      genderSensitive: json['gender_sensitive'] ?? false,
+      traumaSensitive: json['trauma_sensitive'] ?? false,
+      faithBased: json['faith_based'] ?? false,
       dateJoined: DateTime.parse(json['date_joined']),
       lastLogin: DateTime.parse(json['last_login']),
-      subCoachingAreas: List<String>.from(json['sub_coaching_areas']),
+      subCoachingAreas: (json['sub_coaching_areas'] as List? ?? [])
+          .map((e) => e.toString())
+          .toList(),
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {

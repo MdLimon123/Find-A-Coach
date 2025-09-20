@@ -31,6 +31,7 @@ dependencies:
   flutter_rating_bar:
   web_socket_client:
   web_socket_channel:
+  google_sign_in: ^6.3.0
 
 
 dev_dependencies:

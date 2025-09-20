@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _loadUserRoleAndNavigate() async {
     await _dataController.getUserData();
+    print("user id=============> ${_dataController.id.value}");
     print("user role=============> ${_dataController.role.value}");
 
     var token = await PrefsHelper.getString(AppConstants.bearerToken);

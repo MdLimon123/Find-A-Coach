@@ -1,5 +1,5 @@
 class CommonData{
-  static const id = 'id';
+  static const id = 'user_id';
   static const application = 'application';
   static const role = 'role';
   static const name = 'name';

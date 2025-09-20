@@ -1,22 +1,26 @@
+import 'package:find_me_a_coach/controllers/coachController/coach_auth_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
-import 'package:find_me_a_coach/utils/style.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/AddPersonalInfo/add_client_personal_info_screen.dart';
-import 'package:find_me_a_coach/views/screen/CoachFlow/AddCoachPesonalInfo/add_coach_personal_info_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 
 class CoachVerifyEmailScreen extends StatefulWidget {
-  const CoachVerifyEmailScreen({super.key});
+
+  final String email;
+
+  const CoachVerifyEmailScreen({super.key, required this.email});
 
   @override
   State<CoachVerifyEmailScreen> createState() => _CoachVerifyEmailScreenState();
 }
 
 class _CoachVerifyEmailScreenState extends State<CoachVerifyEmailScreen> {
+
+  final _coachAuthController = Get.put(CoachAuthController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +45,8 @@ class _CoachVerifyEmailScreenState extends State<CoachVerifyEmailScreen> {
             enabledBorderColor: Color(0xFF4B5563),
             showFieldAsBox: true,
             filled: true,
-            fieldWidth: 45,
-            fieldHeight: 45,
+            fieldWidth: 48,
+            fieldHeight: 48,
             borderRadius: BorderRadius.circular(100),
             textStyle: TextStyle(fontSize: 18, color: Color(0xFF4B5563),
                 fontWeight: FontWeight.w600),
@@ -51,14 +55,19 @@ class _CoachVerifyEmailScreenState extends State<CoachVerifyEmailScreen> {
 
             },
             onSubmit: (String verificationCode) {
+              _coachAuthController.otp.value = verificationCode;
             },
           ),
           SizedBox(height: 24,),
-          CustomButton(onTap: (){
-            /// add coach personal info screen
-            Get.to(()=> AddCoachPersonalInfoScreen());
-          },
-              text: "verify".tr), // Changed
+          Obx(
+              ()=> CustomButton(
+              loading: _coachAuthController.isOtpLoading.value,
+                onTap: (){
+              /// add coach personal info screen
+                  _coachAuthController.emailVerificationInCoach(email: widget.email);
+            },
+                text: "verify".tr),
+          ), // Changed
           SizedBox(height: 8,),
           Center(
               child: RichText(
