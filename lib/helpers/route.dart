@@ -6,6 +6,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_inbox_
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientCommunity/client_community_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientSelectLanguage/client_select_language_screen.dart';
+import 'package:find_me_a_coach/views/screen/CoachFlow/AddCoachPesonalInfo/add_coach_personal_info_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachChat/coach_inbox_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachCommunity/coach_community_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/coach_home_screen.dart';
@@ -16,8 +17,6 @@ import 'package:find_me_a_coach/views/screen/Splash/select_role_screen.dart';
 import 'package:find_me_a_coach/views/screen/Splash/welcome_screen.dart';
 import 'package:get/get.dart';
 
-
-import '../views/screen/ClientFlow/FindCoach/AllSubScreen/client_coach_profile_screen.dart';
 import '../views/screen/ClientFlow/FindCoach/find_coach_screen.dart';
 import '../views/screen/Splash/splash_screen.dart';
 
@@ -40,6 +39,7 @@ class AppRoutes{
   static String coachProfileScreen = "/coach_profile_screen";
   static String saveYourGoalScreen = "/save_your_goal_screen";
   static String resetPasswordScreen = "/reset_password_screen";
+  static String addCoachPersonalInfoScreen = "/add_coach_personal_info_screen";
 
 
 
@@ -61,6 +61,7 @@ class AppRoutes{
    GetPage(name: coachProfileScreen, page: ()=>const CoachProfileScreen(),transition: Transition.noTransition),
    GetPage(name: saveYourGoalScreen, page: ()=>const SaveYourGoalScreen(),transition: Transition.noTransition),
    GetPage(name: resetPasswordScreen, page: ()=>const ClientResetPasswordScreen(),transition: Transition.noTransition),
+   GetPage(name: addCoachPersonalInfoScreen, page: ()=>const AddCoachPersonalInfoScreen(),transition: Transition.noTransition),
 
   ];
 

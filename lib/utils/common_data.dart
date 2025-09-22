@@ -1,4 +1,6 @@
 class CommonData{
+
+  /// user data
   static const id = 'user_id';
   static const application = 'application';
   static const role = 'role';
@@ -25,4 +27,39 @@ class CommonData{
   static const subscriptionEnd = 'subscriptionEnd';
   static const dateJoined = 'dateJoined';
   static const lastLogin = 'lastLogin';
+
+  ///coach data
+
+  static const coachId = 'coach_id';
+  static const applicationCoach = 'application';
+  static const roleCoach = 'role';
+  static const fullName = 'fullName';
+  static const coachEmail = 'email';
+  static const coachProfileImage = 'profileImage';
+  static const coachGoogleImageUrl = 'googleImageUrl';
+  static const coachFacebookId = 'facebookId';
+  static const coachFacebookImageUrl = 'facebookImageUrl';
+  static const coachAge = 'age';
+  static const coachLocation = 'location';
+  static const coachBio = 'bio';
+  static const coachGender = 'gender';
+  static const certifications = 'certifications';
+  static const languagesSpoken = 'languagesSpoken';
+  static const personalWebsite = 'personalWebsite';
+  static const linkedinProfile = 'linkedinProfile';
+  static const coachingAreas = 'coachingAreas';
+  static const coachingAreaNames = 'coachingAreaNames';
+  static const subCoachingAreas = 'subCoachingAreas';
+  static const subCoachingAreaNames = 'subCoachingAreaNames';
+  static const sessionFormat = 'sessionFormat';
+  static const availability = 'availability';
+  static const pricePerSession = 'pricePerSession';
+  static const neurodiversityAffirming = 'neurodiversityAffirming';
+  static const lgbtqiaAffirming = 'lgbtqiaAffirming';
+  static const genderSensitive = 'genderSensitive';
+  static const traumaSensitive = 'traumaSensitive';
+  static const faithBased = 'faithBased';
+  static const coachDateJoined = 'dateJoined';
+  static const coachLastLogin = 'lastLogin';
+
 }

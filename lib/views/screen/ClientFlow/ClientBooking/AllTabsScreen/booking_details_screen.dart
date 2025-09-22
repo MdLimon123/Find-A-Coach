@@ -7,10 +7,10 @@ import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get.dart'; // Import GetX
+import 'package:get/get.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
-final int id;
+ final int id;
   const BookingDetailsScreen({super.key, required this.id});
 
   @override
@@ -23,20 +23,16 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
   @override
   void initState() {
-    _clientBookingController.fetchBookingDetails( widget.id);
+    _clientBookingController.fetchBookingDetails(widget.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-
-
-
-
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppbar(title: "bookingDetailsScreen.appBarTitle".tr), // Changed
+      appBar: CustomAppbar(title: "bookingDetailsScreen.appBarTitle".tr),
       body: Obx((){
         if(_clientBookingController.bookingDetailsLoading.value){
           return Center(child: CustomPageLoading());
@@ -64,7 +60,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                  color: AppColors.textColor, // Check contrast if textColor is light
+                  color: AppColors.textColor,
                   borderRadius: BorderRadius.circular(12)
               ),
               child:   Row(
@@ -83,13 +79,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(bookingDetails.coachName, // Changed
+                        Text(bookingDetails.coachName,
                           style: TextStyle(
                             color: Color(0xFF1F2937),
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),),
-                        Text(bookingDetails.coachingAreaName, // Changed
+                        Text(bookingDetails.coachingAreaName,
                           style: TextStyle(
                             color: Color(0xFF374151),
                             fontSize: 14,
@@ -98,7 +94,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         Row(
                           children: [
                             RatingBar.builder(
-                              initialRating: bookingDetails.rating, // This would be dynamic
+                              initialRating: bookingDetails.rating,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -111,11 +107,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                 size: 12,
                               ),
                               onRatingUpdate: (rating) {
-                                // Not typically interactive in a details screen unless it's for user to rate
                               },
                             ),
                             SizedBox(width: 4,),
-                            Text("${bookingDetails.rating} (${bookingDetails.totalRatingCount})", // This is typically dynamic data
+                            Text("${bookingDetails.rating} (${bookingDetails.totalRatingCount})",
                               style: TextStyle(
                                 color: AppColors.bigTextColor,
                                 fontSize: 10,
@@ -134,7 +129,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                  color: AppColors.textColor, // Check contrast if textColor is light
+                  color: AppColors.textColor,
                   borderRadius: BorderRadius.circular(12)
               ),
               child:   Column(
@@ -148,14 +143,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       fontWeight: FontWeight.w600,
                     ),),
                   SizedBox(height: 8,),
-                  Text(bookingDetails.sessionFormat, // Changed (if this is a fixed value)
+                  Text(bookingDetails.sessionFormat,
                     style: TextStyle(
                       color: AppColors.bigTextColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),),
                   SizedBox(height: 16,),
-                  if(bookingDetails.sessionFormat == "In-Person")
+                  if(bookingDetails.sessionFormat == "in-person")
                     Text("Location", // This was commented out
                       style: TextStyle(
                         color: AppColors.primaryColor,
@@ -163,8 +158,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         fontWeight: FontWeight.w600,
                       ),),
                   SizedBox(height: 8,),
-                  if(bookingDetails.sessionFormat == "In-Person")
-                  Text("2972 Westheimer Rd. Santa Ana, Illinois 85486 ", // This was commented out
+                  if(bookingDetails.sessionFormat == "in-person")
+                  Text("2972 Westheimer Rd. Santa Ana, Illinois 85486 ", /// This was commented out
                     style: TextStyle(
                       color: AppColors.bigTextColor,
                       fontSize: 16,

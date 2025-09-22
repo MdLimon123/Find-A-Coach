@@ -32,8 +32,12 @@ class ApiConstant{
    static String addCommentEndPoint({required int id}) => "/api/v1/community/posts/$id/comments/";
    static String upcomingSessionEndPoint = "/api/v1/auth/bookings/user/upcomming_session/";
    static String pastSessionEndPoint = "/api/v1/auth/bookings/user/past_session/";
-   static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/$id/";
+   static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/";
    static String categoryAndSubCategories = "/api/v1/auth/coaching-areas/";
+
+   /// coach auth api ends points
+
+  static String coachProfile = "/api/v1/auth/profile/";
 
    /// social auth api ends points
   static String clientGoogleLogIn = "/api/v1/auth/google-login/";

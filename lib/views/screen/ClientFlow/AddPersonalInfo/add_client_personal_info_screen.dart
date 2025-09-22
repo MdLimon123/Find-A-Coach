@@ -162,7 +162,8 @@ class _AddClientPersonalInfoScreenState
                             border: Border.all(color: Color(0xFF8DA9D4)),
                           ),
                           child: ClipOval(
-                            child:  _setupClientProfileController.clientProfileImage.value != null? Image.file(_setupClientProfileController.clientProfileImage.value!,
+                            child:  _setupClientProfileController.clientProfileImage.value != null?
+                            Image.file(_setupClientProfileController.clientProfileImage.value!,
                               fit: BoxFit.cover,
                               height: 90,
                               width: 90,): Image.asset('assets/images/user.png'),

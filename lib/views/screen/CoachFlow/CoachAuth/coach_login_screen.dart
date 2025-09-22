@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/coachController/coach_auth_controller.dart';
 import 'package:find_me_a_coach/helpers/route.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';
@@ -25,126 +26,152 @@ class _CoachLoginScreenState extends State<CoachLoginScreen> {
 
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _coachAuthController = Get.put(CoachAuthController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 75),
-        children: [
-          Text("signInYourAccount".tr, // Changed
-            style: TextStyle(
-                fontSize: 44,
-                fontWeight: FontWeight.w600,
-                color: AppColors.bigTextColor
-            ),),
-          SizedBox(height: 24,),
-          Text("email".tr, // Changed
-            style: AppStyles.h2(
-                color: AppColors.bigTextColor
-            ),),
-          SizedBox(height: 8,),
-          CustomTextField(
-            controller: emailTextController,
-            isEmail: true,
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SvgPicture.asset('assets/icons/email.svg'),
-            ),
-            hintText: 'enterYourEmail'.tr, // Changed
-            filled: true,),
-          SizedBox(height: 16,),
-          Text("password".tr, // Changed
-            style: AppStyles.h2(
-                color: AppColors.bigTextColor
-            ),),
-          SizedBox(height: 8,),
-          CustomTextField(controller: passwordTextController,
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SvgPicture.asset('assets/icons/lock.svg'),
-            ),
-            hintText: 'enterYourPassword'.tr, // Changed
-            filled: true,
-            isPassword: true,
-          ),
-          SizedBox(height: 8,),
-          Align(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              onTap: (){
-                Get.to(()=> CoachForgetPasswordScreen());
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 75),
+          children: [
+            Text("signInYourAccount".tr, // Changed
+              style: TextStyle(
+                  fontSize: 44,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.bigTextColor
+              ),),
+            SizedBox(height: 24,),
+            Text("email".tr, // Changed
+              style: AppStyles.h2(
+                  color: AppColors.bigTextColor
+              ),),
+            SizedBox(height: 8,),
+            CustomTextField(
+              controller: emailTextController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'enterYourEmail'.tr; // Changed
+                }
+                return null;
               },
-              child: Text("forgetPassword".tr, // Changed
-                style: AppStyles.h5(
-                    color: Color(0xFF00428A)
-                ),),
+              isEmail: true,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SvgPicture.asset('assets/icons/email.svg'),
+              ),
+              hintText: 'enterYourEmail'.tr, // Changed
+              filled: true,),
+            SizedBox(height: 16,),
+            Text("password".tr, // Changed
+              style: AppStyles.h2(
+                  color: AppColors.bigTextColor
+              ),),
+            SizedBox(height: 8,),
+            CustomTextField(controller: passwordTextController,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SvgPicture.asset('assets/icons/lock.svg'),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'enterYourPassword'.tr; // Changed
+                }else if(value.length < 4){
+                  return 'password must be 4 characters'; // Changed
+                }
+                return null;
+              },
+              hintText: 'enterYourPassword'.tr, // Changed
+              filled: true,
+              isPassword: true,
             ),
-          ),
-          SizedBox(height: 24,),
-          CustomButton(onTap: (){
-            Get.offAndToNamed(AppRoutes.coachHomeScreen);
-          },
-              text: 'signIn'.tr), // Changed
-          SizedBox(height: 36,),
-          Row(
-            children: [
-              Expanded(child: Divider(color: Color(0xFF8AA8C9),)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text("orContinueWith".tr, // Changed
+            SizedBox(height: 8,),
+            Align(
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: (){
+                  Get.to(()=> CoachForgetPasswordScreen());
+                },
+                child: Text("forgetPassword".tr, // Changed
                   style: AppStyles.h5(
-                      color: Color(0xFF6B7280),
-                      fontWeight: FontWeight.w400
+                      color: Color(0xFF00428A)
                   ),),
               ),
-              Expanded(child: Divider(color: Color(0xFF8AA8C9),)),
-
-            ],
-          ),
-          SizedBox(height: 20,),
-          Row(
-            children: [
-              Expanded(
-                child: _customContainer(
-                    image: 'assets/icons/google.svg',
-                    onTap: (){}
+            ),
+            SizedBox(height: 24,),
+            Obx(
+                ()=> CustomButton(
+                  loading: _coachAuthController.isLoginLoading.value,
+                  onTap: (){
+                if(_formKey.currentState!.validate()){
+                  _coachAuthController.login(email: emailTextController.text,
+                      password: passwordTextController.text);
+                }
+              },
+                  text: 'signIn'.tr),
+            ), // Changed
+            SizedBox(height: 36,),
+            Row(
+              children: [
+                Expanded(child: Divider(color: Color(0xFF8AA8C9),)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text("orContinueWith".tr, // Changed
+                    style: AppStyles.h5(
+                        color: Color(0xFF6B7280),
+                        fontWeight: FontWeight.w400
+                    ),),
                 ),
-              ),
-              SizedBox(width: 24,),
-              Expanded(
-                child: _customContainer(
-                    image: 'assets/icons/facebook.svg',
-                    onTap: (){}
+                Expanded(child: Divider(color: Color(0xFF8AA8C9),)),
+
+              ],
+            ),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                Expanded(
+                  child: _customContainer(
+                      image: 'assets/icons/google.svg',
+                      onTap: (){}
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 24,),
-          Center(
-              child: RichText(
-                  text: TextSpan(
-                      text: "dontHaveAnAccount".tr, // Changed
-                      style: TextStyle(color: AppColors.bigTextColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
-                      children: [
-                        TextSpan(
-                          text: "signUp".tr, // Changed
-                          style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700),
-                          recognizer:  TapGestureRecognizer()
-                            ..onTap = () {
+                SizedBox(width: 24,),
+                Expanded(
+                  child: _customContainer(
+                      image: 'assets/icons/facebook.svg',
+                      onTap: (){}
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24,),
+            Center(
+                child: RichText(
+                    text: TextSpan(
+                        text: "dontHaveAnAccount".tr, // Changed
+                        style: TextStyle(color: AppColors.bigTextColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                        children: [
+                          TextSpan(
+                            text: "signUp".tr, // Changed
+                            style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                            recognizer:  TapGestureRecognizer()
+                              ..onTap = () {
 
-                            Get.to(()=> CoachSignUPScreen());
-                            },
-                        ),
+                                Get.to(()=> CoachSignUPScreen());
+                              },
+                          ),
 
-                      ]))),
-        ],
+                        ]))),
+          ],
+        ),
       ),
     );
   }

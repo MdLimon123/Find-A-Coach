@@ -7,7 +7,7 @@ import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart'; // Import GetX
+import 'package:get/get.dart';
 
 class PastScreen extends StatefulWidget {
   const PastScreen({super.key});
@@ -39,7 +39,7 @@ class _PastScreenState extends State<PastScreen> {
               booking.sessionDate,
               booking.sessionTime
           );
-          final dateText = parts['dateText']; // "Today" or "Monday, June 15"
+          final dateText = parts['dateText'];
           final timeText = parts['timeText'];
 
           return Container(

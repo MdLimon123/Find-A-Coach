@@ -7,7 +7,8 @@ import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientBooking/AllTabsScreen/booking_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart'; // Import GetX
+import 'package:get/get.dart';
+import 'package:intl/intl.dart'; // Import GetX
 
 class UpcomingScreen extends StatefulWidget {
   const UpcomingScreen({super.key});
@@ -34,13 +35,32 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, index){
           final upcomingList = _clientBookingController.upcomingList[index];
+
           final booking = upcomingList;
+
           final parts = formatSessionParts(
               booking.sessionDate.toIso8601String().split('T').first,
               booking.sessionTime
           );
-          final dateText = parts['dateText']; // "Today" or "Monday, June 15"
+          final dateText = parts['dateText'];
           final timeText = parts['timeText'];
+
+          final sessionDate = DateTime.parse(booking.sessionDate.toIso8601String());
+          final sessionTime = DateFormat('HH:mm:ss').parse(booking.sessionTime);
+          final scheduledDateTime = DateTime(
+            sessionDate.year,
+            sessionDate.month,
+            sessionDate.day,
+            sessionTime.hour,
+            sessionTime.minute,
+            sessionTime.second,
+          );
+
+          final now = DateTime.now();
+          final isToday = now.year == scheduledDateTime.year &&
+              now.month == scheduledDateTime.month &&
+              now.day == scheduledDateTime.day;
+          final isNow = isToday && now.difference(scheduledDateTime).inMinutes.abs() <= 5;
 
           return InkWell(
             onTap: (){
@@ -166,7 +186,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                   ),
                   SizedBox(height: 16,),
 
-                  upcomingList.status == "confirmed"?
+                  if(isToday && isNow)
                   InkWell(
                     onTap: (){
                       /// when click this join now button then redirection will be open zoom link or google meets link or etc others site
@@ -191,8 +211,8 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                                   color: AppColors.textColor),)
                           ],
                         )),
-                  ):
-                  SizedBox()
+                  )
+
                 ],
               ),
             ),

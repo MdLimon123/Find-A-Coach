@@ -115,9 +115,10 @@ class FindAllCoach {
       location: json['location'] as String?,
       bio: json['bio'] as String?,
       gender: json['gender'] as String?,
-      totalRatingCount: json['total_rating_count'] as int,
-      rating: (json['rating'] as num).toDouble(),
-      viewAsUser: json['view_as_user'] as bool,
+      // ✅ Safe cast with default
+      totalRatingCount: (json['total_rating_count'] as int?) ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      viewAsUser: json['view_as_user'] as bool? ?? false,
       certifications: (json['certifications'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -132,15 +133,16 @@ class FindAllCoach {
           : Availability.fromJson(
           json['availability'] as Map<String, dynamic>),
       pricePerSession: (json['price_per_session'] as num?)?.toDouble(),
-      neurodiversityAffirming: json['neurodiversity_affirming'] as bool,
-      lgbtqiaAffirming: json['lgbtqia_affirming'] as bool,
-      genderSensitive: json['gender_sensitive'] as bool,
-      traumaSensitive: json['trauma_sensitive'] as bool,
-      faithBased: json['faith_based'] as bool,
+      neurodiversityAffirming: json['neurodiversity_affirming'] as bool? ?? false,
+      lgbtqiaAffirming: json['lgbtqia_affirming'] as bool? ?? false,
+      genderSensitive: json['gender_sensitive'] as bool? ?? false,
+      traumaSensitive: json['trauma_sensitive'] as bool? ?? false,
+      faithBased: json['faith_based'] as bool? ?? false,
       dateJoined: DateTime.parse(json['date_joined'] as String),
       lastLogin: DateTime.parse(json['last_login'] as String),
     );
   }
+
 
   Map<String, dynamic> toJson() => {
     'user_id': userId,

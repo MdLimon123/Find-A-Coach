@@ -185,10 +185,10 @@ class FindCoachController extends GetxController {
 
     final response = await ApiClient.postData(ApiConstant.addBookingEndPoint, jsonEncode(body));
     if(response.statusCode == 200  || response.statusCode == 201){
-      showCustomSnackBar(response.body['message']);
+      showCustomSnackBar(response.body['message'], isError: false);
       Get.back();
     }else{
-      showCustomSnackBar(response.body['message']);
+      showCustomSnackBar(response.body['message'], isError: true);
     }
     isLoading(false);
 

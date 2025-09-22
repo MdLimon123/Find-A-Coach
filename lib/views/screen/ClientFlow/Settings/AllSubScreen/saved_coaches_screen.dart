@@ -67,7 +67,7 @@ class _SavedCoachesScreenState extends State<SavedCoachesScreen> {
                           ],
                         ),
 
-                        SizedBox(width: 60,),
+                SizedBox(width: 130,),
                         Container(
                           height: 40,
                           width: 40,

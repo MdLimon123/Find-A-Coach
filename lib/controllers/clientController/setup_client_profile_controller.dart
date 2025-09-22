@@ -100,7 +100,7 @@ class SetupClientProfileController extends GetxController{
         body,
         multipartBody: multipartBody);
     
-    if(response.statusCode == 200){
+    if(response.statusCode == 200 || response.statusCode == 201){
       showCustomSnackBar(response.body['message'], isError: false);
       Get.to(()=> SaveYourGoalScreen());
     }else{

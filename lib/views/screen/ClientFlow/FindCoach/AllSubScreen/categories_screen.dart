@@ -52,8 +52,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-
-
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -174,7 +172,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   print("Subcategory IDs========>: $selectedSubcategoryIds");
 
                   _findCoachController.categoryAndSubCategoryFilter(
-                      selectedCategories: selectedSubcategoryIds,
+                      selectedCategories: selectedCategoryIds,
                       selectedSubCategories: selectedSubcategoryIds);
 
                 },

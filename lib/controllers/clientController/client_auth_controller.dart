@@ -29,7 +29,6 @@ class ClientAuthController extends GetxController{
   final _dataController = Get.put(DataController());
 
   /// loing for client
-
   Future<void> login({required String email, required String password}) async {
 
     isLoginLoading(true);

@@ -6,7 +6,6 @@ import 'package:find_me_a_coach/views/base/custom_button.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_forget_password_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientAuth/client_signup_screen.dart';
-import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/client_home_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,14 +37,14 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 75),
           children: [
-            Text("signInYourAccount".tr, // Changed
+            Text("signInYourAccount".tr,
               style: TextStyle(
                   fontSize: 44,
                   fontWeight: FontWeight.w600,
                   color: AppColors.bigTextColor
               ),),
             SizedBox(height: 24,),
-            Text("email".tr, // Changed
+            Text("email".tr,
               style: AppStyles.h2(
                   color: AppColors.bigTextColor
               ),),

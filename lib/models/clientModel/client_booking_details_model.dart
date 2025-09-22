@@ -41,26 +41,31 @@ class ClientBookingDetailsModel {
 
   factory ClientBookingDetailsModel.fromJson(Map<String, dynamic> json) {
     return ClientBookingDetailsModel(
-      bookingId: json['booking_id'],
+      bookingId: json['booking_id'] ?? 0,
       user: json['user'],
       userName: json['user_name'] ?? '',
       coach: json['coach'],
       coachName: json['coach_name'] ?? '',
       coachImage: json['coach_image'] ?? '',
       totalRatingCount: json['total_rating_count'] ?? 0,
-      rating: (json['rating'] as num).toDouble(),
+      rating: (json['rating'] != null) ? (json['rating'] as num).toDouble() : 0.0,
       coachingArea: json['coaching_area'],
       coachingAreaName: json['coaching_area_name'] ?? '',
-      sessionDate: json['session_date'],
-      sessionTime: json['session_time'],
-      sessionFormat: json['session_format'],
-      price: (json['price'] as num).toDouble(),
-      status: json['status'],
+      sessionDate: json['session_date'] ?? '',
+      sessionTime: json['session_time'] ?? '',
+      sessionFormat: json['session_format'] ?? '',
+      price: (json['price'] != null) ? (json['price'] as num).toDouble() : 0.0,
+      status: json['status'] ?? '',
       notes: json['notes'] ?? '',
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : DateTime.now(),
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : DateTime.now(),
     );
   }
+
 
   Map<String, dynamic> toJson() => {
     'booking_id': bookingId,

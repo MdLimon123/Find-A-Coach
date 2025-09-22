@@ -97,9 +97,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscureText: widget.isPassword ? obscureText : false,
         style: AppStyles.h4(color: AppColors.fillTextColor, fontWeight: FontWeight.w400),
         decoration: InputDecoration(
+          isDense: true,
+          isCollapsed: true,
           contentPadding: EdgeInsets.symmetric(
               horizontal: widget.contentPaddingHorizontal ?? 20,
-              vertical: widget.contentPaddingVertical ?? 20),
+              vertical: widget.contentPaddingVertical ?? 10),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: AppColors.borderColor,
