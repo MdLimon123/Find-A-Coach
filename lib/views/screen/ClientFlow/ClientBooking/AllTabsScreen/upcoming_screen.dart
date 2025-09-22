@@ -64,6 +64,11 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
 
           return InkWell(
             onTap: (){
+
+              print("upcomingList.bookingId ${upcomingList.bookingId}");
+              print("upcomingList.coachName ${upcomingList.coach}");
+              print("upcomingList.coachingAreaName ${upcomingList.coachingAreaName}");
+
               Get.to(()=> BookingDetailsScreen(
                 id: upcomingList.bookingId,
               ));

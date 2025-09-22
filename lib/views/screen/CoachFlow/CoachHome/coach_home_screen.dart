@@ -1,12 +1,18 @@
+import 'package:find_me_a_coach/controllers/coachController/coach_home_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/coach_bottom_menu.dart';
+import 'package:find_me_a_coach/views/base/coach_upcoming_card.dart';
 import 'package:find_me_a_coach/views/base/custom_button.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSetting/coach_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CoachHomeScreen extends StatefulWidget {
   const CoachHomeScreen({super.key});
@@ -16,6 +22,16 @@ class CoachHomeScreen extends StatefulWidget {
 }
 
 class _CoachHomeScreenState extends State<CoachHomeScreen> {
+
+  final _coachHomeController = Get.put(CoachHomeController());
+
+  @override
+  void initState() {
+    _coachHomeController.fetchCoachUpcomingSession();
+    _coachHomeController.fetchCoachUserBooking();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,116 +62,22 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
             ],
           )),
       bottomNavigationBar: CoachBottomMenu(0),
-      body: Padding(
+      body: Obx(()=> _coachHomeController.isLoading.value?
+      Center(child: CustomPageLoading()):
+      Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(12)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("#Upcoming session",
-                      style: TextStyle(
-                          color: Color(0xFFB0C4DB),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500)),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image:
-                                AssetImage('assets/images/person.jpg'),
-                                fit: BoxFit.cover)),
-                      ),
-                      SizedBox(width: 8),
-                      Text("Dianne Russell",
-                          style: TextStyle(
-                              color: AppColors.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500))
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF002F62),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Date
-                        Row(
-                          children: [
-                            Icon(Icons.calendar_today,
-                                color: Colors.white, size: 18),
-                            SizedBox(width: 6),
-                            Text(
-                              "Monday, June 15",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
+            Obx((){
+              if(_coachHomeController.coachUpcomingSessionList.isEmpty){
+                return SizedBox();
+              }
+              final session = _coachHomeController.coachUpcomingSessionList.last;
+              return CoachUpcomingSessionCard(session: session);
+            }),
 
-                        // Divider
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6),
-                          child: SizedBox(
-                            height: 24,
-                            child: VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-
-                        // Time
-                        Row(
-                          children: [
-                            Icon(Icons.access_time,
-                                color: Colors.white, size: 18),
-                            SizedBox(width: 6),
-                            Text(
-                              "10:00 AM",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-
-                        // Device Icon
-                        const Padding(
-                          padding: EdgeInsets.only(left: 12),
-                          child:
-                          Icon(Icons.computer, color: Colors.white, size: 18),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
             SizedBox(height: 24),
             Text("Requested Sessions",
                 style: TextStyle(
@@ -166,6 +88,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
             Expanded(
               child: ListView.separated(
                   itemBuilder: (context, index) {
+                    final session = _coachHomeController.coachUserBookingList[index];
                     return Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(12),
@@ -176,19 +99,17 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/person.jpg'),
-                                          fit: BoxFit.cover)),
-                                ),
+
+                                CustomNetworkImage(
+                                    imageUrl: "${ApiConstant.imageBaseUrl}${session.coachImage}",
+                                    boxShape: BoxShape.circle,
+                                    height: 40,
+                                    width: 40),
+
+
                                 SizedBox(width: 8),
                                 Text(
-                                  "Leslie Alexander",
+                                  session.coachName,
                                   style: TextStyle(
                                       color: Color(0xFF1F2937),
                                       fontSize: 16,
@@ -207,15 +128,16 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Date
+
                                   Row(
                                     children: [
                                       Icon(Icons.calendar_today,
                                           color: Color(0xFF00428A), size: 18),
                                       SizedBox(width: 6),
                                       Text(
-                                        "Monday, June 15",
+                                        DateFormat('EEEE, MMM d').format(DateTime.parse(session.sessionDate)),
                                         style: TextStyle(
                                             color: Color(0xFF4B5563),
                                             fontSize: 14,
@@ -245,7 +167,16 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                           color: Color(0xFF4B5563), size: 18),
                                       SizedBox(width: 6),
                                       Text(
-                                        "10:00 AM".tr,
+                                        DateFormat.jm().format(
+                                          DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day,
+                                            int.parse(session.sessionTime.split(":")[0]),
+                                            int.parse(session.sessionTime.split(":")[1]),
+                                            int.parse(session.sessionTime.split(":")[2]),
+                                          ),
+                                        ),
                                         style: TextStyle(
                                             color: Color(0xFF4B5563),
                                             fontSize: 14,
@@ -306,10 +237,11 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                         ));
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 12),
-                  itemCount: 5),
+                  itemCount: _coachHomeController.coachUserBookingList.length),
             )
           ],
         ),
+      )
       ),
     );
   }

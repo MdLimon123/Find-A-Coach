@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:find_me_a_coach/models/clientModel/client_booking_details_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_past_session_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_upcoming_model.dart';
@@ -12,6 +14,11 @@ import 'package:get/get.dart';
 class ClientBookingController extends GetxController{
 
   var tabIndex = 0.obs;
+
+   final cancelLoading = false.obs;
+   final isReviewSubmitted = false.obs;
+
+   RxInt rating = 0.obs;
 
   final upcomingLoading = false.obs;
   final pastSessionLoading = false.obs;
@@ -57,7 +64,6 @@ class ClientBookingController extends GetxController{
 
   }
 
-
   Future<void> fetchPastSessions() async {
 
     pastSessionLoading(true);
@@ -85,6 +91,46 @@ class ClientBookingController extends GetxController{
       showCustomSnackBar(response.body['message'], isError: true);
     }
     bookingDetailsLoading(false);
+
+  }
+
+  Future<void> cancelBooking(int id) async {
+
+    cancelLoading(true);
+
+    final body = {
+      "status": "canceled"
+    };
+
+    final response = await ApiClient.patchData(ApiConstant.statusChangeEndPoint(id: id), body);
+    if(response.statusCode == 200 || response.statusCode == 201){
+      showCustomSnackBar(response.body['message'], isError: false);
+      Get.back();
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+    }
+    cancelLoading(false);
+
+  }
+
+  Future<void> submitReview(int id, int rating) async {
+
+    isReviewSubmitted(true);
+
+    final body = {
+      "session": id,
+      "rating": rating
+    };
+
+    final response = await ApiClient.postData(ApiConstant.leaveReviewEndPoint, body);
+    if(response.statusCode == 200 || response.statusCode == 201){
+      showCustomSnackBar(response.body['message'], isError: false);
+      Get.back();
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+
+    }
+    isReviewSubmitted(false);
 
   }
 

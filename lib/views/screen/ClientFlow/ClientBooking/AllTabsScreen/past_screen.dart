@@ -6,6 +6,7 @@ import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -171,25 +172,27 @@ class _PastScreenState extends State<PastScreen> {
                                 ),),
                               SizedBox(height: 16,),
 
-                              RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemPadding: EdgeInsets.symmetric(horizontal: 8),
-                                  itemSize: 30,
-                                  itemCount: 5,
-                                  itemBuilder: (context, _) => Icon(Icons.star,
-                                    color: Color(0xFFFB9506),),
-                                  onRatingUpdate: (rating) {
-
-                                  }),
+                              Obx(
+                                  ()=> RatingBar.builder(
+                                    initialRating: _clientBookingController.rating.value.toDouble(),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemPadding: EdgeInsets.symmetric(horizontal: 8),
+                                    itemSize: 30,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => Icon(Icons.star,
+                                      color: Color(0xFFFB9506),),
+                                    onRatingUpdate: (rating) {
+                                      _clientBookingController.rating.value = rating.toInt();
+                                    }),
+                              ),
                               SizedBox(height: 16,),
                               Row(
                                 children: [
                                   Expanded(
-                                    child: InkWell( // Added InkWell for tap
-                                      onTap: () => Navigator.of(context).pop(), // Close dialog
+                                    child: InkWell(
+                                      onTap: () => Navigator.of(context).pop(),
                                       child: Container(
                                         width: double.infinity,
                                         height: 44,
@@ -212,10 +215,12 @@ class _PastScreenState extends State<PastScreen> {
                                   ),
                                   SizedBox(width: 12,),
                                   Expanded(
-                                    child: InkWell( // Added InkWell for tap
+                                    child: InkWell(
                                       onTap: () {
-                                        // TODO: Implement submit rating logic
-                                        Navigator.of(context).pop(); // Close dialog
+                                        _clientBookingController.submitReview(
+                                            pastList.bookingId,
+                                            _clientBookingController.rating.value);
+
                                       },
                                       child: Container(
                                         width: double.infinity,
@@ -227,9 +232,13 @@ class _PastScreenState extends State<PastScreen> {
                                               width: 1),
                                         ),
                                         child: Center(
-                                          child: Text('Submit', // Changed
+                                          child: _clientBookingController.isReviewSubmitted.value?
+                                          SpinKitCircle(
+                                            color:Colors.white,
+                                            size: 30,
+                                          ):Text('Submit',
                                             style: TextStyle(
-                                                color: Color(0xFFFFFFFF), // Assuming AppColors.textColor is white for primaryColor bg
+                                                color: Color(0xFFFFFFFF),
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500
                                             ),),

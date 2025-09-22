@@ -7,6 +7,7 @@ import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/date_time_formate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
@@ -174,7 +175,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       fontWeight: FontWeight.w600,
                     ),),
                   SizedBox(height: 8,),
-                  Text("bookingDetailsScreen.durationValue60min".tr, // Changed (if this is a fixed value)
+                  Text("bookingDetailsScreen.durationValue60min".tr,
                     style: TextStyle(
                       color: AppColors.bigTextColor,
                       fontSize: 16,
@@ -188,7 +189,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       fontWeight: FontWeight.w600,
                     ),),
                   SizedBox(height: 8,),
-                  Text("$dateText , $timeText", // Changed (if this is a fixed or example value)
+                  Text("$dateText , $timeText",
                     style: TextStyle(
                       color: AppColors.bigTextColor,
                       fontSize: 16,
@@ -200,7 +201,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
             ),
             SizedBox(height: 12,),
             Text(
-              "Price \$${bookingDetails.price}", // Changed & interpolated
+              "Price \$${bookingDetails.price}",
               style: TextStyle(
                 color: Color(0xFF1F2937),
                 fontSize: 24,
@@ -208,21 +209,31 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               ),
             ),
             SizedBox(height: 32,),
-            Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Color(0xFFE6ECF3),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFFB0C4DB))
-              ),
-              child: Center(
-                child: Text("bookingDetailsScreen.cancelBookingButton".tr, // Changed
-                  style: TextStyle(
-                    color: Color(0xFF00428A),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),),
+            Obx(
+              ()=> InkWell(
+                onTap: (){
+                  _clientBookingController.cancelBooking(bookingDetails.bookingId);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFE6ECF3),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Color(0xFFB0C4DB))
+                  ),
+                  child: Center(
+                    child: _clientBookingController.cancelLoading.value?SpinKitCircle(
+                      color:AppColors.primaryColor,
+                      size: 30,
+                    ): Text("bookingDetailsScreen.cancelBookingButton".tr, // Changed
+                      style: TextStyle(
+                        color: Color(0xFF00428A),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),),
+                  ),
+                ),
               ),
             )
           ],

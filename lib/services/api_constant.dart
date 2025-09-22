@@ -34,14 +34,19 @@ class ApiConstant{
    static String pastSessionEndPoint = "/api/v1/auth/bookings/user/past_session/";
    static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/";
    static String categoryAndSubCategories = "/api/v1/auth/coaching-areas/";
+   static String leaveReviewEndPoint = "/api/v1/auth/reviews/create/";
+
 
    /// coach auth api ends points
-
   static String coachProfile = "/api/v1/auth/profile/";
+  static String coachBookAllUserEedPoint ="/api/v1/auth/bookings/coach/";
+  static String coachUpcomingSessionEndPoint = "/api/v1/auth/bookings/coach/upcomming_session/";
 
    /// social auth api ends points
   static String clientGoogleLogIn = "/api/v1/auth/google-login/";
 
+  /// status change api coach and client both
+static String statusChangeEndPoint({required int id}) => "/api/v1/auth/bookings/$id/status/";
 
 
 }
