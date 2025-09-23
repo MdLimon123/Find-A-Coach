@@ -4,8 +4,8 @@
 class ApiConstant{
   //http://172.252.13.79:3212
   //static String baseUrl="http://10.10.12.49:8003"; // live
-  static String baseUrl="http://10.10.12.49:8000"; // local
-  static String imageBaseUrl = "http://10.10.12.49:8000";
+  static String baseUrl="http://10.10.12.49:8001"; // local
+  static String imageBaseUrl = "http://10.10.12.49:8001";
 
   /// client auth api ends points
   static String clientSignUp = "/api/v1/auth/signup/";
@@ -35,6 +35,9 @@ class ApiConstant{
    static String bookingDetailsEndPoint({required int id}) => "/api/v1/auth/bookings/user/";
    static String categoryAndSubCategories = "/api/v1/auth/coaching-areas/";
    static String leaveReviewEndPoint = "/api/v1/auth/reviews/create/";
+   static String goalsEndPoint = "/api/v1/auth/goals/";
+   static String getAllMilestonesEndPoint({required int id}) => "/api/v1/auth/goals/$id/milestones/";
+   static String updateMilestoneEndPoint = "/api/v1/auth/milestones/update/";
 
 
    /// coach auth api ends points
@@ -47,6 +50,11 @@ class ApiConstant{
 
   /// status change api coach and client both
 static String statusChangeEndPoint({required int id}) => "/api/v1/auth/bookings/$id/status/";
+static String availableTopicsEndPoint = "/api/v1/community/topics/";
+static String addTopicEndPoint = "/api/v1/community/posts/";
+static String aboutUsEndPoint = "/api/v1/settings/about_us/";
+static String termsOfConditionEndPoint = "/api/v1/settings/terms_conditions/";
+static String privacyPolicyEndPoint = "/api/v1/settings/privacy_policies/";
 
 
 }

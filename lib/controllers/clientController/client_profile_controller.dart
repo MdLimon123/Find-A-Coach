@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:find_me_a_coach/controllers/data_controller.dart';
+import 'package:find_me_a_coach/models/clientModel/client_goal_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_profile_model.dart';
+import 'package:find_me_a_coach/models/clientModel/milestone_model.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/image_utils.dart';
@@ -16,11 +18,31 @@ class ClientProfileController extends GetxController{
 
   Rxn<ClientUser> clientProfile = Rxn<ClientUser>();
 
+  RxList<Milestone> clientGoals = <Milestone>[].obs;
+  RxList<MilestoneModel> clientMilestones = <MilestoneModel>[].obs;
+
   var isLoading = false.obs;
+
+  final isMilestoneLoading = false.obs;
 
   final isProfileLoading = false.obs;
 
+  final isGoalLoading = false.obs;
+
+  final isUpdateLoading = false.obs;
+
+  var totalMilestones = 0.obs;
+  var completedMilestones = 0.obs;
+
+  var goalId = 0.obs;
+
   final _dataController = Get.put(DataController());
+
+
+  void toggleMilestoneCompleted(int index, bool value) {
+    final updated = clientMilestones[index].copyWith(isCompleted: value);
+    clientMilestones[index] = updated;
+  }
 
 
   Future<void> pickClientProfileEditImage({bool fromCamera = false})async{
@@ -81,6 +103,8 @@ class ClientProfileController extends GetxController{
     }
 
 
+
+
     final Map<String, String> body = {
       "image": profileImagePath,
       "full_name": fullName,
@@ -131,6 +155,57 @@ class ClientProfileController extends GetxController{
       isProfileLoading(false);
     }
   }
+
+ Future<void> fetchAllGoal()async{
+
+    isGoalLoading(true);
+    final response = await ApiClient.getData(ApiConstant.goalsEndPoint);
+    if(response.statusCode == 200){
+
+      totalMilestones.value = response.body['data'][0]['total_milestones'];
+      completedMilestones.value = response.body['data'][0]['completed_milestones'];
+      goalId.value = response.body['data'][0]['id'];
+      List<dynamic> data = response.body['data'];
+      clientGoals.value = data.map((e) => ClientGoalModel.fromJson(e).milestones).expand((element) => element).toList();
+
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isGoalLoading(false);
+
+ }
+
+ Future<void> fetchAllMilestones()async{
+
+    isMilestoneLoading(true);
+    final response = await ApiClient.getData(ApiConstant.getAllMilestonesEndPoint(id: goalId.value));
+    if(response.statusCode == 200){
+      List<dynamic> data = response.body['data'];
+      clientMilestones.value = data.map((e) => MilestoneModel.fromJson(e)).toList();
+    }else{
+      showCustomSnackBar(response.body['message']);
+    }
+    isMilestoneLoading(false);
+
+ }
+
+  Future<void> updateMilestone(List<Map<String, dynamic>> milestones) async {
+    isUpdateLoading(true);
+
+    final body = {"milestones": milestones};
+
+    final response = await ApiClient.patchData(ApiConstant.updateMilestoneEndPoint, body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showCustomSnackBar("Milestones updated successfully", isError: false);
+      Get.back();
+    } else {
+      showCustomSnackBar("Something went wrong", isError: true);
+    }
+
+    isUpdateLoading(false);
+  }
+
 
 
 }

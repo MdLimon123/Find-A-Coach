@@ -62,63 +62,144 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-
-                  CustomNetworkImage(
-                      imageUrl: "${ApiConstant.imageBaseUrl}${coach.image}",
-                      height: 80,
-                      boxShape: BoxShape.circle,
-                      width: 80),
-
-                  SizedBox(width: 12,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(coach.fullName,
-                        style: TextStyle(
-                          color: Color(0xFF1F2937),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),),
-                      Text(coach.certifications.join(","),
-                        style: TextStyle(
-                          color: Color(0xFF374151),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),),
-                      Row(
-                        children: [
-                          RatingBar.builder(
-                            initialRating: coach.rating,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemSize: 14,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Color(0xFF00428A),
-                              size: 12,
-                            ),
-                            onRatingUpdate: (rating) {},
-                          ),
-                          SizedBox(width: 4,),
-                          Text("${coach.rating} (${coach.totalRatingCount})",
-                            style: TextStyle(
-                              color: AppColors.bigTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),)
-                        ],
-                      )
-                    ],
-                  )
-                ],
+              // Row(
+              //   children: [
+              //
+              //     CustomNetworkImage(
+              //         imageUrl: "${ApiConstant.imageBaseUrl}${coach.image}",
+              //         height: 80,
+              //         boxShape: BoxShape.circle,
+              //         width: 80),
+              //
+              //     SizedBox(width: 12,),
+              //     Column(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: [
+              //             Text(coach.fullName,
+              //               style: TextStyle(
+              //                 color: Color(0xFF1F2937),
+              //                 fontSize: 20,
+              //                 fontWeight: FontWeight.w600,
+              //               ),),
+              //             Align(
+              //               alignment: Alignment.centerRight,
+              //               child: SvgPicture.asset('assets/icons/sava.svg'),
+              //             )
+              //           ],
+              //         ),
+              //         Text(coach.certifications.join(","),
+              //           style: TextStyle(
+              //             color: Color(0xFF374151),
+              //             fontSize: 14,
+              //             fontWeight: FontWeight.w400,
+              //           ),),
+              //         Row(
+              //           children: [
+              //             RatingBar.builder(
+              //               initialRating: coach.rating,
+              //               minRating: 1,
+              //               direction: Axis.horizontal,
+              //               allowHalfRating: true,
+              //               itemSize: 14,
+              //               itemCount: 5,
+              //               itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+              //               itemBuilder: (context, _) => Icon(
+              //                 Icons.star,
+              //                 color: Color(0xFF00428A),
+              //                 size: 12,
+              //               ),
+              //               onRatingUpdate: (rating) {},
+              //             ),
+              //             SizedBox(width: 4,),
+              //             Text("${coach.rating} (${coach.totalRatingCount})",
+              //               style: TextStyle(
+              //                 color: AppColors.bigTextColor,
+              //                 fontSize: 10,
+              //                 fontWeight: FontWeight.w400,
+              //               ),)
+              //           ],
+              //         )
+              //       ],
+              //     )
+              //   ],
+              // ),
+            Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomNetworkImage(
+                imageUrl: "${ApiConstant.imageBaseUrl}${coach.image}",
+                height: 80,
+                width: 80,
+                boxShape: BoxShape.circle,
               ),
-              SizedBox(height: 20,),
+               SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            coach.fullName,
+                            style: const TextStyle(
+                              color: Color(0xFF1F2937),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SvgPicture.asset('assets/icons/sava.svg'),
+                      ],
+                    ),
+                    Text(
+                      coach.certifications.join(","),
+                      style: const TextStyle(
+                        color: Color(0xFF374151),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        RatingBar.builder(
+                          initialRating: coach.rating,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemSize: 14,
+                          itemCount: 5,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Color(0xFF00428A),
+                            size: 12,
+                          ),
+                          onRatingUpdate: (_) {},
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          "${coach.rating} (${coach.totalRatingCount})",
+                          style:  TextStyle(
+                            color: AppColors.bigTextColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+
+          SizedBox(height: 20,),
               _buildRow(
                 image: 'assets/icons/location.svg',
                 text: 'From: ${coach.location}}',

@@ -16,7 +16,7 @@ class ClientBookingController extends GetxController{
   var tabIndex = 0.obs;
 
    final cancelLoading = false.obs;
-   final isReviewSubmitted = false.obs;
+  RxMap<int, bool> reviewLoadingMap = <int, bool>{}.obs;
 
    RxInt rating = 0.obs;
 
@@ -114,24 +114,22 @@ class ClientBookingController extends GetxController{
   }
 
   Future<void> submitReview(int id, int rating) async {
-
-    isReviewSubmitted(true);
+    reviewLoadingMap[id] = true;
 
     final body = {
       "session": id,
-      "rating": rating
+      "rating": rating,
     };
 
     final response = await ApiClient.postData(ApiConstant.leaveReviewEndPoint, body);
-    if(response.statusCode == 200 || response.statusCode == 201){
-      showCustomSnackBar(response.body['message'], isError: false);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showCustomSnackBar("Review Submitted Successfully", isError: false);
       Get.back();
-    }else{
-      showCustomSnackBar(response.body['message'], isError: true);
-
+    } else {
+      showCustomSnackBar("Something went wrong", isError: true);
     }
-    isReviewSubmitted(false);
 
+    reviewLoadingMap[id] = false;
   }
 
 }

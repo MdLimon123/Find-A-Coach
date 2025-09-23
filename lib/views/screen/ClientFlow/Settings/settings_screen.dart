@@ -56,13 +56,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               image: 'assets/icons/global.svg',
               text: 'settingsScreen.changeLanguage'.tr),
-          SizedBox(height: 12),
-          _buildCustomContainer(
-              onTap: () {
-                Get.to(() => ChangeLocationScreen());
-              },
-              image: 'assets/icons/location.svg',
-              text: 'settingsScreen.changeLocation'.tr),
+          // SizedBox(height: 12),
+          // _buildCustomContainer(
+          //     onTap: () {
+          //       Get.to(() => ChangeLocationScreen());
+          //     },
+          //     image: 'assets/icons/location.svg',
+          //     text: 'settingsScreen.changeLocation'.tr),
           SizedBox(height: 12),
           _buildCustomContainer(
               onTap: () {

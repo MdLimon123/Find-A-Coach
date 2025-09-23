@@ -1,7 +1,13 @@
+import 'package:find_me_a_coach/controllers/coachController/coach_home_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SessionsScreen extends StatefulWidget {
   const SessionsScreen({super.key});
@@ -13,12 +19,40 @@ class SessionsScreen extends StatefulWidget {
 class _SessionsScreenState extends State<SessionsScreen> {
 
   final linkController = TextEditingController();
+  
+  final _coachHomeController = Get.put(CoachHomeController());
+  
+  
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _coachHomeController.fetchCoachUpcomingSession();
+    });
+    super.initState();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return Obx(()=> _coachHomeController.isLoading.value?
+    Center(child: CustomPageLoading()):
+    ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (context, index){
+          final session = _coachHomeController.coachUpcomingSessionList[index];
+          final sessionDate = DateTime.parse(session.sessionDate); // "2025-09-30"
+          final timeParts = session.sessionTime.split(':');        // "10:00:00"
+          final sessionDateTime = DateTime(
+            sessionDate.year,
+            sessionDate.month,
+            sessionDate.day,
+            int.parse(timeParts[0]),
+            int.parse(timeParts[1]),
+            int.parse(timeParts[2]),
+          );
+
+
+          final bool canJoin = DateTime.now().isAfter(sessionDateTime);
           return InkWell(
             onTap: (){
 
@@ -38,28 +72,26 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                fit: BoxFit.cover)
-                        ),
-                      ),
+                      
+                      CustomNetworkImage(
+                          imageUrl: "${ApiConstant.imageBaseUrl}${session.coachImage}",
+                          boxShape: BoxShape.circle,
+                          height: 50,
+                          width: 50),
+
                       SizedBox(width: 4,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Maria Hernandez",
+                          Text(session.coachName,
                             style: TextStyle(
                                 color: Color(0xFF1F2937),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500
                             ),),
                           SizedBox(height: 4,),
-                          Text("Career Coach",
+                          Text(session.coachingAreaName,
                             style: TextStyle(
                                 color: AppColors.bigTextColor,
                                 fontSize: 14,
@@ -71,74 +103,91 @@ class _SessionsScreenState extends State<SessionsScreen> {
                   ),
                   SizedBox(height: 16,),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Color(0xFFE6ECF3), // light background
+                      color: Color(0xFFE6ECF3),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Calendar + Date
+
                         Row(
                           children: [
-                            SvgPicture.asset('assets/icons/calender.svg'),
+                            Icon(Icons.calendar_today,
+                                color: Color(0xFF00428A), size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "Today",
+
+                               DateFormat('EEEE, MMM d').format(DateTime.parse(session.sessionDate)),
                               style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF4B5563),
-                              ),
+                                  color: Color(0xFF4B5563),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
 
-                        SizedBox(width: 30,),
                         // Divider
-                        Container(
-                          width: 1,
-                          height: 20,
-                          color: Color(0xFF4B5563),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6),
+                          child: SizedBox(
+                            height: 24,
+                            child: VerticalDivider(
+                              color: Color(0xFF4B5563),
+                              thickness: 1,
+                              width: 1,
+                            ),
+                          ),
                         ),
-                        SizedBox(width: 30,),
-                        // Clock + Time
+
+                        // Time
                         Row(
                           children: [
-                            Icon(Icons.access_time, size: 16, color: AppColors.primaryColor),
+                            Icon(Icons.access_time,
+                                color: Color(0xFF4B5563), size: 18),
                             SizedBox(width: 6),
                             Text(
-                              "Now",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF4B5563),
+
+                              DateFormat.jm().format(
+                                DateTime(
+                                  DateTime.now().year,
+                                  DateTime.now().month,
+                                  DateTime.now().day,
+                                  int.parse(session.sessionTime.split(":")[0]),
+                                  int.parse(session.sessionTime.split(":")[1]),
+                                  int.parse(session.sessionTime.split(":")[2]),
+                                ),
                               ),
+                              style: TextStyle(
+                                  color: Color(0xFF4B5563),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
 
-                        Spacer(),
-
-                        // People icon button
-                        Container(
-                          height: 28,
-                          width: 28,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF2563EB), // blue background
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: SvgPicture.asset('assets/icons/computer.svg',
-                              color: Color(0xFFFFFFFF),),
-                          ),
-                        )
+                        // Device Icon
+                        Padding(
+                          padding: EdgeInsets.only(left: 6),
+                          child: Container(
+                              height: 24,
+                              width: 24,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF002F62),
+                                  shape: BoxShape.circle),
+                              child: Icon(Icons.computer,
+                                  color: Colors.white, size: 18)),
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(height: 16,),
-
+                  if(canJoin)
                   InkWell(
                     onTap: (){
 
@@ -154,19 +203,19 @@ class _SessionsScreenState extends State<SessionsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Link",
-                                style: TextStyle(
-                                  color: AppColors.bigTextColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500
+                                  style: TextStyle(
+                                      color: AppColors.bigTextColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500
 
-                                ),),
+                                  ),),
                                 SizedBox(height: 8,),
                                 CustomTextField(controller: linkController,
-                                hintText: 'Paste link',
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset('assets/icons/attach.svg'),
-                                ),)
+                                  hintText: 'Paste link',
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset('assets/icons/attach.svg'),
+                                  ),)
                               ],
                             )
                         );
@@ -202,6 +251,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
           );
         },
         separatorBuilder: (__, _)=> SizedBox(height: 12,),
-        itemCount: 5);
+        itemCount: _coachHomeController.coachUpcomingSessionList.length));
+
   }
 }

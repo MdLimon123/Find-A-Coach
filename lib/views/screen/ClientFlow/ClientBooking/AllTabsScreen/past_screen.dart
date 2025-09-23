@@ -215,33 +215,34 @@ class _PastScreenState extends State<PastScreen> {
                                   ),
                                   SizedBox(width: 12,),
                                   Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        _clientBookingController.submitReview(
-                                            pastList.bookingId,
-                                            _clientBookingController.rating.value);
+                                    child: Obx(
+                                  ()=> InkWell(
+                                        onTap: () {
+                                          _clientBookingController.submitReview(
+                                              pastList.bookingId,
+                                              _clientBookingController.rating.value);
 
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 44,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.primaryColor,
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(color: Color(0xFFFFFFFF),
-                                              width: 1),
-                                        ),
-                                        child: Center(
-                                          child: _clientBookingController.isReviewSubmitted.value?
-                                          SpinKitCircle(
-                                            color:Colors.white,
-                                            size: 30,
-                                          ):Text('Submit',
-                                            style: TextStyle(
-                                                color: Color(0xFFFFFFFF),
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500
-                                            ),),
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 44,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primaryColor,
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(color: Color(0xFFFFFFFF),
+                                                width: 1),
+                                          ),
+                                          child:  Center(
+                                            child: _clientBookingController.reviewLoadingMap[pastList.bookingId] == true
+                                                ? SpinKitCircle(color: Colors.white, size: 30)
+                                                : Text(
+                                              'Submit',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),

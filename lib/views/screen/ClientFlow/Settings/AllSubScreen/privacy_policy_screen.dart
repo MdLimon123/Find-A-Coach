@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/about_us_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -11,94 +12,47 @@ class PrivacyPolicyScreen extends StatefulWidget {
 }
 
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
+
+
+  final _aboutUsController = Get.put(AboutUsController());
+
+  @override
+  void initState() {
+    _aboutUsController.fetchPrivacyPolicy();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppbar(title: "privacyPolicy.title".tr),
-      body: ListView(
+      body: ListView.builder(
+        itemCount: _aboutUsController.privacyPolicyList.length,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        children: [
-          Text("privacyPolicy.section1.title".tr,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section1.text".tr,
-            style: TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section2.title".tr,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section2.text".tr,
-            style: TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section3.title".tr,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section3.text".tr,
-            style: TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section4.title".tr,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section4.text".tr,
-            style: TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section5.title".tr,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text("privacyPolicy.section5.text".tr,
-            style: TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
+        itemBuilder: (context, index){
+          final privacyPolicy = _aboutUsController.privacyPolicyList[index];
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(privacyPolicy.title,
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(privacyPolicy.content,
+                style: TextStyle(
+                  color: Color(0xFF4B5563),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }

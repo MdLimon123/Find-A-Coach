@@ -6,11 +6,15 @@ import 'package:find_me_a_coach/views/base/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class CoachHomeController extends GetxController{
+  RxMap<int, bool> bookingLoading = <int, bool>{}.obs;
+
+  RxMap<int, bool> declineLoading = <int, bool>{}.obs;
 
   RxList<CoachUserBookingModel> coachUserBookingList = <CoachUserBookingModel>[].obs;
   RxList<CoachUpcomingSessionModel> coachUpcomingSessionList = <CoachUpcomingSessionModel>[].obs;
 
   final isLoading = false.obs;
+
 
 
   Future<void> fetchCoachUpcomingSession()async{
@@ -46,6 +50,45 @@ class CoachHomeController extends GetxController{
       showCustomSnackBar(response.body['message'], isError: true);
     }
     isLoading(false);
+
+  }
+
+  Future<void> bookingAccept(int id) async {
+
+    bookingLoading[id] = true;
+
+    final body = {
+      "status": "confirmed"
+    };
+
+    final response = await ApiClient.patchData(ApiConstant.statusChangeEndPoint(id: id), body);
+    if(response.statusCode == 200 || response.statusCode == 201){
+
+      showCustomSnackBar("Accepted", isError: false);
+      //showCustomSnackBar(response.body['message'], isError: false);
+
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+    }
+    bookingLoading[id] = false;
+
+  }
+
+  Future<void> declineBooking(int id) async {
+
+    declineLoading[id] = true;
+
+    final body = {
+      "status": "canceled"
+    };
+
+    final response = await ApiClient.patchData(ApiConstant.statusChangeEndPoint(id: id), body);
+    if(response.statusCode == 200 || response.statusCode == 201){
+      showCustomSnackBar("Declined", isError: false);
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+    }
+    declineLoading[id] = false;
 
   }
 

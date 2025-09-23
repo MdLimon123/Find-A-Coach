@@ -4,9 +4,10 @@ class CommunityModel {
   final String image;
   final int topic;
   final String topicName;
-  final String title;
+  final String? title;
   final String content;
   final DateTime createdAt;
+  final int commentsCount;
   final List<Comment> comments;
 
   CommunityModel({
@@ -15,9 +16,10 @@ class CommunityModel {
     required this.image,
     required this.topic,
     required this.topicName,
-    required this.title,
+    this.title,
     required this.content,
     required this.createdAt,
+    required this.commentsCount,
     required this.comments,
   });
 
@@ -28,9 +30,10 @@ class CommunityModel {
       image: json['image'] ?? '',
       topic: json['topic'] ?? 0,
       topicName: json['topic_name'] ?? '',
-      title: json['title'] ?? '',
+      title: json['title'], // nullable
       content: json['content'] ?? '',
       createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+      commentsCount: json['comments_count'] ?? 0,
       comments: (json['comments'] as List<dynamic>? ?? [])
           .map((e) => Comment.fromJson(e))
           .toList(),
@@ -47,6 +50,7 @@ class CommunityModel {
       'title': title,
       'content': content,
       'created_at': createdAt.toIso8601String(),
+      'comments_count': commentsCount,
       'comments': comments.map((c) => c.toJson()).toList(),
     };
   }

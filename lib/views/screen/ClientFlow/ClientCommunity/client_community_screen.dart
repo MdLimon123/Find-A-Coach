@@ -185,7 +185,7 @@ class _ClientCommunityScreenState extends State<ClientCommunityScreen> {
                                       'assets/icons/secondaryComment.svg'),
                                   SizedBox(width: 4),
                                   Text(
-                                    "comment_count_20".tr,
+                                    "${community.commentsCount} ${"comments".tr}",
                                     style: TextStyle(
                                       color: Color(0xFF4B4B4B),
                                       fontSize: 12,

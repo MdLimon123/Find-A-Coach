@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/client_booking_controller.dart';
 import 'package:find_me_a_coach/controllers/coachController/coach_home_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notificatio
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachSetting/coach_setting_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +26,8 @@ class CoachHomeScreen extends StatefulWidget {
 class _CoachHomeScreenState extends State<CoachHomeScreen> {
 
   final _coachHomeController = Get.put(CoachHomeController());
+
+
 
   @override
   void initState() {
@@ -204,31 +208,48 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE6ECF3),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: Color(0xFFE6E7EA), width: 1),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Decline",
-                                        style: TextStyle(
-                                            color: Color(0xFF031330),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
+                                  child: Obx(
+                    ()=> InkWell(
+                                      onTap: () {
+                                        _coachHomeController.declineBooking(session.bookingId);
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 44,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFE6ECF3),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: Color(0xFFE6E7EA), width: 1),
+                                        ),
+                                        child: Center(
+                                          child: _coachHomeController.declineLoading[session.bookingId] ?? false?
+                                          SpinKitCircle(
+                                            color:AppColors.primaryColor,
+                                            size: 30,
+                                          ):
+                                          Text(
+                                            "Decline",
+                                            style: TextStyle(
+                                                color: Color(0xFF031330),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(width: 12),
                                 Expanded(
-                                  child: CustomButton(
-                                    onTap: () {},
-                                    text: 'Accept',
+                                  child: Obx(
+                                      ()=> CustomButton(
+                                        loading: _coachHomeController.bookingLoading[session.bookingId] ?? false,
+                                      onTap: () {
+                                        _coachHomeController.bookingAccept(session.bookingId);
+                                      },
+                                      text: 'Accept',
+                                    ),
                                   ),
                                 )
                               ],
