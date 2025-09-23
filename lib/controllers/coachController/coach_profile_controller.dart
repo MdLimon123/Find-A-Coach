@@ -17,6 +17,8 @@ class CoachProfileController extends GetxController{
 
   final _dataController = Get.put(DataController());
 
+  final changeLocationLoading = false.obs;
+
 
   Rx<File?> coachProfileEditImage = Rx<File?>(null);
 
@@ -124,6 +126,35 @@ class CoachProfileController extends GetxController{
     }
 
     isLoading(false);
+  }
+
+
+  Future<void> changeLocation({
+
+    required String location,
+
+  }) async {
+    changeLocationLoading(true);
+
+    final Map<String, String> body = {
+      "location": location,
+    };
+
+
+    final response =
+    await ApiClient.patchData(ApiConstant.addUserProfile, body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+
+      final json = response.body;
+      await _dataController.setCoachData(json['data'] ?? {});
+      showCustomSnackBar("Location updated successfully", isError: false);
+      Get.back();
+    } else {
+      showCustomSnackBar(response.body['message'], isError: true);
+    }
+
+    changeLocationLoading(false);
   }
 
 }
