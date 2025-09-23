@@ -5,6 +5,7 @@ import 'package:find_me_a_coach/controllers/data_controller.dart';
 import 'package:find_me_a_coach/models/clientModel/client_goal_model.dart';
 import 'package:find_me_a_coach/models/clientModel/client_profile_model.dart';
 import 'package:find_me_a_coach/models/clientModel/milestone_model.dart';
+import 'package:find_me_a_coach/models/clientModel/save_coach_model.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/image_utils.dart';
@@ -20,6 +21,7 @@ class ClientProfileController extends GetxController{
 
   RxList<Milestone> clientGoals = <Milestone>[].obs;
   RxList<MilestoneModel> clientMilestones = <MilestoneModel>[].obs;
+  RxList<SaveCoachModel> savedCoach = <SaveCoachModel>[].obs;
 
   var isLoading = false.obs;
 
@@ -30,6 +32,8 @@ class ClientProfileController extends GetxController{
   final isGoalLoading = false.obs;
 
   final isUpdateLoading = false.obs;
+
+  final isSaveCoachLoading = false.obs;
 
   var totalMilestones = 0.obs;
   var completedMilestones = 0.obs;
@@ -206,6 +210,18 @@ class ClientProfileController extends GetxController{
     isUpdateLoading(false);
   }
 
+Future<void> fetchSaveCoach()async{
 
+    isSaveCoachLoading(true);
+    final response = await ApiClient.getData(ApiConstant.savedCoachEndPoint);
+    if(response.statusCode == 200){
+      List<dynamic> data = response.body['data'];
+      savedCoach.value = data.map((e) => SaveCoachModel.fromJson(e)).toList();
+    }else{
+      showCustomSnackBar(response.body['message'], isError: true);
+
+    }
+    isSaveCoachLoading(false);
+}
 
 }

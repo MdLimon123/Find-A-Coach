@@ -38,6 +38,8 @@ class ApiConstant{
    static String goalsEndPoint = "/api/v1/auth/goals/";
    static String getAllMilestonesEndPoint({required int id}) => "/api/v1/auth/goals/$id/milestones/";
    static String updateMilestoneEndPoint = "/api/v1/auth/milestones/update/";
+   static String saveCoachEndPoint({required int id}) => "/api/v1/auth/favorites/$id/";
+   static String savedCoachEndPoint = "/api/v1/auth/favorites/";
 
 
    /// coach auth api ends points

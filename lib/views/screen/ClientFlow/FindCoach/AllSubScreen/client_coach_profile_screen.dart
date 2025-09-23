@@ -153,7 +153,11 @@ class _ClientCoachProfileScreenState extends State<ClientCoachProfileScreen> {
                             ),
                           ),
                         ),
-                        SvgPicture.asset('assets/icons/sava.svg'),
+                        InkWell(
+                          onTap: (){
+                            _findCoachController.saveCoach(id: coach.userId);
+                          },
+                            child: SvgPicture.asset('assets/icons/sava.svg')),
                       ],
                     ),
                     Text(

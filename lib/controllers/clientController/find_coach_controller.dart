@@ -19,6 +19,8 @@ class FindCoachController extends GetxController {
 
   final isCategoryLoading = false.obs;
 
+  final isSaveCoachLoading = false.obs;
+
   Rx<CoachProfile?> coachProfile = Rx<CoachProfile?>(null);
 
   var selected = 0.obs;
@@ -232,6 +234,22 @@ class FindCoachController extends GetxController {
     }
     isLoading(false);
 
+
+  }
+
+  Future<void> saveCoach({required int id})async{
+
+    isSaveCoachLoading(true);
+
+    final response = await ApiClient.postData(ApiConstant.saveCoachEndPoint(id: id), null);
+
+    if(response.statusCode == 200 || response.statusCode == 201){
+      showCustomSnackBar("Save Successfully", isError: false);
+
+    }else{
+      showCustomSnackBar(response.body['detail'], isError: true);
+    }
+    isSaveCoachLoading(false);
 
   }
 
