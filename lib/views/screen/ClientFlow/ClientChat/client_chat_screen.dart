@@ -1,135 +1,130 @@
+import 'package:find_me_a_coach/controllers/clientController/client_chat_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
+import 'package:find_me_a_coach/controllers/data_controller.dart';
+import 'package:find_me_a_coach/models/all_message_model.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 
 class ClientChatScreen extends StatefulWidget {
-  const ClientChatScreen({super.key});
+
+  final int id;
+  final String name;
+  final String image;
+
+  const ClientChatScreen({super.key, required this.id, required this.name, required this.image});
 
   @override
   State<ClientChatScreen> createState() => _ClientChatScreenState();
 }
 
 class _ClientChatScreenState extends State<ClientChatScreen> {
-  final sendMessageTextController = TextEditingController();
 
-  final List<Map<String, dynamic>> messages = [
-    {
-      "text": "Hello, how can I assist you today?",
-      "time": "10:00 AM",
-      "isMe": true,
-    },
-    {
-      "text": "Hello, how can I assist you today?",
-      "time": "10:00 AM",
-      "isMe": false,
-    },
-    {
-      "text": "Hello, how can I assist you today?",
-      "time": "10:00 AM",
-      "isMe": true,
-    }
-  ];
+
+  final _clientChatController = Get.put(ClientChatController());
+  final _dataController = Get.put(DataController());
+  final _clientHomeController = Get.find<ClientHomeController>();
+
+
+  @override
+  void initState() {
+    print("id ===============>${widget.id}");
+    print("roomId ===============>${_clientHomeController.roomId.value}");
+    print("data id ===============>${_dataController.id.value}");
+
+    _dataController.getUserData();
+    _clientChatController.fetchAllMessage(
+        id: _clientHomeController.roomId.value);
+    _clientChatController.initialize(userId: _dataController.id.value,
+        id: _clientHomeController.roomId.value);
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomChatAppBar(),
+      appBar: CustomChatAppBar(
+        image: widget.image,
+        name: widget.name,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
           children: [
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  final message = messages[index];
-                  return Align(
-                    alignment: message['isMe']
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 4),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 10),
-                      constraints: BoxConstraints(maxWidth: 280),
-                      decoration: BoxDecoration(
-                        color: message['isMe']
-                            ? AppColors.primaryColor
-                            : const Color(0xFFE5E7EB),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                          topLeft: Radius.circular(
-                              message['isMe'] ? 16 : 0),
-                          topRight: Radius.circular(
-                              message['isMe'] ? 0 : 16),
-                          )
 
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              message['text'],
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: message['isMe']
-                                    ? AppColors.textColor
-                                    : const Color(0xFF374151),
+            Expanded(
+              child: Obx(
+                    () =>
+                _clientChatController.isFirstLoading.value
+                    ? Center(child: CustomPageLoading())
+                    : Column(
+                  children: [
+                    Expanded(
+                      child: _clientChatController.allChatMessage.isEmpty
+                          ? Center(child: Text("Start Chatting now"))
+                          : GroupedListView<AllMessageModel, DateTime>(
+                        elements: _clientChatController.allChatMessage,
+                        controller: _clientChatController.scrollController,
+                        order: GroupedListOrder.DESC,
+                        itemComparator: (item1, item2) =>
+                            (item1.timestamp ?? DateTime.now())
+                                .compareTo(item2.timestamp ?? DateTime.now()),
+                        groupBy: (message) =>
+                            DateTime(
+                              (message.timestamp ?? DateTime.now()).year,
+                              (message.timestamp ?? DateTime.now()).month,
+                              (message.timestamp ?? DateTime.now()).day,
+                            ),
+                        reverse: true,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 16),
+                        groupSeparatorBuilder: (DateTime date) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Center(
+                              child: Text(
+                                DateFormat.yMMMd().format(date),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                message['time'],
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: message['isMe']
-                                      ? Color(0xFF8DA9D4)
-                                      : const Color(0xFF9CA3AF),
-                                ),
-                              ),
-                              if (message['isMe']) ...[
-                                SizedBox(height: 2),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.check,
-                                        size: 12, color: Color(0xFF03A003)),
-                                    Icon(Icons.check,
-                                        size: 12, color: Color(0xFF03A003)),
-                                  ],
-                                )
-                              ],
-                            ],
-                          ),
-                        ],
+                          );
+                        },
+                        itemBuilder: (context, AllMessageModel message) {
+                          final bool isSender = message.sender == _dataController.id.value;
+                          return _buildChatMessage(
+                              context, message.content, isSender,
+                              message.timestamp);
+                        },
                       ),
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
-
-
             ),
 
             Row(
               children: [
                 Expanded(
                   child: CustomTextField(
-                    controller: sendMessageTextController,
+                    controller: _clientChatController.messageController,
+                    onFieldSubmitted: (v) {
+                      _clientChatController.sendMessageWithClient();
+                    },
                     hintText: 'Write message....',
                     suffixIcon: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _clientChatController.sendMessageWithClient();
+                      },
                       child: Container(
                         height: 32,
                         width: 32,
@@ -158,28 +153,30 @@ class _ClientChatScreenState extends State<ClientChatScreen> {
     );
   }
 
-  Widget _buildChatMessage(
-    BuildContext context,
-    String message,
-    bool isSender,
-  ) {
+  Widget _buildChatMessage(BuildContext context,
+      String message,
+      bool isSender,
+      DateTime? timestamp,) {
     return Align(
-      alignment: isSender ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.75,
+          maxWidth: MediaQuery
+              .of(context)
+              .size
+              .width * 0.75,
         ),
         decoration: BoxDecoration(
           color: isSender
-              ? Color(0xFFE5E7EB)
-              : Color(0xFF0743A2), // orange or light gray
+              ? Color(0xFF0743A2) // Sender = Blue
+              : Color(0xFFE5E7EB), // Receiver = Light Gray
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(10),
-            topRight: Radius.circular(isSender ? 10 : 0),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(isSender ? 0 : 10),
+            topLeft: Radius.circular(isSender ? 10 : 0),
+            topRight: Radius.circular(isSender ? 0 : 10),
+            bottomLeft: const Radius.circular(10),
+            bottomRight: const Radius.circular(10),
           ),
         ),
         child: Column(
@@ -189,7 +186,7 @@ class _ClientChatScreenState extends State<ClientChatScreen> {
               message,
               style: TextStyle(
                 fontSize: 16,
-                color: isSender ? Color(0xFF374151) : Colors.white,
+                color: isSender ? Colors.white : Color(0xFF374151),
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -197,7 +194,7 @@ class _ClientChatScreenState extends State<ClientChatScreen> {
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                "3:30 PM",
+                DateFormat.jm().format(timestamp ?? DateTime.now()),
                 style: TextStyle(
                   fontSize: 11,
                   color: isSender ? Colors.white70 : Colors.grey,
@@ -210,9 +207,13 @@ class _ClientChatScreenState extends State<ClientChatScreen> {
     );
   }
 }
-
 class CustomChatAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomChatAppBar({super.key});
+  final String image;
+  final String name;
+
+  const CustomChatAppBar({super.key,
+    required this.image,
+    required this.name,});
 
   @override
   Widget build(BuildContext context) {
@@ -236,17 +237,12 @@ class CustomChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               Stack(
                 children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/person.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+
+                  CustomNetworkImage(
+                      imageUrl:"${ApiConstant.imageBaseUrl}$image",
+                      boxShape: BoxShape.circle,
+                      height: 40,
+                      width: 40),
                   // Online Dot
                   Positioned(
                     bottom: 1,
@@ -266,9 +262,9 @@ class CustomChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               SizedBox(width: 12),
 
-              // User Name
+
               Text(
-                "Savannah Nguyen",
+                name,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

@@ -249,7 +249,7 @@ class SocketApi {
 
 
 
-    final uri = Uri.parse("ws://172.252.13.79:3213/ws/chat/$roomId/");
+    final uri = Uri.parse("ws://10.10.12.49:8002/ws/chat/$roomId/");
     try {
       _channel = WebSocketChannel.connect(uri);
       _connected = true;

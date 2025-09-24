@@ -32,6 +32,7 @@ dependencies:
   web_socket_client:
   web_socket_channel:
   google_sign_in: ^6.3.0
+  grouped_list:
 
 
 dev_dependencies:

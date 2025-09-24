@@ -43,7 +43,7 @@ class ClientCommunityController extends GetxController{
         id.value = communityList.first.id;
       }
     }else{
-      showCustomSnackBar(response.body['message'], isError: false);
+      showCustomSnackBar(response.body['detail'], isError: false);
     }
     isLoading(false);
 

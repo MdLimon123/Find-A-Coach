@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'package:find_me_a_coach/controllers/clientController/client_chat_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +21,9 @@ Future<Map<String, Map<String, String>>>  init() async {
 
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => HomeController());
+  Get.put(ClientHomeController());
+
+
 
 
 

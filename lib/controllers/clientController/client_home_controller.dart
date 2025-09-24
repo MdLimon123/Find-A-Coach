@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:find_me_a_coach/models/clientModel/client_feature_coach_model.dart';
 import 'package:find_me_a_coach/models/clientModel/coach_category_home_model.dart';
 import 'package:find_me_a_coach/models/clientModel/upcoming_session_home_model.dart';
 import 'package:find_me_a_coach/services/api_client.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/views/base/custom_snackbar.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_chat_screen.dart';
 import 'package:get/get.dart';
 
 class ClientHomeController extends GetxController{
@@ -73,5 +76,27 @@ Future<void> fetchFeaturedCoach() async {
     }
     isFeatureLoading(false);
 }
+
+  var roomId = 0.obs;
+  final isChatCreateLoading = false.obs;
+  /// create first chat or room
+  Future<void> createChat({required int id, required String name, required String image})async{
+
+    isChatCreateLoading(true);
+    final body = {
+      "user2": id
+    };
+
+    final response = await ApiClient.postData(ApiConstant.createChatEndPoint, json.encode(body));
+
+    if(response.statusCode == 200 || response.statusCode == 201){
+      roomId.value = response.body["room_id"];
+      Get.to(() => ClientChatScreen(id: roomId.value, name: name, image: image));
+    }else{
+      showCustomSnackBar("Something went wrong", isError: true);
+    }
+    isChatCreateLoading(false);
+
+  }
 
 }

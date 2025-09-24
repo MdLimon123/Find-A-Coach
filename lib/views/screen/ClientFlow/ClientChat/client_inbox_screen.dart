@@ -1,5 +1,10 @@
+import 'package:find_me_a_coach/controllers/clientController/client_chat_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/client_bottom_menu..dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientChat/client_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
@@ -7,6 +12,7 @@ import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ClientInboxScreen extends StatefulWidget {
   const ClientInboxScreen({super.key});
@@ -16,6 +22,24 @@ class ClientInboxScreen extends StatefulWidget {
 }
 
 class _ClientInboxScreenState extends State<ClientInboxScreen> {
+
+  final _clientChatController = Get.put(ClientChatController());
+  final _clientHomeController = Get.put(ClientHomeController());
+
+
+
+  String formatTime(String timestamp) {
+    final dateTime = DateTime.parse(timestamp);
+    final formattedTime = DateFormat.jm().format(dateTime);
+    return formattedTime;
+  }
+
+  @override
+  void initState() {
+    _clientChatController.fetchInboxMessage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,100 +73,117 @@ class _ClientInboxScreenState extends State<ClientInboxScreen> {
               ],
             )
         ),
-      body: ListView.separated(
-        physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-          itemBuilder: (context, index){
-           return InkWell(
-             onTap: (){
-               Get.to(()=> ClientChatScreen());
-             },
-             child: Container(
-               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.textColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+      body: Obx(()=> _clientChatController.isInboxLoading.value?
+      Center(child: CustomPageLoading()):
+      ListView.separated(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        itemCount: _clientChatController.clientInboxModel.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          final inboxMessage = _clientChatController.clientInboxModel[index];
+          return InkWell(
+            onTap: () {
+              
+              print("id ===============>${inboxMessage.user.userId}");
+              print(" room id ===============>${_clientChatController.roomId.value}");
+              print("id ===============>${inboxMessage.user.userId}");
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+              _clientHomeController.createChat(
+                id: inboxMessage.user.userId,
+                name: inboxMessage.user.fullName,
+                image: inboxMessage.user.image,
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.textColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// avatar
+                  CustomNetworkImage(
+                    imageUrl: "${ApiConstant.imageBaseUrl}${inboxMessage.user.image}",
+                    boxShape: BoxShape.circle,
+                    height: 40,
+                    width: 40,
+                  ),
+                  const SizedBox(width: 12),
+
+                  /// name + last message
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 32,
-                          width: 32,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage('assets/images/person.jpg'),
-                                  fit: BoxFit.cover)
+                        Text(
+                          inboxMessage.user.fullName,
+                          style: const TextStyle(
+                            color: Color(0xFF1F2937),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-
                         ),
-                        SizedBox(width: 10,),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text("Savannah Nguyen",
-                                style: TextStyle(
-                                  color: Color(0xFF1F2937),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              SizedBox(width: 40,),
-                              Text(' 08:09 PM',
-                                style: TextStyle(
-                                  color: Color(0xFF9CA3AF),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),)
-                            ],
+                        const SizedBox(height: 4),
+                        Text(
+                          inboxMessage.lastMessage?.content ?? 'No message yet',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Color(0xFF6B7280),
+                            fontSize: 13,
                           ),
-                          SizedBox(height: 4,),
-                          Row(
-                            children: [
-                              Text("Sequi quae aliquid numquam...",
-                                style: TextStyle(
-                                  color: Color(0xFF1F2937),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              SizedBox(width: 30,),
-                             Container(
-                               height: 16,
-                               width: 16,
-                               decoration: BoxDecoration(
-                                 color: AppColors.primaryColor,
-                                 shape: BoxShape.circle
-                               ),
-                               child: Text("2",
-                               style: TextStyle(
-                                 color: AppColors.textColor,
-                                 fontSize: 12,
-                                 fontWeight: FontWeight.w400,
-                               ),
-                               textAlign: TextAlign.center,),
-                             )
-                            ],
-                          ),
-                        ],
-                      )
+                        ),
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+
+                  /// time + badge aligned right
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        inboxMessage.lastMessage?.timestamp != null
+                            ? formatTime(
+                          inboxMessage.lastMessage!.timestamp.toString(),
+                        )
+                            : '',
+                        style: const TextStyle(
+                          color: Color(0xFF9CA3AF),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                        Container(
+                          height: 18,
+                          width: 18,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            inboxMessage.unseenCount.toString(),
+                            style: TextStyle(
+                              color: AppColors.textColor,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
               ),
-           );
-          },
-          separatorBuilder: (__,___)=> SizedBox(height: 8,),
-          itemCount: 10),
+            ),
+          );
+        },
+      )
+      ),
 
       bottomNavigationBar: ClientBottomMenu(3),
     );

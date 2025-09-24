@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/client_chat_controller.dart';
 import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
@@ -19,6 +20,8 @@ class ClientFeaturedCoachScreen extends StatefulWidget {
 class _ClientFeaturedCoachScreenState
     extends State<ClientFeaturedCoachScreen> {
   final _clientHomeController = Get.put(ClientHomeController());
+
+  final _clientChatController = Get.put(ClientChatController());
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +81,24 @@ class _ClientFeaturedCoachScreenState
                 ),
 
 
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE6ECF3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset('assets/icons/message.svg'),
+                InkWell(
+                  onTap: (){
+                    _clientHomeController.createChat(
+                        id: coach.userId,
+                        name: coach.fullName,
+                        image: coach.image);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFE6ECF3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset('assets/icons/message.svg'),
+                    ),
                   ),
                 ),
               ],

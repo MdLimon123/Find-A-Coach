@@ -1,6 +1,7 @@
 import 'package:find_me_a_coach/controllers/localization_controller.dart';
 import 'package:find_me_a_coach/controllers/theme_controller.dart';
 import 'package:find_me_a_coach/helpers/route.dart';
+import 'package:find_me_a_coach/services/socket_manager.dart';
 import 'package:find_me_a_coach/themes/light_theme.dart';
 import 'package:find_me_a_coach/utils/app_constants.dart';
 import 'package:find_me_a_coach/utils/message.dart';
@@ -11,6 +12,9 @@ import 'helpers/di.dart' as di;
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SocketApi.init;
+
   Map<String, Map<String, String>> _languages = await di.init();
   runApp( MyApp(languages:_languages,));
 }

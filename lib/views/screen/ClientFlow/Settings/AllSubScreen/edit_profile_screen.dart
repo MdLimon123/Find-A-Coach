@@ -583,7 +583,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onTap: (){
 
                           _clientProfileController.updateClientProfile(
-                              profileImagePath: _clientProfileController.clientProfileEditImage.value!.path,
+                              profileImagePath: _clientProfileController.clientProfileEditImage.value?.path ?? '',
                               fullName: nameController.text.trim(),
                               age: ageController.text.trim(),
                               location: locationController.text.trim(),
