@@ -149,12 +149,13 @@ class ApiClient extends GetxService {
   }
 
 
-  Future<Response> putData(String uri, dynamic body,
+ static Future<Response> putData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
 
+    ///application/x-www-form-urlencoded
     var mainHeaders = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Authorization': 'Bearer $bearerToken'
     };
     try {

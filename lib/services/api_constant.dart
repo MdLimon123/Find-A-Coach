@@ -65,5 +65,13 @@ static String privacyPolicyEndPoint = "/api/v1/settings/privacy_policies/";
  static String sendMessageEndPoint({required int id}) => "/api/v1/chat/messages/$id/";
  static String inboxEndPoint = "/api/v1/chat/rooms/";
 
+ ///chat with ai for client and coach part
+  static String newSessionEndPoint = "/api/v1/ai/sessions/";
+  static String aiAssistanceEndPoint = "/api/v1/ai/assistant/";
+  static String allHistoryEndPoint = "/api/v1/ai/sessions/";
+  static String deleteSessionEndPoint({required String id}) => "/api/v1/ai/delete-session/$id/";
+  static String renameSessionEndPoint = "/api/v1/ai/rename-session/";
+  static String getAllHistorySessionEndPoint({required String id}) => "/api/v1/ai/get-session/$id/";
+
 
 }

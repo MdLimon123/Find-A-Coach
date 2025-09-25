@@ -1,11 +1,18 @@
 import 'package:find_me_a_coach/controllers/clientController/ai_chat_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/ai_chat_history_controller.dart';
+import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/base/custom_network_image.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AiChatHistoryScreen extends StatefulWidget {
-  const AiChatHistoryScreen({super.key});
+
+  final String id;
+
+  const AiChatHistoryScreen({super.key, required this.id});
 
   @override
   State<AiChatHistoryScreen> createState() => _AiChatHistoryScreenState();
@@ -13,8 +20,20 @@ class AiChatHistoryScreen extends StatefulWidget {
 
 class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
 
-  final _aiChatController = Get.put(AIChatController());
+
+
+  final _aiChatHistoryController = Get.put(AiChatHistoryController());
   final messageController = TextEditingController();
+
+  @override
+  void initState() {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _aiChatHistoryController.fetchSingleHistory(id: widget.id);
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,42 +44,138 @@ class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
 
-          Obx((){
-            final text = _aiChatController.aiCurrentChat.value.aiMessages;
-            return Expanded(child: text.isEmpty?
-            Center(child: Text("Hello! I’m your AI Coach. I’m here to help you achieve your goals. What would you like to focus on today?",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xFF374151)
-              ),
-              textAlign: TextAlign.center,)):
-            ListView.builder(
-                itemCount: text.length,
-                itemBuilder: (context, index){
-                  final message = text[index];
-                  return Align(
-                    alignment: message.isUser?Alignment.centerRight:Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: message.isUser? Color(0xFFE5E7EB):Colors.transparent,
-                          borderRadius: message.isUser? BorderRadius.circular(8): null),
-                      child: Text(message.message,style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: message.isUser?Color(0xFF374151):Color(0xFF4B5563),
-                      ),),
-                    ),
+          Expanded(
+            child: Obx(() {
+              final messages = _aiChatHistoryController.aiCurrentChat;
+              final loading = _aiChatHistoryController.isSingleHistoryLoading.value;
 
-                  );
-                }));
+              if (loading) {
 
-          }),
+                return  Center(
+                  child: CustomPageLoading(),
+                );
+              }
+
+              return messages.isEmpty
+                  ? const Center(
+                child: Text(
+                  "No History available",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+              )
+                  : ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+
+                  if (message.type == 'json') {
+                    return _buildCoachCard(message.jsonData!['coaches']);
+                  } else {
+                    return Align(
+                      alignment: message.isUser
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: message.isUser
+                              ? const Color(0xFFE5E7EB)
+                              : Colors.transparent,
+                          borderRadius: message.isUser
+                              ? BorderRadius.circular(8)
+                              : null,
+                        ),
+                        child: Text(
+                          message.message,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF4B5563),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              );
+            }),
+          ),
 
           _buildMessageInput(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCoachCard(List coaches) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: coaches.map((c) {
+          final name = c['full_name'] ?? '';
+          final gender = c['gender'] ?? '';
+          final location = c['location'] ?? '';
+          final areas = (c['coaching_area_names'] as List?)?.join(', ') ?? '';
+          final certs = (c['certifications'] as List?)?.join(', ') ?? '';
+          final language = (c['language'] as List?)?.join(', ') ?? '';
+          final imageUrl = c['image'] ?? c['image'];
+
+
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  CustomNetworkImage(
+                      imageUrl: "${ApiConstant.imageBaseUrl}$imageUrl}",
+                      boxShape: BoxShape.circle,
+                      height: 30,
+                      width: 30),
+
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 6),
+                        Text('Gender: $gender',
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF6B7280)),
+
+                        ),
+                        const SizedBox(height: 4),
+                        Text('Areas: $areas',
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF6B7280))),
+                        const SizedBox(height: 4),
+                        if (certs.isNotEmpty) Text('Certifications: $certs',
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF6B7280))),
+                        const SizedBox(height: 4),
+                        if (language.isNotEmpty) Text('Language: $language',
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF6B7280))),
+                        const SizedBox(height: 4),
+                        Text('Location: $location',
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF6B7280))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -75,7 +190,10 @@ class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
             TextFormField(
                 controller: messageController,
                 onFieldSubmitted: (value){
-                  _aiChatController.sendMessage(message: value);
+                  _aiChatHistoryController.sendMessage(
+                    sessionId: widget.id,
+                    message: messageController.text,
+                  );
                   messageController.clear();
                 },
                 style: TextStyle(
@@ -114,7 +232,10 @@ class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
                         child: IconButton(
                           onPressed: () {
 
-                            _aiChatController.sendMessage(message: messageController.text);
+                            _aiChatHistoryController.sendMessage(
+                              sessionId: widget.id,
+                              message: messageController.text,
+                            );
                             messageController.clear();
 
 

@@ -1,5 +1,8 @@
+import 'package:find_me_a_coach/controllers/coachController/coach_ai_history_controller.dart';
+import 'package:find_me_a_coach/models/clientModel/ai_chat_history_model.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/screen/CoachFlow/CoachHome/AllSubScreen/coach_ai_chat_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,116 +16,132 @@ class CoachChatHistoryScreen extends StatefulWidget {
 }
 
 class _CoachChatHistoryScreenState extends State<CoachChatHistoryScreen> {
+
+  final _coachAiChatHistoryController = Get.put(CoachAiHistoryController());
+
+  @override
+  void initState() {
+    _coachAiChatHistoryController.fetchAllHistory();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.textColor,
       appBar: CustomAppbar(title: "History"),
-      body: ListView.separated(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(vertical: 12),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
+        body: Obx(()=> _coachAiChatHistoryController.historyLoading.value?
+        Center(child: CustomPageLoading()):
+        ListView.separated(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(vertical: 12),
+          itemBuilder: (context, index) {
+            final history = _coachAiChatHistoryController.allHistoryList[index];
+            return GestureDetector(
+              onTap: () {
+                Get.to(()=> CoachAiChatHistoryScreen(
+                  id: history.sessionId.toString(),
+                ));
+              },
+              child: Container(
+                height: 60,
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6ECF3),
+                  borderRadius: BorderRadius.circular(10),
 
-              Get.to(()=> CoachAiChatHistoryScreen());
-            },
-            child: Container(
-              height: 60,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xFFE6ECF3),
-                borderRadius: BorderRadius.circular(10),
-
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Chat Name",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF4B5563),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        history.sessionTitle.toString(),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF4B5563),
+                        ),
                       ),
                     ),
-                  ),
-                  PopupMenuButton<String>(
-                    onSelected: (value) {
-                      if (value == 'rename') {
-                        _showRenameDialog(context);
-                      } else if (value == 'delete') {
-                        _showDeleteDialog(context);
-                      }
-                    },
-                    icon: Icon(Icons.more_horiz, color: Color(0xFF4B5563)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    PopupMenuButton<String>(
+                      onSelected: (value) {
+                        if (value == 'rename') {
+                          _showRenameDialog(context,
+                              history);
+                        } else if (value == 'delete') {
+                          _showDeleteDialog(context,
+                              history.sessionId);
+
+                        }
+                      },
+                      icon: Icon(Icons.more_horiz, color: Color(0xFF4B5563)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      color: Colors.white,
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          PopupMenuItem(
+                            value: 'rename',
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/edit.svg',
+                                  color: Color(0xFF4B5563),
+                                  height: 18,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Rename',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.bigTextColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/delete.svg',
+                                  height: 18,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.bigTextColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ];
+                      },
                     ),
-                    color: Colors.white,
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                          value: 'rename',
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/edit.svg',
-                                color: Color(0xFF4B5563),
-                                height: 18,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Rename',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.bigTextColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: 'delete',
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/delete.svg',
-                                height: 18,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Delete',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.bigTextColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ];
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) => SizedBox(height: 6),
-        itemCount: 5,
-      ),
+            );
+          },
+          separatorBuilder: (context, index) => SizedBox(height: 6),
+          itemCount: _coachAiChatHistoryController.allHistoryList.length,
+        )),
     );
   }
 
-  void _showDeleteDialog(BuildContext context) {
+  void _showDeleteDialog(BuildContext context, String id) {
     showDialog(
       context: context,
       builder: (context) {
@@ -136,7 +155,7 @@ class _CoachChatHistoryScreenState extends State<CoachChatHistoryScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                _coachAiChatHistoryController.deleteSession(id: id);
               },
               child: Text("Delete", style: TextStyle(color: Colors.red)),
             ),
@@ -146,8 +165,8 @@ class _CoachChatHistoryScreenState extends State<CoachChatHistoryScreen> {
     );
   }
 
-  void _showRenameDialog(BuildContext context) {
-    final renameTextController = TextEditingController();
+  void _showRenameDialog(BuildContext context, SessionModel sessionModel) {
+    final renameTextController = TextEditingController(text: sessionModel.sessionTitle);
 
     showDialog(
       context: context,
@@ -165,7 +184,12 @@ class _CoachChatHistoryScreenState extends State<CoachChatHistoryScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                if(renameTextController.text.trim().isNotEmpty){
+                  _coachAiChatHistoryController.renameChatHistory(
+                      sessionId: sessionModel.sessionId,
+                      newTitle: renameTextController.text);
+
+                }
               },
               child: Text("Save"),
             ),

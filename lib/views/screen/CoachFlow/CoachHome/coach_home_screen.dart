@@ -1,4 +1,5 @@
 import 'package:find_me_a_coach/controllers/clientController/client_booking_controller.dart';
+import 'package:find_me_a_coach/controllers/coachController/coach_ai_chat_controller.dart';
 import 'package:find_me_a_coach/controllers/coachController/coach_home_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
@@ -26,6 +27,7 @@ class CoachHomeScreen extends StatefulWidget {
 class _CoachHomeScreenState extends State<CoachHomeScreen> {
 
   final _coachHomeController = Get.put(CoachHomeController());
+  final _coachAiController = Get.put(CoachAiChatController());
 
 
 
@@ -50,7 +52,7 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
               Spacer(),
               _customContainer(
                   onTap: () {
-                    Get.to(() => CoachAiChatScreen());
+                    _coachAiController.createSession();
                   },
                   image: 'assets/icons/cross.svg'),
               _customContainer(

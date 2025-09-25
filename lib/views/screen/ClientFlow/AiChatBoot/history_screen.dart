@@ -1,5 +1,8 @@
+import 'package:find_me_a_coach/controllers/clientController/ai_chat_history_controller.dart';
+import 'package:find_me_a_coach/models/clientModel/ai_chat_history_model.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/views/base/custom_appbar.dart';
+import 'package:find_me_a_coach/views/base/custom_page_loading.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,18 +16,31 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+
+  final _aiChatHistoryController = Get.put(AiChatHistoryController());
+  @override
+  void initState() {
+    _aiChatHistoryController.fetchAllHistory();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.textColor,
       appBar: CustomAppbar(title: "History"),
-      body: ListView.separated(
+      body: Obx(()=> _aiChatHistoryController.historyLoading.value?
+      Center(child: CustomPageLoading()):
+      ListView.separated(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(vertical: 12),
         itemBuilder: (context, index) {
+          final history = _aiChatHistoryController.allHistoryList[index];
           return GestureDetector(
             onTap: () {
-              Get.to(()=> AiChatHistoryScreen());
+              Get.to(()=> AiChatHistoryScreen(
+                id: history.sessionId.toString(),
+              ));
             },
             child: Container(
               height: 60,
@@ -41,7 +57,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Chat Name",
+                      history.sessionTitle.toString(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -54,9 +70,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   PopupMenuButton<String>(
                     onSelected: (value) {
                       if (value == 'rename') {
-                        _showRenameDialog(context);
+                        _showRenameDialog(context,
+                        history);
                       } else if (value == 'delete') {
-                        _showDeleteDialog(context);
+                        _showDeleteDialog(context,
+                        history.sessionId);
+
                       }
                     },
                     icon: Icon(Icons.more_horiz, color: Color(0xFF4B5563)),
@@ -116,12 +135,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
           );
         },
         separatorBuilder: (context, index) => SizedBox(height: 6),
-        itemCount: 5,
-      ),
+        itemCount: _aiChatHistoryController.allHistoryList.length,
+      )),
     );
   }
 
-  void _showDeleteDialog(BuildContext context) {
+  void _showDeleteDialog(BuildContext context, String id) {
     showDialog(
       context: context,
       builder: (context) {
@@ -135,7 +154,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                _aiChatHistoryController.deleteSession(id: id);
               },
               child: Text("Delete", style: TextStyle(color: Colors.red)),
             ),
@@ -145,8 +164,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  void _showRenameDialog(BuildContext context) {
-    final renameTextController = TextEditingController();
+  void _showRenameDialog(BuildContext context, SessionModel sessionModel) {
+    final renameTextController = TextEditingController(text: sessionModel.sessionTitle);
 
     showDialog(
       context: context,
@@ -164,7 +183,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                if(renameTextController.text.trim().isNotEmpty){
+                  _aiChatHistoryController.renameChatHistory(
+                      sessionId: sessionModel.sessionId,
+                      newTitle: renameTextController.text);
+
+                }
               },
               child: Text("Save"),
             ),

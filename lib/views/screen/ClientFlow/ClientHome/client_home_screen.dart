@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/ai_chat_controller.dart';
 import 'package:find_me_a_coach/controllers/clientController/client_chat_controller.dart';
 import 'package:find_me_a_coach/controllers/clientController/client_home_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
@@ -26,9 +27,9 @@ class ClientHomeScreen extends StatefulWidget {
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   final searchController = TextEditingController();
-
   final _clientHomeController = Get.put(ClientHomeController());
-  final _clientChatController = Get.put(ClientChatController());
+
+  final _clientAiChatController = Get.put(AIChatController());
 
 
 
@@ -56,7 +57,9 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             Image.asset('assets/images/app_logo1.png'),
             Spacer(),
             _customContainer(
-              onTap: () => Get.to(() => AiChatScreen()),
+              onTap: () {
+                _clientAiChatController.createSession();
+              },
               image: 'assets/icons/cross.svg',
             ),
             _customContainer(
