@@ -80,11 +80,48 @@ class AiChatHistoryController extends GetxController{
 
 
   /// Merge old chat history to aiCurrentChat
+  // void mergeHistoryToCurrentChat() {
+  //   aiCurrentChat.clear();
+  //
+  //   for (var msg in singleHistoryList.value.messages) {
+  //
+  //     if (msg.role == 'user' && msg.content != null) {
+  //       aiCurrentChat.add(AiMessageModel(
+  //         message: msg.content!,
+  //         isUser: true,
+  //         type: 'text',
+  //       ));
+  //     }
+  //
+  //
+  //     if (msg.role == 'assistant' && msg.content != null) {
+  //
+  //       if (msg.type == 'json') {
+  //         final resp = jsonDecode(msg.content!);
+  //         final List coaches = resp is List ? resp : [resp];
+  //         aiCurrentChat.add(AiMessageModel(
+  //           message: '',
+  //           isUser: false,
+  //           type: 'json',
+  //           jsonData: {'coaches': coaches},
+  //         ));
+  //       } else {
+  //         aiCurrentChat.add(AiMessageModel(
+  //           message: msg.content!,
+  //           isUser: false,
+  //           type: 'text',
+  //         ));
+  //       }
+  //     }
+  //   }
+  //
+  //   aiCurrentChat.refresh();
+  // }
+
   void mergeHistoryToCurrentChat() {
     aiCurrentChat.clear();
 
     for (var msg in singleHistoryList.value.messages) {
-
       if (msg.role == 'user' && msg.content != null) {
         aiCurrentChat.add(AiMessageModel(
           message: msg.content!,
@@ -92,7 +129,6 @@ class AiChatHistoryController extends GetxController{
           type: 'text',
         ));
       }
-
 
       if (msg.role == 'assistant' && msg.content != null) {
 
@@ -105,6 +141,28 @@ class AiChatHistoryController extends GetxController{
             type: 'json',
             jsonData: {'coaches': coaches},
           ));
+
+
+        } else if (msg.type == 'p-json') {
+          try {
+            final parsed = jsonDecode(msg.content!);
+            final List phases = parsed is List ? parsed : [parsed];
+            aiCurrentChat.add(AiMessageModel(
+              message: '',
+              isUser: false,
+              type: 'p-json',
+              jsonData: {'phases': phases},
+            ));
+          } catch (e) {
+
+            aiCurrentChat.add(AiMessageModel(
+              message: msg.content!,
+              isUser: false,
+              type: 'text',
+            ));
+          }
+
+
         } else {
           aiCurrentChat.add(AiMessageModel(
             message: msg.content!,
@@ -117,6 +175,7 @@ class AiChatHistoryController extends GetxController{
 
     aiCurrentChat.refresh();
   }
+
 
   Future<void> sendMessage({required String message, required String sessionId}) async {
     final trimmed = message.trim();
@@ -155,7 +214,19 @@ class AiChatHistoryController extends GetxController{
           type: 'json',
           jsonData: {'coaches': coaches},
         ));
-      } else {
+      } else if(type == 'p-json'){
+        final resp = data['response'];
+        final List phases = resp is List ? resp : [resp];
+        aiCurrentChat.add(
+          AiMessageModel(
+            message: '',
+            isUser: false,
+            type: 'p-json',
+            jsonData: {'phases': phases},
+          ),
+        );
+      }
+      else {
         aiCurrentChat.add(AiMessageModel(
           message: data['response']?.toString() ?? 'No Message',
           isUser: false,

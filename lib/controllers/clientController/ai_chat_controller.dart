@@ -22,51 +22,7 @@ class AIChatController extends GetxController{
 
 
 
-  // Future<void> sendMessage({required String message})async{
-  //
-  //   aiCurrentChat.value.aiMessages.add(AiMessageModel(message: message, isUser: true));
-  //   aiCurrentChat.value.aiMessages.add(AiMessageModel(
-  //     message: 'loading.... ',
-  //     isUser: false,
-  //     isLoading: true
-  //   ));
-  //
-  //   isLoading.value = true;
-  //   aiCurrentChat.refresh();
-  //
-  //   final body ={
-  //     "session_id": sessionId.value,
-  //     "question":message,
-  //     "type": "user"
-  //   };
-  //   print("body ===============> $body");
-  //
-  //   try{
-  //
-  //     final response = await ApiClient.postData(ApiConstant.aiAssistanceEndPoint, json.encode(body)).timeout(const Duration(seconds: 60));
-  //     aiCurrentChat.value.aiMessages.removeWhere((msg)=> msg.isLoading == true);
-  //
-  //     dynamic data;
-  //
-  //     if(response.body is String){
-  //       data = jsonDecode(response.body);
-  //     }else if(response.body is Map){
-  //       data = response.body;
-  //     }else{
-  //       throw Exception("Invalid response");
-  //     }
-  //     final aiMessageText = data['response'] ?? "No Message From AI";
-  //     aiCurrentChat.value.aiMessages.add(AiMessageModel(message: aiMessageText, isUser: false));
-  //
-  //   }catch (e){
-  //     aiCurrentChat.value.aiMessages.removeWhere((msg)=> msg.isLoading == true);
-  //     aiCurrentChat.value.aiMessages.add(AiMessageModel(message: "Something went wrong", isUser: false));
-  //
-  //
-  //   }
-  //   isLoading.value = false;
-  //   aiCurrentChat.refresh();
-  // }
+
 
 
   /// Send a message to the API and handle both `text` and `json` responses.
@@ -131,7 +87,19 @@ class AIChatController extends GetxController{
             jsonData: {'coaches': coaches},
           ),
         );
-      } else {
+      } else if(type == 'p-json'){
+        final resp = data['response'];
+        final List phases = resp is List ? resp : [resp];
+        aiCurrentChat.value.aiMessages.add(
+          AiMessageModel(
+            message: '',
+            isUser: false,
+            type: 'p-json',
+            jsonData: {'phases': phases},
+          ),
+        );
+      }
+      else {
 /// fallback — treat as text
         final fallback = data['response']?.toString() ?? 'No Message';
         aiCurrentChat.value.aiMessages.add(AiMessageModel(message: fallback, isUser: false));

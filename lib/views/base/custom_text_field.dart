@@ -25,6 +25,8 @@ class CustomTextField extends StatefulWidget {
   final int? minLines;
   final bool? readOnly;
   final Function(String)? onFieldSubmitted;
+  final Function()? onTap;
+  final  Function(String)? onChanged;
 
   const CustomTextField(
       {super.key,
@@ -46,6 +48,8 @@ class CustomTextField extends StatefulWidget {
         this.labelText,
         this.onFieldSubmitted,
         this.readOnly,
+        this.onTap,
+        this.onChanged,
         this.isPassword = false});
 
   @override
@@ -71,6 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscuringCharacter: widget.obscure!,
         maxLines: widget.maxLines,
         minLines: widget.minLines,
+        onTap: widget.onTap,
         validator: widget.validator ??
                 (value) {
               if (widget.isEmail == null) {
@@ -96,6 +101,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             },
         readOnly: widget.readOnly ?? false,
         onFieldSubmitted: widget.onFieldSubmitted,
+        onChanged: widget.onChanged,
         cursorColor: AppColors.primaryColor,
         obscureText: widget.isPassword ? obscureText : false,
         style: AppStyles.h4(color: AppColors.fillTextColor, fontWeight: FontWeight.w400),

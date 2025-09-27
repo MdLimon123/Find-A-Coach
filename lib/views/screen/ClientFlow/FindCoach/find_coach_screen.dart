@@ -1,3 +1,4 @@
+import 'package:find_me_a_coach/controllers/clientController/ai_chat_controller.dart';
 import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
 import 'package:find_me_a_coach/services/api_constant.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
@@ -26,6 +27,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
   final searchController = TextEditingController();
 
   final _findCoachController = Get.put(FindCoachController());
+  final _clientAiChatController = Get.put(AIChatController());
   @override
   void initState() {
     _findCoachController.fetchAllCategory();
@@ -47,7 +49,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
               children: [
                 _customContainer(
                     onTap: () {
-                      Get.to(() => AiChatScreen());
+                      _clientAiChatController.createSession();
                     },
                     image: 'assets/icons/cross.svg'),
                 SizedBox(width: 8),
@@ -72,12 +74,17 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Expanded(
                   child: CustomTextField(
                     controller: searchController,
+                    onChanged: (value){
+                      _findCoachController.onSearchChanged(value);
+                    },
                     hintText: "findCoachScreen.searchHint".tr,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -105,63 +112,119 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
               ],
             ),
             SizedBox(height: 16),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Get.to(() => CategoriesScreen());
-                    },
-                    child: Container(
-                      width: 106,
-                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
-                      height: 34,
-                      decoration: BoxDecoration(
-                          color: Color(0xFFB0C4DB),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset('assets/icons/drawer.svg'),
-                          SizedBox(width: 4),
-                          Text(
-                            "findCoachScreen.categoriesLabel".tr,
-                            style: TextStyle(
-                              color: Color(0xFF3368A1),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    height: 34,
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index){
-                          final category = _findCoachController.categoryList[index];
-                          return  InkWell(
-                            onTap: (){
-                              _findCoachController.fetchSingleCategory(id: category.id);
-                            },
-                            child: _customCategories(
-                                textKey: category.name),
-                          );
-                        },
-                        separatorBuilder: (context, index) => SizedBox(width: 8),
-                        itemCount: _findCoachController.categoryList.length),
-                  ),
 
-                ],
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: [
+            //       InkWell(
+            //         onTap: () {
+            //           Get.to(() => CategoriesScreen());
+            //         },
+            //         child: Container(
+            //           width: 106,
+            //           padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
+            //           height: 34,
+            //           decoration: BoxDecoration(
+            //               color: Color(0xFFB0C4DB),
+            //               borderRadius: BorderRadius.circular(4)),
+            //           child: Row(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               SvgPicture.asset('assets/icons/drawer.svg'),
+            //               SizedBox(width: 4),
+            //               Text(
+            //                 "findCoachScreen.categoriesLabel".tr,
+            //                 style: TextStyle(
+            //                   color: Color(0xFF3368A1),
+            //                   fontSize: 12,
+            //                   fontWeight: FontWeight.w500,
+            //                 ),
+            //                 overflow: TextOverflow.ellipsis,
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       SizedBox(width: 8),
+            //       SizedBox(
+            //         height: 34,
+            //         child: ListView.separated(
+            //             shrinkWrap: true,
+            //             scrollDirection: Axis.horizontal,
+            //             itemBuilder: (context, index){
+            //               final category = _findCoachController.categoryList[index];
+            //               return  InkWell(
+            //                 onTap: (){
+            //                   _findCoachController.fetchSingleCategory(id: category.id);
+            //                 },
+            //                 child: _customCategories(
+            //                     textKey: category.name),
+            //               );
+            //             },
+            //             separatorBuilder: (context, index) => SizedBox(width: 8),
+            //             itemCount: _findCoachController.categoryList.length),
+            //       ),
+            //
+            //     ],
+            //   ),
+            // ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+
+            children: [
+
+              InkWell(
+                onTap: () => Get.to(() => CategoriesScreen()),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  height: 34,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFB0C4DB),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/drawer.svg',
+                        height: 16,
+                        width: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        "findCoachScreen.categoriesLabel".tr,
+                        style: const TextStyle(
+                          color: Color(0xFF3368A1),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 16),
+              const SizedBox(width: 8),
+
+
+              ..._findCoachController.categoryList.map((category) => Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: InkWell(
+                  onTap: () => _findCoachController
+                      .fetchSingleCategory(id: category.id),
+                  child: _customCategories(
+                    textKey: category.name,
+                  ),
+                ),
+              )),
+            ],
+          ),
+        ),
+
+
+        SizedBox(height: 16),
             Expanded(
               child: ListView.separated(
                 physics: AlwaysScrollableScrollPhysics(),

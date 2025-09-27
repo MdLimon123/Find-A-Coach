@@ -105,7 +105,28 @@ class CoachAiHistoryController extends GetxController{
             type: 'json',
             jsonData: {'coaches': coaches},
           ));
-        } else {
+        }  else if (msg.type == 'p-json') {
+          try {
+            final parsed = jsonDecode(msg.content!);
+            final List phases = parsed is List ? parsed : [parsed];
+            aiCurrentChat.add(AiMessageModel(
+              message: '',
+              isUser: false,
+              type: 'p-json',
+              jsonData: {'phases': phases},
+            ));
+          } catch (e) {
+
+            aiCurrentChat.add(AiMessageModel(
+              message: msg.content!,
+              isUser: false,
+              type: 'text',
+            ));
+          }
+
+
+        }
+        else {
           aiCurrentChat.add(AiMessageModel(
             message: msg.content!,
             isUser: false,
@@ -155,7 +176,20 @@ class CoachAiHistoryController extends GetxController{
           type: 'json',
           jsonData: {'coaches': coaches},
         ));
-      } else {
+      }
+      else if(type == 'p-json'){
+        final resp = data['response'];
+        final List phases = resp is List ? resp : [resp];
+        aiCurrentChat.add(
+          AiMessageModel(
+            message: '',
+            isUser: false,
+            type: 'p-json',
+            jsonData: {'phases': phases},
+          ),
+        );
+      }
+      else {
         aiCurrentChat.add(AiMessageModel(
           message: data['response']?.toString() ?? 'No Message',
           isUser: false,

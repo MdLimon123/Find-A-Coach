@@ -21,7 +21,6 @@ class _ClientFeaturedCoachScreenState
     extends State<ClientFeaturedCoachScreen> {
   final _clientHomeController = Get.put(ClientHomeController());
 
-  final _clientChatController = Get.put(ClientChatController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +28,7 @@ class _ClientFeaturedCoachScreenState
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppbar(title: "featured_coaches".tr),
       body: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {

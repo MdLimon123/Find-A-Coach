@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:find_me_a_coach/models/clientModel/category_and_subcategory_model.dart';
@@ -20,6 +21,7 @@ class FindCoachController extends GetxController {
   final isCategoryLoading = false.obs;
 
   final isSaveCoachLoading = false.obs;
+  Timer? _debounce;
 
   Rx<CoachProfile?> coachProfile = Rx<CoachProfile?>(null);
 
@@ -251,6 +253,47 @@ class FindCoachController extends GetxController {
     }
     isSaveCoachLoading(false);
 
+  }
+
+
+
+
+  Future<void> fetchSearch(String query) async {
+
+    isLoading(true);
+
+    final response = await ApiClient.getData("${ApiConstant.searchCoachEndPoint}?q=$query");
+    if(response.statusCode == 200){
+
+      final data = response.body['data'] as List;
+      coachList.clear();
+      coachList.assignAll(data.map((e) => FindAllCoach.fromJson(e)).toList());
+    }else{
+      showCustomSnackBar("Something went wrong", isError: true);
+    }
+    isLoading(false);
+
+
+  }
+
+  void onSearchChanged(String query) {
+
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      if (query.trim().isNotEmpty) {
+        fetchSearch(query.trim());
+      } else {
+        fetchAllCoach();
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    _debounce?.cancel();
+    super.onClose();
   }
 
 }

@@ -11,6 +11,7 @@ import 'package:find_me_a_coach/views/base/custom_text_field.dart';
 import 'package:find_me_a_coach/views/base/upcoming_session_card.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/AiChatBoot/ai_chat_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/AllSubScreen/client_featured_coach_screen.dart';
+import 'package:find_me_a_coach/views/screen/ClientFlow/ClientHome/AllSubScreen/search_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Notification/notification_screen.dart';
 import 'package:find_me_a_coach/views/screen/ClientFlow/Settings/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,11 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
+                onTap: (){
+                  Get.to(()=> SearchScreen());
+                },
                 controller: searchController,
+                readOnly: true,
                 hintText: "${"search".tr}...",
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),

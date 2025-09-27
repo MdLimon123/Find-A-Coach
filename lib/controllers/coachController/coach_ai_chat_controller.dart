@@ -96,7 +96,20 @@ class CoachAiChatController extends GetxController{
             jsonData: {'coaches': coaches},
           ),
         );
-      } else {
+      }  else if(type == 'p-json'){
+        final resp = data['response'];
+        final List phases = resp is List ? resp : [resp];
+        aiCurrentChat.value.aiMessages.add(
+          AiMessageModel(
+            message: '',
+            isUser: false,
+            type: 'p-json',
+            jsonData: {'phases': phases},
+          ),
+        );
+      }
+
+      else {
         /// fallback — treat as text
         final fallback = data['response']?.toString() ?? 'No Message';
         aiCurrentChat.value.aiMessages.add(AiMessageModel(message: fallback, isUser: false));

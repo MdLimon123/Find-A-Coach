@@ -1,4 +1,4 @@
-import 'package:find_me_a_coach/controllers/clientController/filter_controller.dart';
+import 'package:find_me_a_coach/controllers/clientController/client_search_controller.dart';
 import 'package:find_me_a_coach/controllers/clientController/find_coach_controller.dart';
 import 'package:find_me_a_coach/utils/app_colors.dart';
 import 'package:find_me_a_coach/utils/style.dart';

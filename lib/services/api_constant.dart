@@ -58,6 +58,8 @@ static String aboutUsEndPoint = "/api/v1/settings/about_us/";
 static String termsOfConditionEndPoint = "/api/v1/settings/terms_conditions/";
 static String privacyPolicyEndPoint = "/api/v1/settings/privacy_policies/";
 
+static String searchCoachEndPoint = "/api/v1/auth/search/coaches/";
+
 
 /// chat api ends points with client and coach
  static String createChatEndPoint = "/api/v1/chat/rooms/";

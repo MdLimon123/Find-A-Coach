@@ -74,8 +74,13 @@ class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
                   final message = messages[index];
 
                   if (message.type == 'json') {
+
                     return _buildCoachCard(message.jsonData!['coaches']);
-                  } else {
+                  }  else if (message.type == 'p-json') {
+                    final phases = message.jsonData!['phases'] as List;
+                    return _buildPhasePlanCard(phases);
+                  }
+                  else {
                     return Align(
                       alignment: message.isUser
                           ? Alignment.centerRight
@@ -248,5 +253,136 @@ class _AiChatHistoryScreenState extends State<AiChatHistoryScreen> {
                 ))
           ],
         ));
+  }
+
+  Widget _buildPhasePlanCard(List phases) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: phases.map((p) {
+          final phase = p['phase'] ?? '';
+          final duration = p['duration'] ?? '';
+          final List steps = (p['steps'] as List?) ?? [];
+          final List tips = (p['tips'] as List?) ?? [];
+
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// Phase Title
+                  Text(
+                    phase,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1F2937),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+
+                  /// Duration
+                  Text(
+                    duration,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF6B7280),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  /// Steps
+                  if (steps.isNotEmpty) ...[
+                    const Text(
+                      "Steps:",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF374151),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: steps
+                          .map((s) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("• ",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF4B5563))),
+                            Expanded(
+                              child: Text(
+                                s.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF4B5563),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                          .toList(),
+                    ),
+                  ],
+
+                  const SizedBox(height: 12),
+
+                  /// Tips
+                  if (tips.isNotEmpty) ...[
+                    const Text(
+                      "Tips:",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF374151),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: tips
+                          .map((t) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("• ",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF4B5563))),
+                            Expanded(
+                              child: Text(
+                                t.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF4B5563),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                          .toList(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }
